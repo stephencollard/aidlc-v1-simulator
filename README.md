@@ -4,9 +4,13 @@ An interactive, gamified training simulator for AWS AI-DLC (AI-Driven Developmen
 
 Players pick a role and follow one change to an illustrative identity risk product through all 11 stages of AI-DLC v1. At each stage they see what the AI reads, what it does, what people decide, what gets written into the project, and who approves. Points and badges reward good habits, such as reviewing what the AI wrote before approving it.
 
+## Learning Lab
+
+`learning-lab/index.html` is a second, self-guided version: the AI-DLC v1 Learning Lab. It teaches the framework step by step in a full-screen workspace with a lesson guide, a file explorer and code editor, an AI assistant chat with a small team, and a working preview of the mock product before and after the change. It can be used alone or by an instructor leading a group, and it saves progress in the browser.
+
 ## Running it
 
-It's a single self-contained HTML file. Open `index.html` in a browser, or serve it with GitHub Pages.
+Each one is a single self-contained HTML file. Open `index.html` (the simulator) or `learning-lab/index.html` (the Learning Lab) in a browser, or serve them with GitHub Pages.
 
 ## Notes
 
