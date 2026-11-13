@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-DLC v1 Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: role picker, phase rail, then each stage explained as a 5-step flow (reads → AI → people → writes → approval), with "you" on the left and the AI, files and project folder on the right */
+  --bg:#F1F1F2; --surface:#FFFFFF; --ink:#1E2023; --muted:#5E6268; --line:#D7D9DC; --soft:#E8E9EB;
+  --accent:#B3202A; --tint:#FBECEC; --c-in:#4C5D70; --c-ai:#2B2E33; --c-ppl:#B26A12; --c-out:#B3202A; --c-gate:#7A1430; --c-folder:#6B5B4E; --po:#C0262D; --eng:#1F5FBF; --pm:#0F7B6C; --good:#2F7A3A; --warn:#9A5B00;
+  --display:'IBM Plex Sans',system-ui,sans-serif; --body:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --role:var(--po);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#151618; --surface:#1E2023; --ink:#ECEDEF; --muted:#A0A4AA; --line:#33363A; --soft:#26292D;
+  --accent:#EF5A5F; --tint:#3A2023; --c-in:#93A9C0; --c-ai:#C9CDD2; --c-ppl:#E2A84B; --c-out:#EF5A5F; --c-gate:#E58AA6; --c-folder:#C9B4A2; --po:#F07075; --eng:#7EA8F0; --pm:#4FC1AE; --good:#6CC17A; --warn:#E0B04F; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#151618; --surface:#1E2023; --ink:#ECEDEF; --muted:#A0A4AA; --line:#33363A; --soft:#26292D;
+  --accent:#EF5A5F; --tint:#3A2023; --c-in:#93A9C0; --c-ai:#C9CDD2; --c-ppl:#E2A84B; --c-out:#EF5A5F; --c-gate:#E58AA6; --c-folder:#C9B4A2; --po:#F07075; --eng:#7EA8F0; --pm:#4FC1AE; --good:#6CC17A; --warn:#E0B04F; color-scheme:dark;}
+body[data-role="po"]{--role:var(--po)} body[data-role="eng"]{--role:var(--eng)} body[data-role="pm"]{--role:var(--pm)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--body)}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.2}
+h1{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(20px,2.6vw,26px);font-weight:600}
+h3{font-size:16px;font-weight:600}
+p{margin:0}
+button{font-family:inherit}
+.eyebrow{font:500 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:70ch;margin-top:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.note{font-size:13.5px;color:var(--muted)}
+.mono{font-family:var(--mono)}
+
+/* scenario */
+.scenario{border-left:4px solid var(--accent)}
+.scenario .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.scenario .facts div{display:flex;flex-direction:column;gap:2px}
+.k{font:500 11.5px/1.4 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:14px}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+
+/* roles */
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.role{all:unset;cursor:pointer;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.role:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.role .who{font-weight:600;font-size:17px}
+.role .sub{color:var(--muted);font-size:14px}
+.role[aria-pressed="true"]{border-color:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 18%,transparent)}
+.role[aria-pressed="true"] .who{color:var(--c)}
+.role .you{display:none;font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--c);margin-top:4px}
+.role[aria-pressed="true"] .you{display:block}
+
+/* rail */
+.rail{display:flex;gap:18px;overflow-x:auto;padding-bottom:6px}
+.phase{display:flex;flex-direction:column;gap:6px;flex:0 0 auto}
+.phase .pname{font:600 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.phase .pq{font-size:12.5px;color:var(--muted)}
+.steps{display:flex;gap:4px}
+.step{font-size:13px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);white-space:nowrap}
+.step b{font-family:var(--mono);font-weight:500;margin-right:4px}
+.step.done{color:var(--ink);background:var(--soft);border-color:transparent}
+.step.done::before{content:"✓ ";color:var(--good)}
+.step.now{color:#fff;background:var(--accent);border-color:var(--accent);font-weight:600}
+.step.ph{border-style:dashed}
+
+/* stage banner */
+.banner{display:flex;flex-direction:column;gap:10px}
+.banner .top{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{font:600 11.5px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:6px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--surface)}
+.pill.must{border-color:var(--ink);color:var(--ink)}
+.pill.cond{border-style:dashed}
+.banner .purpose{font-size:18px;max-width:75ch}
+.banner .why{color:var(--muted);max-width:75ch}
+
+/* flow strip */
+.flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;position:relative}
+.fx{position:relative;background:var(--surface);border:1.5px dashed var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-height:118px}
+.fx:not(:last-child)::after{content:"→";position:absolute;right:-19px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:18px}
+.fx .n{font:600 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:6px}
+.fx .t{font-size:14px;line-height:1.4}
+.fx .t ul{margin:0;padding-left:16px}
+.fx.done{border-style:solid;border-color:var(--line)}
+.fx.done .n::after{content:"✓";color:var(--good)}
+.fx.active{border-style:solid;border-color:var(--accent);background:var(--tint)}
+.fx.active .n{color:var(--accent)}
+.fx.active .n::after{content:"● now";color:var(--accent)}
+.fx.skip{opacity:.6}
+
+/* main */
+.main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:20px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px}
+.youc{border-top:5px solid var(--role)}
+.youc .tag{color:var(--role);font:600 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.trio{display:flex;flex-direction:column;gap:12px}
+.trio div{display:flex;flex-direction:column;gap:2px}
+.trio .now{font-size:17px;font-weight:500}
+.gate{border:2px dashed var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.gate.ready{border-style:solid;border-color:var(--accent)}
+.gate .gk{font:600 12px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+button.b{font:600 15px/1.2 var(--body);padding:12px 16px;border-radius:9px;border:2px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer;text-align:left}
+button.b.alt{background:transparent;color:var(--accent)}
+button.b.quiet{border-color:var(--line);background:transparent;color:var(--ink)}
+button.b:disabled{opacity:.45;cursor:not-allowed}
+button.b:focus-visible,.ftab:focus-visible,.tree button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.hint{font-size:14px;color:var(--muted)}
+dl.terms{margin:0;display:flex;flex-direction:column;gap:10px}
+dl.terms dt{font-weight:600}
+dl.terms dd{margin:0;color:var(--muted);font-size:14.5px}
+
+/* chat */
+.chat{display:flex;flex-direction:column;gap:10px;max-height:300px;overflow-y:auto}
+.msg{display:flex;gap:10px;align-items:flex-start}
+.badge{flex:0 0 auto;font:600 11px/1 var(--mono);padding:5px 7px;border-radius:6px;background:var(--ink);color:var(--surface)}
+.msg p{background:var(--soft);padding:9px 12px;border-radius:4px 10px 10px 10px;font-size:15px}
+.msg.ask p{background:var(--tint);border:1.5px solid var(--accent)}
+.typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted);margin-right:3px;animation:blink 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes blink{50%{opacity:.25}}
+
+/* file viewer */
+.viewer{padding:0;overflow:hidden}
+.ftabs{display:flex;flex-wrap:wrap;gap:6px;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--soft)}
+.ftabs .lab{font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);align-self:center;margin-right:2px}
+.ftab{all:unset;cursor:pointer;font:500 13px/1.2 var(--mono);padding:7px 10px;border-radius:7px;border:1px solid var(--line);background:var(--surface);display:inline-flex;gap:6px;align-items:center}
+.ftab[aria-selected="true"]{border-color:var(--ink);box-shadow:inset 0 -3px 0 var(--accent)}
+.ftab.pending{opacity:.55;cursor:default;border-style:dashed}
+.ftabs .sep{width:100%;height:0}
+.tagr{font:600 10px/1 var(--mono);letter-spacing:.06em;padding:3px 5px;border-radius:4px;text-transform:uppercase}
+.tagr.in{background:var(--soft);color:var(--muted);border:1px solid var(--line)}
+.tagr.out{background:var(--accent);color:#fff}
+.tagr.new{background:var(--good);color:#fff}
+.fhead{display:flex;flex-direction:column;gap:2px;padding:12px 18px 0}
+.fhead .path{font:500 13px/1.3 var(--mono);color:var(--muted);word-break:break-all}
+.fhead .what{font-size:14px}
+.fresh{margin:12px 18px 0;padding:8px 12px;border-radius:8px;background:var(--tint);border:1px solid var(--accent);font-size:14px}
+.fbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;font-size:15px}
+.fbody h4{margin:0;font:600 15px/1.3 var(--mono)}
+.fbody ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.q{border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.q.mine{border-color:var(--role);border-width:2px}
+.qh{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.owner{font:600 11px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:4px 7px;border-radius:5px;color:#fff}
+.owner.po{background:var(--po)}.owner.eng{background:var(--eng)}.owner.pm{background:var(--pm)}
+
+
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;gap:8px;align-items:flex-start;font-size:15px;padding:6px 8px;border-radius:7px;cursor:pointer}
+.opt:hover{background:var(--soft)}
+.opt input{margin-top:4px;accent-color:var(--accent)}
+.opt.picked{background:var(--soft);font-weight:500}
+.opt.dim{opacity:.5;cursor:default}
+.waiting{font-size:14px;color:var(--warn);font-style:italic}
+.check{display:flex;gap:8px;align-items:flex-start}
+.box{flex:0 0 auto;width:18px;height:18px;border:1.5px solid var(--muted);border-radius:4px;margin-top:3px;display:grid;place-items:center;font-size:12px;line-height:1}
+.box.on{background:var(--good);border-color:var(--good);color:#fff}
+.box.on::after{content:"✓"}
+.check.next span{font-weight:600}
+.run{color:var(--good);font:600 12px/1.6 var(--mono);min-width:38px}.skip{color:var(--muted);font:600 12px/1.6 var(--mono);min-width:38px}
+.code{background:var(--soft);border-radius:8px;padding:12px;font:13px/1.55 var(--mono);white-space:pre-wrap;overflow-x:auto}
+.code .c{color:var(--muted)}
+.v2{border:1.5px dashed var(--accent);border-radius:10px;padding:12px 14px;font-size:14.5px}
+.v2 b{color:var(--accent)}
+
+/* folder */
+.tree{display:flex;flex-direction:column;gap:2px;font:13.5px/1.4 var(--mono)}
+.tree .dir{color:var(--muted);padding:3px 0}
+.tree button{all:unset;cursor:pointer;display:flex;gap:8px;align-items:center;padding:4px 8px;border-radius:6px}
+.tree button:hover{background:var(--soft)}
+.tree button[aria-current="true"]{background:var(--soft);box-shadow:inset 3px 0 0 var(--accent)}
+.tree .ghost{color:var(--muted);opacity:.5;padding:4px 8px}
+.audit{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;font:12.5px/1.45 var(--mono)}
+.audit .t{color:var(--muted)}
+.summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.summary ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+
+@media (max-width:980px){.flow{grid-template-columns:1fr;gap:18px}.fx{min-height:0}.fx:not(:last-child)::after{content:"↓";right:auto;left:20px;top:auto;bottom:-19px;transform:none}}
+@media (max-width:860px){.main{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.scenario .facts{grid-template-columns:1fr}}
+@media (max-width:620px){.roles{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.typing span{animation:none}*{scroll-behavior:auto!important}}
+
+/* ---- v3 layout: fixed rows, colour-coded to the 5-step flow ---- */
+.banner{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:12px;padding:18px 20px;min-height:236px;justify-content:flex-start}
+.fx{border:1px solid var(--line);border-top:5px solid var(--sc);height:150px;overflow:hidden;background:var(--surface)}
+.fx .n{color:var(--sc);align-items:center;justify-content:flex-start}
+.fx .n .num,.sh .num,.tl .num{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:5px;background:var(--sc);color:#fff;font:600 11.5px/1 var(--mono);margin-right:6px}
+.fx .n .st{margin-left:auto}
+.fx.done{border-style:solid;border-color:var(--line);border-top-color:var(--sc)}
+.fx.done .n::after{content:none}.fx.done .n .st::after{content:"✓ done";color:var(--good)}
+.fx.active{border:2px solid var(--sc);border-top-width:5px;background:color-mix(in srgb,var(--sc) 10%,var(--surface))}
+.fx.active .n{color:var(--sc)}.fx.active .n::after{content:none}.fx.active .n .st::after{content:"● now";color:var(--sc)}
+.fx:not(.done):not(.active) .n .st::after{content:"next";color:var(--muted)}
+.rowlabel{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:6px 0 -8px}
+.row{display:grid;gap:16px;align-items:stretch}
+.r3{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,.95fr)}
+.r3b{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,.95fr)}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.sec .sh{display:flex;align-items:center;gap:4px;padding:10px 14px;background:color-mix(in srgb,var(--sc) 13%,var(--surface));border-bottom:2px solid var(--sc);font:600 12px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--sc)}
+.sec .sb{padding:16px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+.r3 .sec{height:480px}
+.r3b .sec{height:330px}
+.youc{border-top:1px solid var(--line)}
+.sh .num.rnum{background:var(--role)}
+.aistate{margin-left:auto;font-size:11px;padding:3px 7px;border-radius:999px;border:1px solid var(--sc);text-transform:none;letter-spacing:0}
+.aistate.on{background:var(--sc);color:var(--surface)}
+.chat{max-height:none;overflow:visible}
+.gate{border:none;padding:0;border-radius:12px}
+.gate.ready{border:2px solid var(--sc)}
+.gate .state{font:600 13px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.gate .state.wait{color:var(--muted)}.gate .state.open{color:var(--sc)}
+.gate button.b{border-color:var(--c-gate);background:var(--c-gate)}
+.gate button.b.alt{background:transparent;color:var(--c-gate)}
+.viewer{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.trow{display:flex;gap:12px;align-items:center;padding:10px 14px;background:color-mix(in srgb,var(--sc) 10%,var(--surface));border-bottom:1px solid var(--line);border-left:5px solid var(--sc);min-height:56px}
+.tl{flex:0 0 96px;display:inline-flex;align-items:center;font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--sc)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.ftab{border-color:color-mix(in srgb,var(--sc) 45%,var(--line))}
+.ftab[aria-selected="true"]{border-color:var(--sc);box-shadow:inset 0 -3px 0 var(--sc);font-weight:600}
+.vbody{border-left:5px solid var(--sc);display:flex;flex-direction:column}
+.fhead{padding:14px 18px 0;gap:3px}
+.fhead .kind{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--sc)}
+.justw{color:var(--c-out)}
+.fbody{height:430px;overflow-y:auto}
+.q.mine{border-color:var(--c-ppl)}
+.msg.ask p{background:color-mix(in srgb,var(--c-ppl) 12%,var(--surface));border-color:var(--c-ppl)}
+.waiting{color:var(--c-ppl)}
+.audit{max-height:none;overflow:visible}
+@media (max-width:1060px){.r3,.r3b{grid-template-columns:1fr}.r3 .sec,.r3b .sec{height:auto;max-height:420px}.r3 .youc{max-height:none}.banner{min-height:0}}
+@media (max-width:980px){.fx{height:auto}}
+@media (max-width:620px){.trow{flex-direction:column;align-items:flex-start}.tl{flex:none}.fbody{height:380px}}
+
+/* ---- game ---- */
+.hud{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;background:var(--ink);color:var(--surface);border-radius:12px;padding:10px 16px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.hud .k{display:block;font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:color-mix(in srgb,var(--surface) 65%,var(--ink))}
+.hud b{font:700 22px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.hud .score b{color:#FF8A8F}
+.hud .bdg{flex:1;min-width:220px}
+.hud .icons{display:flex;gap:4px;margin-top:3px}
+.hud .bi{font-size:19px;filter:grayscale(1);opacity:.3}
+.hud .bi.on{filter:none;opacity:1}
+.seg{display:inline-flex;border:1px solid color-mix(in srgb,var(--surface) 35%,var(--ink));border-radius:8px;overflow:hidden;margin-top:3px}
+.seg button{all:unset;cursor:pointer;font:600 12.5px/1 var(--body);padding:6px 10px;color:var(--surface)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.seg button:focus-visible{outline:2px solid #fff}
+.toasts{position:fixed;right:16px;bottom:16px;z-index:50;display:flex;flex-direction:column;gap:8px;max-width:min(360px,calc(100vw - 32px));pointer-events:none}
+.toast{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-left:5px solid var(--good);border-radius:10px;padding:10px 12px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.18);animation:tin .25s ease-out}
+.toast.bad{border-left-color:var(--accent)}.toast.meh{border-left-color:var(--c-ppl)}.toast.badge{border-left-color:var(--c-gate)}
+.toast .coach{display:block;margin-top:4px;color:var(--muted);font-size:13px}
+@keyframes tin{from{transform:translateY(8px);opacity:0}}
+.plus{color:var(--good)}.minus{color:var(--accent)}.zero{color:var(--c-ppl)}
+.guess{border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.gbtns{display:flex;flex-wrap:wrap;gap:6px}
+.gbtns button{font:600 14px/1 var(--body);padding:9px 12px;border-radius:8px;border:1.5px solid var(--c-gate);background:transparent;color:var(--c-gate);cursor:pointer}
+.gbtns button:hover{background:color-mix(in srgb,var(--c-gate) 10%,var(--surface))}
+.gres{font-weight:600;font-size:14.5px}.gres.ok{color:var(--good)}.gres.no{color:var(--c-ppl)}
+.warnline{font-size:14px;color:var(--accent)}
+.linkb{all:unset;cursor:pointer;text-decoration:underline;font-family:var(--mono);font-size:13px}
+.gamecard{border-top:6px solid var(--accent)}
+.final{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end}
+.final .big{font:700 64px/1 var(--mono);color:var(--accent)}
+.final .rk{font:700 26px/1.2 var(--display)}
+.plog{font-size:14.5px}
+.bgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.bcard{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:10px;opacity:.55}
+.bcard.on{opacity:1;border-color:var(--c-gate);background:color-mix(in srgb,var(--c-gate) 7%,var(--surface))}
+.bi2{font-size:24px;line-height:1}
+.bcard:not(.on) .bi2{filter:grayscale(1)}
+@media (max-width:620px){.bgrid{grid-template-columns:1fr}.hud b{font-size:18px}}
+@media (prefers-reduced-motion:reduce){.toast{animation:none}}
+
+/* ---- start + stepper ---- */
+.startbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
+.startbar .startb{font-size:18px;padding:16px 24px}
+.prestart{border-left:6px solid var(--accent);min-height:236px;justify-content:center}
+.rail{display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow:visible}
+.sumrow{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:14.5px}
+.sumrow .sc b{font:600 11.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;margin-right:6px}
+.sumrow .done b{color:var(--good)}.sumrow .now b{color:var(--accent)}.sumrow .next b{color:var(--c-ppl)}
+.sumrow .bar{flex:1 1 160px;height:8px;border-radius:99px;background:var(--soft);overflow:hidden;min-width:120px}
+.sumrow .bar span{display:block;height:100%;background:var(--good);border-radius:99px;transition:width .6s}
+.track{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.pg{display:flex;flex-direction:column;gap:10px;min-width:0;flex:none !important;border-radius:10px;padding:10px 8px 8px;background:var(--soft)}
+.pg.pnow{background:color-mix(in srgb,var(--accent) 8%,var(--surface));box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--accent) 45%,transparent)}
+.pg.pdone{background:color-mix(in srgb,var(--good) 8%,var(--surface))}
+.pl{font-size:12px;color:var(--muted);padding:0 6px;width:0;min-width:100%;box-sizing:border-box;line-height:1.3}
+.pl b{font:600 11.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-right:4px}
+.ps{display:flex}
+.sp{position:relative;width:76px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:0 4px}
+.sp::before{content:"";position:absolute;top:17px;left:-50%;width:100%;height:3px;background:var(--line);z-index:0}
+.ps .sp:first-child::before{display:none}
+.sp.done::before,.sp.now::before{background:var(--good)}
+.dot{position:relative;z-index:1;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:600 14px/1 var(--mono);background:var(--surface);border:2px solid var(--line);color:var(--muted)}
+.sp.done .dot{background:var(--good);border-color:var(--good);color:#fff}
+.sp.now .dot{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 22%,transparent);transform:scale(1.12)}
+.sp.next .dot{border-color:var(--c-ppl);color:var(--c-ppl);border-style:dashed}
+.sp.ph .dot{border-style:dotted}
+.sl{font-size:12px;line-height:1.25;color:var(--muted)}
+.sp.done .sl{color:var(--ink)}
+.sp.now .sl{color:var(--accent);font-weight:700}
+.sp.next .sl{color:var(--ink);font-weight:500}
+.stag{font:600 10px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:3px 6px;border-radius:99px}
+.stag.now{background:var(--accent);color:#fff}
+.stag.next{border:1px dashed var(--c-ppl);color:var(--c-ppl)}
+.stag.cond{color:var(--muted);border:1px dotted var(--line)}
+.guess.big{border-top:none;padding:0}
+.gq{font-size:18px}
+.gbtns button{font-size:15px;padding:11px 14px}
+
+/* ---- v5: dock, turn bar, how-to, prompts ---- */
+.howto{border-left:4px solid var(--accent)}
+.steps4{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
+.steps4 li{counter-increment:st;display:flex;flex-direction:column;gap:3px;padding-left:40px;position:relative;font-size:14.5px}
+.steps4 li::before{content:counter(st);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font:600 14px/1 var(--mono)}
+.steps4 span{color:var(--muted)}
+.yt{display:inline-block;background:var(--accent);color:#fff;font:600 11px/1.4 var(--mono);padding:1px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.04em}
+.dock{position:sticky;top:0;z-index:30;display:flex;flex-direction:column;gap:0;border-radius:12px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.16);border:1px solid var(--line);background:var(--surface)}
+.dock .hud{position:static;border-radius:0;box-shadow:none;padding:8px 16px}
+.dock .hud b{font-size:19px}
+.dock .rail{border:none;border-radius:0;padding:10px 14px 8px;gap:8px}
+.dock .sumrow{font-size:13.5px}
+.dock .pg{padding:6px 6px 4px;gap:6px}
+.dock .pl{font-size:11px}
+.dock .dot{width:28px;height:28px;font-size:12.5px}
+.dock .sp::before{top:13px}
+.dock .sp{gap:4px}
+.dock .sl{font-size:11.5px}
+.dock .stag{display:none}
+.dock .pl span{display:none}
+.dock .pl b{font-size:10.5px}
+.dock .sp{width:84px}
+.dock .sp.now .dot{transform:scale(1.08)}
+.turn{display:flex;gap:12px;align-items:center;padding:12px 16px;border-top:3px solid var(--tc);background:color-mix(in srgb,var(--tc) 12%,var(--surface));font-size:15.5px;min-height:52px}
+.turn .tl2{flex:0 0 auto;font:700 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--tc);padding:7px 10px;border-radius:6px}
+.turn.me{background:color-mix(in srgb,var(--tc) 18%,var(--surface))}
+.turn.me .tl2{animation:pulse 1.6s ease-in-out infinite}
+.turn.me .tt{font-weight:500}
+@keyframes pulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--tc) 30%,transparent)}}
+.q.mine{border:3px solid var(--role);background:color-mix(in srgb,var(--role) 7%,var(--surface));box-shadow:0 0 0 4px color-mix(in srgb,var(--role) 15%,transparent)}
+.q{border-left:5px solid var(--oc)}
+.yourturn{font:700 12.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:#fff;background:var(--role);padding:6px 9px;border-radius:6px;animation:pulse 1.6s ease-in-out infinite;--tc:var(--role)}
+.q.mine p b{font-size:16.5px}
+.waiting{color:var(--oc,var(--c-ppl))}
+.guess.big{background:color-mix(in srgb,var(--role) 9%,var(--surface));border:3px solid var(--role);border-radius:10px;padding:14px}
+.guess.big .gq{font-size:19px}
+.gbtns button[data-guess="po"]{border-color:var(--po);color:var(--po)}
+.gbtns button[data-guess="eng"]{border-color:var(--eng);color:var(--eng)}
+.gbtns button[data-guess="pm"]{border-color:var(--pm);color:var(--pm)}
+.gate.ready{border-width:3px}
+.gate button.b{border-color:var(--sc);background:var(--sc)}
+.gate button.b.alt{background:transparent;color:var(--sc)}
+.gate .state.open{color:var(--sc)}
+@media (max-width:860px){.steps4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.dock .hud .bdg{display:none}.dock .hud{padding:6px 14px}.dock .sumrow .sc.done,.dock .sumrow .sc.next{display:none}.dock .rail{padding:8px 10px 6px}.dock .pl{display:none}.dock .pg{padding:6px 4px 4px}.turn{padding:8px 12px;gap:8px;min-height:0}.turn .tl2{font-size:10.5px;padding:5px 7px}.steps4{grid-template-columns:1fr}.dock .sl{display:none}.dock .sp.now .sl{display:block}.dock .sumrow .bar{display:none}.turn{font-size:14.5px}}
+@media (prefers-reduced-motion:reduce){.turn.me .tl2,.yourturn{animation:none}}
+
+/* ---- v6: focus outline ---- */
+.sec.focus,.viewer.focus{outline:4px solid var(--fc);outline-offset:3px;box-shadow:0 0 0 10px color-mix(in srgb,var(--fc) 14%,transparent)}
+.sec.focus.busy{animation:busy 1.8s ease-in-out infinite}
+@keyframes busy{50%{box-shadow:0 0 0 14px color-mix(in srgb,var(--fc) 6%,transparent);outline-color:color-mix(in srgb,var(--fc) 55%,transparent)}}
+.hud .of{font:600 13px/1 var(--mono);opacity:.7}
+.final .big .of{font-size:26px;color:var(--muted)}
+@media (max-width:1060px){.r3 .sec{max-height:480px}}
+@media (prefers-reduced-motion:reduce){.sec.focus.busy{animation:none}}
+
+/* ---- v7: stage row in dock ---- */
+.stagerow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:8px 4px 2px;border-top:1px solid var(--line);font-size:14.5px;line-height:1.35}
+.stagerow .nm{font:700 17px/1.2 var(--display);color:var(--accent)}
+.stagerow .desc{flex:1 1 360px;color:var(--ink)}
+.stagerow .nx{font:500 12.5px/1 var(--mono);color:var(--muted)}
+.pill2{font:600 11px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:5px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.pill2.must{border-color:var(--ink);color:var(--ink)}
+.pill2.cond{border-style:dashed}
+.pill2.done{border-color:var(--good);color:var(--good)}
+.prog2{display:flex;flex-direction:column;gap:6px;min-width:150px}
+.prog2 .bar{display:block;width:150px;height:7px;border-radius:99px;background:color-mix(in srgb,var(--surface) 25%,var(--ink));overflow:hidden}
+.prog2 .bar span{display:block;height:100%;background:#6CC17A;transition:width .6s}
+.dock .rail{gap:6px}
+@media (max-width:620px){.stagerow{font-size:13px;padding-top:6px}.stagerow .nm{font-size:15px}.stagerow .nx,.stagerow .pill2.cond,.stagerow .pill2.must{display:none}.prog2{display:none}}
+
+/* ---- v8: intro + hud messages ---- */
+.intro{display:flex;flex-direction:column;gap:12px;border-left:5px solid var(--accent)}
+.intro .lede{margin-top:0}
+.intro h3{margin-top:4px}
+.ways{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ways div{background:var(--soft);border-radius:10px;padding:12px 14px;font-size:14.5px}
+.hud{display:flex;flex-wrap:nowrap;align-items:center;gap:16px;background:#1E2023;color:#F1F1F2}
+.hud .k{color:rgba(241,241,242,.62)}
+.hudstats{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;flex:0 1 auto}
+.hudmsg{flex:1 1 280px;min-width:0;height:44px;display:flex;align-items:center;justify-content:flex-end}
+.hmsg{max-width:560px;font-size:13.5px;line-height:1.3;color:#fff;background:color-mix(in srgb,#fff 10%,transparent);border-left:4px solid #6CC17A;border-radius:7px;padding:5px 10px;max-height:44px;overflow:hidden;animation:tin .25s ease-out}
+.hmsg.bad{border-left-color:#FF8A8F}.hmsg.meh{border-left-color:#E2A84B}.hmsg.badge{border-left-color:#F2C14E}
+.hmsg .plus{color:#8EE29C}.hmsg .minus{color:#FF8A8F}.hmsg .zero{color:#F2C14E}
+.hmsg .coach{display:inline;margin-left:6px;color:rgba(255,255,255,.75);font-size:12.5px}
+@media (max-width:860px){.ways{grid-template-columns:1fr}.hud{flex-wrap:wrap}.hudmsg{flex-basis:100%;justify-content:flex-start;height:38px}}
+</style>
+</head>
+<body data-role="po">
+<div class="wrap">
+  <header class="card intro">
+    <p class="eyebrow">Spec Driven Development · AWS AI-DLC v1</p>
+    <h1>AI-DLC v1 Simulator</h1>
+    <p class="lede">Follow one change to an identity risk product through all 11 stages of AI-DLC v1. You'll see what the AI reads, what it does, what people decide, what gets written into the project, and who has to approve before anything moves on.</p>
+    <h3>How to play</h3>
+    <ol class="steps4">
+      <li><b>Pick a role</b><span>Product Owner, Software Engineer or Project Manager.</span></li>
+      <li><b>Press Start</b><span>The change begins its journey through the framework.</span></li>
+      <li><b>Act when it's your turn</b><span>Guess who approves each stage, answer your questions, open what the AI writes, then approve.</span></li>
+      <li><b>Score points</b><span>Earn points and badges for good habits. Lose points if you approve without reading.</span></li>
+    </ol>
+    <div class="ways">
+      <div><b>Follow the prompts.</b> The <span class="yt">Your turn</span> bar at the top tells you what to do next. The page scrolls you to the right place and outlines it.</div>
+      <div><b>Or explore at your own pace.</b> Scroll around and open any file in <i>Inputs and outputs</i> or the <i>Project folder</i> before you answer. The AI waits for you, and reading first earns points.</div>
+    </div>
+  </header>
+
+  <section class="card scenario" aria-label="Scenario">
+    <p class="eyebrow">The scenario</p>
+    <h2>Spot identity details reused across many loan applications</h2>
+    <div class="facts">
+      <div><span class="k">The product</span><p><b>Identity Risk API.</b> Lenders send us a loan applicant's details. We return a risk score from 0 to 100, plus reason codes that explain the score.</p></div>
+      <div><span class="k">The problem</span><p>Fraudsters reuse one person's identity on many applications in a short time. Lenders say our score doesn't warn them about this.</p></div>
+      <div><span class="k">The team</span><p>Priya (Product Owner), Sam (Software Engineer) and Jordan (Project Manager), working with an AI assistant that follows the AI-DLC v1 rules.</p></div>
+    </div>
+    <p class="note">This scenario is illustrative: the product, people, times and figures are made up for training.</p>
+  </section>
+
+  <section aria-label="Choose your role"><div class="roles" id="roles"></div></section>
+  <div class="startbar" id="startbar"></div>
+  <div class="dock" id="dock">
+    <div class="hud" id="hud" aria-label="Your score"><div class="hudstats" id="hudstats"></div><div class="hudmsg" id="hudmsg" aria-live="polite"></div></div>
+    <nav class="rail" id="rail" aria-label="Progress through the framework"></nav>
+    <div class="turn" id="turn" aria-live="polite"></div>
+  </div>
+  <section id="stage" class="col" aria-live="polite"></section>
+</div>
+
+<script>
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PEOPLE = {
+  po:{name:'Priya', title:'Product Owner', blurb:'Owns the why, the scope and business decisions'},
+  eng:{name:'Sam', title:'Software Engineer', blurb:'Owns technical choices and quality'},
+  pm:{name:'Jordan', title:'Project Manager', blurb:'Owns the plan, risks and dependencies, and unblocks work'}
+};
+let S, gen = 0, q = Promise.resolve();
+const PACE='normal';
+function fresh(role){ return {started:false, waitGuess:false, score:0, plog:[], badges:{}, seen:{}, clicked:{}, guess:{}, qAt:0, slow:false, rubber:false, myApprovals:0, role:role||'po', i:0, msgs:{}, typing:false, ready:{}, answers:{}, by:{}, follow:null, reqStep:'ask', build:0, changes:{}, audit:[], clock:540, files:{}, view:null, fresh:null}; }
+const who = r => r===S.role ? 'You' : PEOPLE[r].name;
+const whoLong = r => r===S.role ? 'You' : `${PEOPLE[r].name} (${PEOPLE[r].title})`;
+function clk(){const d=Math.floor(S.clock/1440)+1, m=S.clock%1440; return `Day ${d} ${String(Math.floor(m/60)).padStart(2,'0')}:${String(m%60).padStart(2,'0')}`;}
+function log(text){S.audit.push({t:clk(), text});}
+
+/* ---------- decisions ---------- */
+const QS = [
+  {id:'q1', owner:'po', text:'Over what time period should repeat applications count?', opts:{A:'24 hours', B:'7 days', C:'30 days'}, auto:'C'},
+  {id:'q2', owner:'po', text:'How many applications in that period should count as suspicious?', opts:{A:'3 or more', B:'5 or more', C:'Let each lender choose their own number'}, auto:'A'},
+  {id:'q3', owner:'po', text:'What should happen when the check is triggered?', opts:{A:'Raise the risk score and add a reason code', B:'Add a reason code only, and leave the score unchanged'}, auto:'A'},
+  {id:'q4', owner:'eng', text:'When should the check run?', opts:{A:'In real time, during every risk assessment', B:'Overnight, in a batch'}, auto:'A'},
+  {id:'q5', owner:'eng', text:'How much extra time can the check add to a risk assessment?', opts:{A:'Under 200 milliseconds', B:'Under 1 second'}, auto:'A'},
+  {id:'q6', owner:'pm', text:'Is there a date this must be live by?', opts:{A:'Yes, the end-of-quarter customer release', B:'No fixed date'}, auto:'A'}
+];
+function followUp(){
+  if (S.answers.q1==='C') return {id:'f1', owner:'po', kind:'retention',
+    text:'Conflict found: a 30-day period means keeping application data for 30 days, but architecture.md shows the data retention policy deletes it after 7 days. How do you want to proceed?',
+    opts:{A:'Use 7 days for now, within the current policy', B:'Use 30 days, and ask the Data Protection Officer to approve longer retention first'}, auto:'A'};
+  return {id:'f1', owner:'po', kind:'match',
+    text:'Risk found: matching on name and date of birth alone would flag different people who share them, such as common names or twins. What should count as "the same identity"?',
+    opts:{A:'Name, date of birth and address together', B:'Name and date of birth only, accepting more false alarms'}, auto:'A'};
+}
+const A = S0 => S.answers;
+const win = () => { const a=S.answers; if (a.q1==='A') return '24 hours'; if (a.q1==='B') return '7 days'; if (a.q1==='C') return a.f1==='B' ? '30 days' : (a.f1==='A' ? '7 days' : '30 days'); return '7 days'; };
+const dpo = () => S.follow && S.follow.kind==='retention' && S.answers.f1==='B';
+const thr = () => ({A:'3 or more', B:'5 or more', C:'a number each lender sets (default 3)'})[S.answers.q2] || '3 or more';
+const act = () => S.answers.q3==='B' ? 'add reason code ID-VEL-01 (score unchanged)' : 'raise the risk score and add reason code ID-VEL-01';
+const mode = () => S.answers.q4==='B' ? 'overnight, in a batch' : 'in real time, during every risk assessment';
+const lat = () => S.answers.q5==='B' ? 'under 1 second' : 'under 200 milliseconds';
+const match = () => (S.follow && S.follow.kind==='match' && S.answers.f1==='B') ? 'name and date of birth' : 'name, date of birth and address';
+const missing = () => ({A:'return reason code ID-VEL-00 "unable to check"', B:'treat it as a pass', C:'treat it as high risk'})[S.answers.b1];
+
+/* ---------- files ---------- */
+const FILES = {
+ 'ask':{label:'Lender feedback', path:'Input from outside the project', what:'What lenders told the account team. This is where the work comes from.',
+   html:()=>`<h4>Lender feedback (summarised)</h4><ul><li>"We approved three loans in one week for the same person's identity. Your score was low every time."</li><li>"We'd like a warning when someone's details appear on lots of applications."</li></ul>`},
+ 'request':{label:'intent (the request)', path:'Typed into the AI assistant · copied into audit.md', what:'The Product Owner\'s intent. It starts the whole workflow.',
+   html:()=>`<h4>Intent</h4><p>Lenders are being hit by identity fraud where one person's details are used on many loan applications in a short time. Our Identity Risk API should warn them when this happens.</p><h4>Success looks like</h4><ul><li>Lenders see a clear reason code when an identity is reused</li><li>Fewer fraud cases reported by lenders</li></ul>`},
+ 'code':{label:'existing code', path:'identity-risk-api/ (the codebase)', what:'The current product code. AI-DLC reads it but doesn\'t change it until Construction.',
+   html:()=>`<div class="code">identity-risk-api/
+  src/
+    scoring/        <span class="c">how the 0–100 score is worked out</span>
+    reason_codes/   <span class="c">the explanations sent to lenders</span>
+    checks/         <span class="c">existing checks (address, document, sanctions)</span>
+    storage/        <span class="c">where application data is kept</span>
+  tests/</div>`},
+ 'aidlc-docs/aidlc-state.md':{label:'aidlc-state.md', path:'aidlc-docs/aidlc-state.md', what:'The AI\'s progress tracker. It updates itself as each stage completes.',
+   html:()=>`<h4># AI-DLC state</h4><p class="mono">Project type: Brownfield (existing code)<br>Current stage: ${STAGES[Math.min(S.i,STAGES.length-2)].name}</p>${STAGES.slice(1,-1).map((s,i)=>`<div class="check"><span class="box ${i+1<S.i?'on':''}"></span><span>${s.name}${s.cond?' <span class="note">(when needed)</span>':''}</span></div>`).join('')}`},
+ 'aidlc-docs/audit.md':{label:'audit.md', path:'aidlc-docs/audit.md', what:'Every prompt, answer and approval, logged automatically. This is the paper trail.',
+   html:()=>`<div class="audit" style="max-height:none">${S.audit.map(a=>`<div><span class="t">${a.t}</span> ${a.text}</div>`).join('')||'<span class="note">Empty so far.</span>'}</div>`},
+ 'aidlc-docs/inception/reverse-engineering/architecture.md':{label:'architecture.md', path:'aidlc-docs/inception/reverse-engineering/architecture.md', what:'A plain-English summary of how the existing product works.',
+   html:()=>`<h4># How the Identity Risk API works today</h4><ul><li>A lender sends an applicant's name, date of birth and address</li><li>Existing checks run: address match, document check, sanctions list</li><li>The results combine into a <b>risk score from 0 to 100</b>, with reason codes</li><li><b>No check looks across applications</b>: each one is assessed alone</li><li>Application data is <b>deleted after 7 days</b> (data retention policy)</li><li>A risk assessment currently takes about 300 milliseconds</li></ul>`},
+ 'aidlc-docs/inception/requirements/requirement-verification-questions.md':{label:'questions.md', path:'aidlc-docs/inception/requirements/requirement-verification-questions.md', what:'The AI\'s open questions. The team answers them in this file.',
+   html:()=>`${QS.map(x=>qBlock(x)).join('')}${S.follow?qBlock(S.follow):''}`},
+ 'aidlc-docs/inception/requirements/requirements.md':{label:'requirements.md', path:'aidlc-docs/inception/requirements/requirements.md', what:'The agreed requirements. Every line traces back to an answer.',
+   html:()=>`<h4># Requirements: repeat-application check</h4><ul>
+   <li><b>R1</b> Count applications that share the same identity (${match()}) over the last <b>${win()}</b>${dpo()?' <span class="waiting">(needs Data Protection Officer approval)</span>':''}</li>
+   <li><b>R2</b> Treat <b>${thr()}</b> applications as suspicious</li>
+   <li><b>R3</b> When triggered, ${act()}</li>
+   <li><b>R4</b> Run ${mode()}</li>
+   <li><b>R5</b> Add no more than <b>${lat()}</b> to an assessment</li>
+   <li><b>R6</b> ${S.answers.q6==='A'?'Live by the end-of-quarter customer release':'No fixed deadline'}</li></ul>
+   <p class="note">Source of each line: requirement-verification-questions.md and audit.md.</p>`},
+ 'aidlc-docs/inception/user-stories/stories.md':{label:'stories.md', path:'aidlc-docs/inception/user-stories/stories.md', what:'User stories with acceptance criteria. The criteria become tests later.',
+   html:()=>{const s=[
+    `<b>1. Warn about reused identities</b><br>As a lender's fraud analyst, I see reason code ID-VEL-01 when an identity has appeared on ${thr()} applications in ${win()}.<br><span class="note">Accept when: the code appears at the threshold, and not below it.</span>`,
+    `<b>2. Understand the warning</b><br>As a lender, the reason code tells me how many applications were found and over what period.<br><span class="note">Accept when: the count and period are in the response.</span>`,
+    `<b>3. Don't slow us down</b><br>As a lender, my risk assessments stay fast.<br><span class="note">Accept when: the check adds ${lat()} or less.</span>`];
+    if (S.changes.stories) s.push(`<b>4. Lender sets the threshold</b> <span class="tagr new">added</span><br>As a lender, I can choose how many applications trigger the warning.<br><span class="note">Accept when: a lender's own threshold is used instead of the default.</span>`);
+    return `<h4># User stories</h4>${s.map(x=>`<p>${x}</p>`).join('')}`;}},
+ 'aidlc-docs/inception/plans/execution-plan.md':{label:'execution-plan.md', path:'aidlc-docs/inception/plans/execution-plan.md', what:'Which remaining stages will run, which will be skipped, and why.',
+   html:()=>{const row=(n,run,why)=>`<div class="check"><span class="${run?'run':'skip'}">${run?'RUN':'SKIP'}</span><span>${n}${why?` <span class="note">(${why})</span>`:''}</span></div>`;
+    return `<h4># Execution plan</h4>${row('Application Design', !!S.changes.plan, S.changes.plan?'added back at the team\'s request':'a new check inside an existing product')}${row('Units Generation',true,'two separate pieces of work')}${row('Functional Design',false,'counting logic is simple')}${row('NFR Requirements',true,'speed and data retention matter')}${row('NFR Design',false,'covered by existing patterns')}${row('Infrastructure Design',false,'no new infrastructure')}${row('Code Generation',true)}${row('Build and Test',true)}`;}},
+ 'aidlc-docs/inception/application-design/units.md':{label:'units.md', path:'aidlc-docs/inception/application-design/unit-of-work.md', what:'The work split into units that can each be built and tested on their own.',
+   html:()=>`<h4># Units of work</h4><p><b>Unit 1 · Repeat-application counter</b> (Bolt 1, a few hours)<br>Count matching applications over ${win()}${S.answers.q4==='B'?' in an overnight batch':' during each assessment'}.</p><p><b>Unit 2 · Reason code and score</b> (Bolt 2, a few hours)<br>${S.answers.q3==='B'?'Add reason code ID-VEL-01 to the response.':'Raise the score and add reason code ID-VEL-01.'}</p>${dpo()?'<p class="waiting">Release depends on Data Protection Officer approval of 30-day retention.</p>':''}${S.answers.q6==='A'?'<p class="note">Deadline: end-of-quarter customer release.</p>':''}`},
+ 'aidlc-docs/construction/repeat-check/nfr-requirements.md':{label:'nfr-requirements.md', path:'aidlc-docs/construction/repeat-check/nfr-requirements.md', what:'Non-functional requirements: how well it must work, not what it does.',
+   html:()=>`<h4># Non-functional requirements</h4><ul><li><b>Speed:</b> adds ${lat()} or less to an assessment</li><li><b>Data retention:</b> keep only what's needed to count applications, for ${win()}${dpo()?' (pending approval)':''}</li><li><b>Privacy:</b> store a scrambled fingerprint of the identity, not the raw details</li><li><b>Auditability:</b> log every time ID-VEL-01 is returned</li></ul>`},
+ 'aidlc-docs/construction/plans/repeat-check-code-generation-plan.md':{label:'code-generation-plan.md', path:'aidlc-docs/construction/plans/repeat-check-code-generation-plan.md', what:'The AI\'s step-by-step build plan. It ticks each step off as it goes.',
+   html:()=>{const steps=BUILD();const list=steps.map((t,i)=>`<div class="check ${i===S.build&&S.i===8?'next':''}"><span class="box ${i<S.build?'on':''}"></span><span>${t}</span></div>`).join('');
+    const bq = (S.build===3 && !S.answers.b1 && S.i===8) || S.answers.b1 ? qBlock({id:'b1', owner:'po', text:'If an application is missing a date of birth, what should the check do?', opts:{A:'Return a reason code saying "unable to check"', B:'Treat it as a pass', C:'Treat it as high risk'}}) : '';
+    return `<h4># Unit 1 code generation plan</h4>${list}${bq}`;}},
+ 'src/checks/repeat_applications':{label:'repeat_applications (code)', path:'identity-risk-api/src/checks/repeat_applications', what:'The code itself. It goes into the product, not into aidlc-docs. Comments are in plain English.',
+   html:()=>`<div class="code"><span class="c"># Count earlier applications for the same identity</span>
+fingerprint = scramble(${match().replace(/, | and /g,' + ')})
+count = applications_with(fingerprint, last="${win()}")
+
+<span class="c"># Too many? Warn the lender</span>
+if count reaches ${thr().replace(' (default 3)','')}:
+    ${S.answers.q3==='B'?'add_reason("ID-VEL-01", count, period)':'raise_score()\n    add_reason("ID-VEL-01", count, period)'}
+
+<span class="c"># Missing date of birth?</span>
+${S.answers.b1?`if date_of_birth is missing:\n    ${({A:'add_reason("ID-VEL-00", "unable to check")',B:'skip  # treat as a pass',C:'raise_score()  # treat as high risk'})[S.answers.b1]}`:'<span class="c"># waiting for the Product Owner\'s decision</span>'}</div>`},
+ 'aidlc-docs/construction/build-and-test/build-and-test-summary.md':{label:'build-and-test-summary.md', path:'aidlc-docs/construction/build-and-test/build-and-test-summary.md', what:'Proof it works: each test traces back to an acceptance criterion.',
+   html:()=>`<h4># Build and test summary</h4><ul><li><span class="run">PASS</span> ID-VEL-01 appears at ${thr()} applications in ${win()} (story 1)</li><li><span class="run">PASS</span> No warning below the threshold (story 1)</li><li><span class="run">PASS</span> Count and period included in the response (story 2)</li><li><span class="run">PASS</span> Adds ${lat()} or less (story 3)</li>${S.changes.stories?'<li><span class="run">PASS</span> Lender-specific threshold used (story 4)</li>':''}<li><span class="run">PASS</span> Missing date of birth: ${missing()||'handled'}</li><li><span class="run">PASS</span> Only scrambled fingerprints are stored</li></ul><p class="note">${dpo()?'Ready, but release waits for the Data Protection Officer.':'Ready for release through the existing pipeline.'}</p>`},
+ 'ops':{label:'operations', path:'Not defined in v1', what:'Nothing is generated here in v1.',
+   html:()=>`<p>In v1 the team deploys and monitors through its existing pipeline and release process.</p><div class="v2"><b>Coming in v2:</b> a full Operations phase with deployment, monitoring, incident runbooks, and a feedback loop that sends what we learn in production (for example, how often ID-VEL-01 fires and how many cases turn out to be real fraud) back to the start.</div>`}
+};
+const BUILD = () => [
+  'Create a scrambled identity fingerprint',
+  `Count matching applications over ${win()}`,
+  `Flag at ${thr()}`,
+  S.answers.b1 ? `Missing date of birth: ${missing()}` : 'Decide what happens when details are missing',
+  S.answers.q3==='B' ? 'Add reason code ID-VEL-01' : 'Raise the score and add ID-VEL-01',
+  'Write tests for every acceptance criterion',
+  `Speed test: ${lat()} or less`
+];
+
+/* ---------- stages ---------- */
+const STAGES = [
+ {id:'intent', phase:'Start', name:'Intent', time:30,
+  purpose:'Someone states what they want to achieve. This is the only thing AI-DLC needs to get started.',
+  why:'Everything after this is built from the intent, so a clear outcome here saves rework everywhere else.',
+  inputs:['ask'], outputs:['request'],
+  aiDoes:'Waits for an intent', teamDoes:'The Product Owner writes the intent',
+  ai:['I\'m ready. Give me an intent: the problem, who has it, and how we\'ll know it\'s solved. I\'ll ask about anything that isn\'t clear rather than guess.'],
+  gate:{owner:'po', label:'Send the intent to the AI'},
+  terms:[['Intent','A short statement of the outcome you want. It isn\'t a solution or a task list.']],
+  roles:{
+   po:{now:'Turn the lender feedback into a short intent: the problem, who has it, and what success looks like.', today:'You\'d write an epic, then spend refinement sessions breaking it into tickets.', changed:'It\'s shorter, earlier and about outcomes. The AI builds requirements from it, so its clarity shapes everything after.'},
+   eng:{now:'Read the intent. There\'s nothing to build yet.', today:'You\'d first see this work when a refined ticket landed in your sprint.', changed:'You\'re involved from the first line, before decisions are made for you.'},
+   pm:{now:'Add the new work to the plan, and start a risk and dependency log for it.', today:'You\'d wait for it to be estimated and pulled into a sprint before planning it.', changed:'Work starts as soon as there\'s an intent. There\'s no sprint boundary to wait for.'}}},
+ {id:'workspace', phase:'Inception', name:'Workspace Detection', time:15,
+  purpose:'The AI looks at the project to see whether it\'s new or changes an existing product, and sets up a folder for its documents.',
+  why:'It needs to know where it is before it does anything, and every later stage needs somewhere to write.',
+  inputs:['request','code'], outputs:['aidlc-docs/aidlc-state.md','aidlc-docs/audit.md'],
+  aiDoes:'Scans the codebase', teamDoes:'An engineer confirms',
+  ai:['Scanning the repository…','Found existing code: identity-risk-api. This is a "brownfield" project, so I\'ll study the current product before changing anything.','I\'ve created an aidlc-docs folder for every document and decision, a progress tracker (aidlc-state.md), and an audit log (audit.md).'],
+  gate:{owner:'eng', label:'Confirm the setup is right'},
+  terms:[['Brownfield','A change to an existing product (the opposite is greenfield: building from nothing).'],['aidlc-docs','The folder, kept next to the code, where AI-DLC saves everything it writes.'],['audit.md','An automatic log of every request, answer and approval.']],
+  roles:{
+   po:{now:'Nothing to do. But note the new folder: every document about this work will live there.', today:'Documents were spread across Confluence, Jira and Slack.', changed:'One place, next to the code, for everything. Ask for read access.'},
+   eng:{now:'Check the AI found the right codebase and set itself up correctly.', today:'You\'d open the codebase and start reading it yourself.', changed:'The AI does the first pass, and you check it.'},
+   pm:{now:'Note the two tracking files: aidlc-state.md shows progress and audit.md records decisions.', today:'Progress and decisions lived in Jira and meeting notes.', changed:'Progress and the decision trail are kept automatically as the work happens.'}}},
+ {id:'reverse', phase:'Inception', name:'Reverse Engineering', time:45, cond:'existing code only',
+  purpose:'The AI reads the existing product and writes a plain-English summary of how it works.',
+  why:'You can\'t safely change something you don\'t understand. This stage only runs when there\'s existing code.',
+  inputs:['code'], outputs:['aidlc-docs/inception/reverse-engineering/architecture.md'],
+  aiDoes:'Reads the code, writes a summary', teamDoes:'An engineer checks it\'s accurate',
+  ai:['Reading the existing code…','Summary written to architecture.md.','Two things to note: each application is assessed on its own today, and application data is deleted after 7 days.'],
+  gate:{owner:'eng', label:'Confirm the summary is accurate'},
+  terms:[['Reverse engineering','Working out how an existing system works by reading it.'],['Data retention policy','The rule for how long we may keep personal data.']],
+  roles:{
+   po:{now:'Read the summary. You can see what the product does today without reading code, including the 7-day data limit.', today:'You\'d ask an engineer and get a whiteboard sketch.', changed:'Knowledge that lived in engineers\' heads is now written down where you can read it.'},
+   eng:{now:'Check the summary is right. Mistakes here carry into everything the AI does next.', today:'You\'d re-learn the code yourself each time.', changed:'You review the AI\'s understanding instead of building your own from scratch.'},
+   pm:{now:'Log the data retention rule as a risk, and the Data Protection Officer as a possible dependency.', today:'A constraint like this often surfaced late, as a blocker.', changed:'Constraints and dependencies show up on day one, straight from the code.'}}},
+ {id:'requirements', phase:'Inception', name:'Requirements Analysis', time:60, kind:'questions',
+  purpose:'The AI asks the team every question it needs answered, checks the answers for gaps and conflicts, then writes the requirements.',
+  why:'It refuses to guess. Settling the questions now is far cheaper than finding them halfway through the build.',
+  inputs:['request','aidlc-docs/inception/reverse-engineering/architecture.md'], during:['aidlc-docs/inception/requirements/requirement-verification-questions.md'], outputs:['aidlc-docs/inception/requirements/requirements.md'],
+  aiDoes:'Writes questions, checks answers, writes requirements', teamDoes:'Everyone answers their questions together (Mob Elaboration)',
+  ai:['Before writing any requirements I have 6 questions. I won\'t guess.','They\'re in requirement-verification-questions.md. Each is multiple choice, with an "Other" option. Answer the ones for your role. Your teammates are answering theirs at the same time.'],
+  gate:{owner:'po', label:'Approve the requirements'},
+  terms:[['Mob Elaboration','A live session where the whole team works through the AI\'s questions together.'],['Question file','A document where the AI writes its questions and the team writes the answers.']],
+  roles:{
+   po:{now:'Answer the business questions. Each one is a product decision you\'d otherwise make later, under pressure.', today:'These questions would arrive over Slack mid-sprint, or never get asked and get guessed.', changed:'Ambiguity is settled before anyone builds anything. Your answers become the spec.'},
+   eng:{now:'Answer the technical questions. Priya answers the business ones, so you aren\'t left guessing.', today:'You\'d find these gaps halfway through coding.', changed:'No more building on assumptions. Open questions are written down and answered up front.'},
+   pm:{now:'Answer the delivery question, then help unblock anyone stuck on theirs. The AI waits for every answer.', today:'You\'d chase decisions in stand-ups.', changed:'Unanswered questions are now the main blocker. Unblocking them is your most valuable job.'}}},
+ {id:'stories', phase:'Inception', name:'User Stories', time:30, cond:'user-facing changes',
+  purpose:'The AI turns the requirements into user stories, each with acceptance criteria.',
+  why:'Stories keep the work tied to real people\'s needs, and the acceptance criteria become automated tests later.',
+  inputs:['aidlc-docs/inception/requirements/requirements.md'], outputs:['aidlc-docs/inception/user-stories/stories.md'],
+  aiDoes:'Drafts stories and acceptance criteria', teamDoes:'The Product Owner reviews, and can ask for changes',
+  ai:['I\'ve written user stories from the approved requirements.','Every acceptance criterion will become an automated test, so tell me if any are vague.'],
+  gate:{owner:'po', label:'Approve the stories', change:{label:'Add a story: lenders can set their own threshold', ai:'Added story 4: lenders can set their own threshold, with acceptance criteria.'}},
+  terms:[['User story','"As a [person], I want [something] so that [benefit]."'],['Acceptance criteria','The conditions that must be true for a story to count as done.']],
+  roles:{
+   po:{now:'Review the stories as you would in refinement, but you\'re editing the AI\'s draft. Try asking for a change.', today:'You\'d write each story and its criteria yourself.', changed:'You go from author to editor. Your judgement matters more, and your typing less.'},
+   eng:{now:'Check every acceptance criterion can be tested. The AI writes tests straight from them.', today:'You\'d challenge vague criteria in refinement.', changed:'Criteria turn straight into tests, so a vague one becomes a vague test.'},
+   pm:{now:'Notice the stories were agreed in one sitting.', today:'It took several refinement meetings before stories were ready.', changed:'Fewer meetings sit on the plan. Track the decisions instead.'}}},
+ {id:'plan', phase:'Inception', name:'Workflow Planning', time:20,
+  purpose:'The AI decides which of the remaining stages this change needs, and explains why it\'s skipping the others.',
+  why:'Small changes shouldn\'t carry heavy process. The team can override any skip.',
+  inputs:['aidlc-docs/inception/requirements/requirements.md','aidlc-docs/inception/user-stories/stories.md','aidlc-docs/inception/reverse-engineering/architecture.md'], outputs:['aidlc-docs/inception/plans/execution-plan.md'],
+  aiDoes:'Proposes which stages to run or skip', teamDoes:'The team reviews the plan, and can add stages back',
+  ai:['Here\'s my plan. This is a new check inside an existing product, so I\'ll skip Application Design.','I\'m keeping NFR Requirements, because speed and personal data retention both matter here.'],
+  gate:{owner:'pm', label:'Approve the plan', change:{label:'Add back Application Design', ai:'Application Design added back into the plan.'}},
+  terms:[['Execution plan','The list of stages that will run for this piece of work, with reasons.'],['Conditional stage','A stage that only runs when the work needs it.']],
+  roles:{
+   po:{now:'Glance at what will and won\'t happen. You can ask for skipped stages to be added back.', today:'Every change went through the same fixed process.', changed:'The amount of process matches the size of the change, and the reasons are written down.'},
+   eng:{now:'Challenge what the AI wants to skip. A risky change may need a stage it planned to drop.', today:'You\'d decide informally how much design a change needed.', changed:'That decision is now explicit and on record.'},
+   pm:{now:'Approve the plan. It replaces your sprint plan: a list of stages, not tickets.', today:'You\'d build a sprint plan from estimated tickets.', changed:'The plan is drafted for you. You check it against people, dates and dependencies.'}}},
+ {id:'units', phase:'Inception', name:'Units Generation', time:15, cond:'work with several parts',
+  purpose:'The AI splits the work into units: pieces that can each be designed, built and tested on their own.',
+  why:'Small, independent pieces can be built in short cycles and checked one at a time.',
+  inputs:['aidlc-docs/inception/requirements/requirements.md','aidlc-docs/inception/user-stories/stories.md','aidlc-docs/inception/plans/execution-plan.md'], outputs:['aidlc-docs/inception/application-design/units.md'],
+  aiDoes:'Splits the work into units', teamDoes:'The team checks the split and the order',
+  ai:['I\'ve split the work into 2 units. Each one will be built in a short cycle called a Bolt.'],
+  gate:{owner:'pm', label:'Approve the units and their order'},
+  terms:[['Unit of work','A self-contained slice of the change that can be built and tested on its own.'],['Bolt','A short build cycle of hours or days, replacing the two-week sprint.']],
+  roles:{
+   po:{now:'Each unit is a slice you can see working on its own.', today:'You\'d see features land at the end of a sprint.', changed:'You\'ll see working pieces in hours or days.'},
+   eng:{now:'Check the units are cleanly separated, so one can be finished without the other.', today:'You\'d split the work into tasks yourself.', changed:'The AI proposes the split, and you sanity-check it.'},
+   pm:{now:'Each unit is a Bolt. Add them to the plan in order, and flag any dependency that could block one.', today:'You\'d plan in two-week sprints.', changed:'You plan in days. Work stalls at gates and dependencies, not in coding, so that\'s where you unblock.'}}},
+ {id:'nfr', phase:'Construction', name:'NFR Requirements', time:30, cond:'performance, security or data concerns',
+  purpose:'The AI sets out how well the change must work: speed, privacy, data retention and audit.',
+  why:'In a risk product, how it works matters as much as what it does. Regulators and customers will ask.',
+  inputs:['aidlc-docs/inception/requirements/requirements.md','aidlc-docs/inception/application-design/units.md'], outputs:['aidlc-docs/construction/repeat-check/nfr-requirements.md'],
+  aiDoes:'Drafts non-functional requirements', teamDoes:'An engineer reviews them',
+  ai:['Construction starts with the design work the plan asked for: non-functional requirements.','I\'ve proposed storing a scrambled fingerprint of each identity rather than the raw details, to limit the personal data we hold.'],
+  gate:{owner:'eng', label:'Approve the non-functional requirements'},
+  terms:[['NFR (non-functional requirement)','How well something must work (speed, security, privacy), rather than what it does.'],['Mob Construction','The team settling design and build questions together, live, as the AI works.']],
+  roles:{
+   po:{now:'Read the privacy point. Storing a scrambled fingerprint is a product decision you can explain to customers and regulators.', today:'These decisions were often made silently in the code.', changed:'Quality and privacy decisions are written down where you can see them.'},
+   eng:{now:'Review the speed, privacy and retention requirements. They\'ll shape the code and tests.', today:'You\'d hold these in your head, or a design doc nobody updated.', changed:'They\'re explicit, reviewed and testable.'},
+   pm:{now:'This file is ready-made evidence for any data protection or security review.', today:'You\'d assemble evidence for reviews by hand.', changed:'Governance evidence is created as part of the work.'}}},
+ {id:'build', phase:'Construction', name:'Code Generation', time:180, kind:'build',
+  purpose:'The AI writes a step-by-step build plan, then writes the code and tests, ticking each step off.',
+  why:'A visible plan means everyone can follow progress, and the AI stops to ask rather than guess.',
+  inputs:['aidlc-docs/inception/application-design/units.md','aidlc-docs/inception/user-stories/stories.md','aidlc-docs/construction/repeat-check/nfr-requirements.md'], during:['aidlc-docs/construction/plans/repeat-check-code-generation-plan.md'], outputs:['src/checks/repeat_applications'],
+  aiDoes:'Writes the plan, then code and tests', teamDoes:'The Product Owner answers a question; an engineer reviews the code',
+  ai:['Starting Bolt 1. Here\'s my code generation plan. I\'ll tick off each step as I go.'],
+  gate:{owner:'eng', label:'Approve the code'},
+  terms:[['Code generation plan','A checklist of build steps the AI writes before coding and ticks off as it works.'],['Mob Construction','The team on hand to answer questions live while the AI builds.']],
+  roles:{
+   po:{now:'Stay on call. When the AI hits a business question mid-build, it\'s yours to answer, now.', today:'You\'d see the feature at sprint review, two weeks later.', changed:'You\'re part of the build, answering in minutes rather than days.'},
+   eng:{now:'Review the code against the requirements and your standards. You approve it. The AI never approves its own work.', today:'You\'d write this code yourself.', changed:'You type less and review more. The risk is approving without really reading.'},
+   pm:{now:'Watch the plan\'s checkboxes. That\'s your burndown.', today:'You\'d read a burndown chart from ticket status.', changed:'Progress is visible step by step in the plan file itself.'}}},
+ {id:'test', phase:'Construction', name:'Build and Test', time:60,
+  purpose:'The AI builds everything, runs all the tests, and writes a summary linking each result to a story.',
+  why:'It proves the change does what was agreed, with a clear line from requirement to test result.',
+  inputs:['src/checks/repeat_applications','aidlc-docs/inception/user-stories/stories.md'], outputs:['aidlc-docs/construction/build-and-test/build-and-test-summary.md'],
+  aiDoes:'Builds and runs every test', teamDoes:'The Product Owner accepts the result',
+  ai:['Unit 2 built the same way.','Built both units and ran every test. All passed. Each result is linked to the story it proves.'],
+  gate:{owner:'po', label:'Accept the result'},
+  terms:[['Traceability','Being able to follow a line from intent, to requirement, to story, to test result.']],
+  roles:{
+   po:{now:'Accept the result against the stories you approved. Each test maps to one of your acceptance criteria.', today:'You\'d accept at sprint review by watching a demo.', changed:'Acceptance is traceable from intent to test result.'},
+   eng:{now:'Check the tests really prove the criteria, not just that the code runs.', today:'You\'d write and run the tests yourself.', changed:'You review the quality of the tests, not just whether they passed.'},
+   pm:{now:'Both units are done. Update stakeholders. audit.md already holds the evidence for change approval.', today:'You\'d gather release evidence by hand.', changed:'The audit trail builds itself as the work happens.'}}},
+ {id:'ops', phase:'Operations', name:'Operations', time:60, placeholder:true,
+  purpose:'Deploying and running the change. In v1 this phase is a placeholder: nothing new happens here yet.',
+  why:'AWS hasn\'t defined Operations in v1. Teams use their existing release process.',
+  inputs:['aidlc-docs/construction/build-and-test/build-and-test-summary.md'], outputs:['ops'],
+  aiDoes:'Nothing in v1', teamDoes:'The team releases as it does today',
+  ai:['In v1, Operations is a placeholder. Release and monitoring go through your existing pipeline and process.'],
+  gate:{owner:'pm', label:'Release through the existing process'},
+  terms:[['Placeholder','Part of the framework that\'s named but not yet defined.']],
+  roles:{
+   po:{now:'Tell lenders the new reason code is coming, then track whether reported fraud cases fall. That\'s your success measure.', today:'The same.', changed:'Not much in v1. In v2, outcome data flows back into the workflow for you to act on.'},
+   eng:{now:'Release and monitor through the existing pipeline.', today:'The same.', changed:'Not yet. In v2, AI agents draft pipelines, dashboards and runbooks for you to review.'},
+   pm:{now:'Run the release as usual.', today:'The same.', changed:'Not yet. In v2, release planning and environment checks become part of the workflow.'}}},
+ {id:'done', phase:'Done', name:'Summary'}
+];
+const SHORT = {
+ intent:'The Product Owner states the outcome they want. That\'s all AI-DLC needs to start.',
+ workspace:'The AI checks the codebase and sets up one folder for every document and decision.',
+ reverse:'The AI reads the existing product and writes a plain-English summary of how it works.',
+ requirements:'The AI asks the team everything it needs, checks the answers for conflicts, then writes the requirements.',
+ stories:'The AI turns the requirements into user stories. Their acceptance criteria become tests.',
+ plan:'The AI decides which remaining stages to run or skip, and says why.',
+ units:'The AI splits the work into units that can each be built and tested in a short Bolt.',
+ nfr:'The AI sets out how well it must work: speed, privacy, data retention and audit.',
+ build:'The AI writes a step-by-step plan, then the code and tests, stopping to ask when unsure.',
+ test:'The AI builds everything, runs every test, and links each result to a story.',
+ ops:'Deploying and running. A placeholder in v1: the team uses its existing release process.'
+};
+const PHASES = [['Start','Where it begins'],['Inception','What to build, and why'],['Construction','How to build it'],['Operations','How to run it']];
+
+/* ---------- engine ---------- */
+function say(id, text, opts={}){
+  const g = gen;
+  q = q.then(()=>new Promise(res=>{
+    if (g!==gen) return res();
+    S.typing = true; render();
+    setTimeout(()=>{ if (g!==gen) return res(); S.typing=false; (S.msgs[id] ||= []).push({text, q:!!opts.q}); render(); res(); }, D(opts.d||1700));
+  }));
+  return q;
+}
+const D = ms => reduce ? 80 : Math.round(ms * (PACE==='fast' ? 0.35 : 1));
+function later(fn, ms){const g=gen; setTimeout(()=>{ if(g===gen){fn(); render();} }, D(ms));}
+function write(path, noView){ if (!S.files[path]){ S.files[path]={stage:S.i}; if(!noView){S.view=path; S.fresh=path;} log(`AI wrote ${FILES[path].label}`);} }
+function finish(st){ (st.outputs||[]).forEach(p=>write(p)); S.ready[st.id]=true; render(); }
+
+function enter(i, instant){
+  const st = STAGES[i]; if (!st || st.id==='done') return;
+  if (S.msgs[st.id]) return;
+  S.view = st.inputs[0]; S.fresh = null;
+  if (instant){ S.msgs[st.id] = st.ai.map(t=>({text:t})); S.ready[st.id]=true; return; }
+  S.msgs[st.id] = [];
+  if (!S.guess[st.id]){ S.waitGuess = true; S.msgs[st.id].push({text:'Before I start this stage: who do you think approves it? Make your guess in the approval gate.', q:true}); return; }
+  run(st);
+}
+function run(st){
+  S.waitGuess = false;
+  st.ai.forEach(t=>say(st.id,t));
+  if (st.kind==='questions'){ q.then(()=>{ write(st.during[0]); startQuestions(); render(); }); }
+  else if (st.kind==='build'){ q.then(()=>{ write(st.during[0]); tickBuild(); }); }
+  else q.then(()=>finish(st));
+}
+function startQuestions(){
+  let delay = 3500; S.qAt = S.qAt || Date.now();
+  QS.forEach(x=>{
+    if (x.owner!==S.role && !S.answers[x.id]){
+      later(()=>{ if(!S.answers[x.id]){ S.answers[x.id]=x.auto; S.by[x.id]=x.owner; log(`${PEOPLE[x.owner].name} answered: ${x.text} → ${x.opts[x.auto]}`); checkReq(); } }, delay);
+      delay += 2600;
+    }
+  });
+}
+function answer(id, val){
+  if (S.answers[id]) return;
+  S.answers[id]=val; S.by[id]=S.role;
+  if (id==='b1'){ log(`${who(S.role)} answered: missing date of birth → ${missing()}`);
+    if (val==='A'){ award(20,'Chose an explainable "unable to check" result for missing data'); badge('fraud'); }
+    else if (val==='C'){ award(10,'Played it safe with missing data', 'Safe, but it will raise false alarms for genuine applicants with incomplete forms.'); }
+    else { award(0,'Treated missing data as a pass', 'Risky: fraudsters often leave fields blank on purpose. Treating missing data as a pass opens a gap.'); }
+    render(); resumeBuild(); return; }
+  const x = QS.find(z=>z.id===id) || (S.follow && S.follow.id===id ? S.follow : null);
+  if (x) log(`${who(S.role)} answered: ${x.text} → ${x.opts[val]}`);
+  if (id==='f1'){ award(15,'Resolved a conflict the AI caught before any code existed', S.follow.kind==='retention' ? (val==='A'?'Staying inside the data policy keeps you moving. You can widen it later.':'Good call to involve the Data Protection Officer. Jordan now has a dependency to manage.') : (val==='A'?'Fewer false alarms means fewer genuine customers wrongly flagged.':'More false alarms will hit genuine customers who share common names.')); badge('conflict'); }
+  else if (x){ const secs=(Date.now()-S.qAt)/1000; if (secs < (PACE==='fast'?25:45)) award(10,'Answered quickly. The AI was waiting on you'); else { award(5,'Answered your question'); S.slow=true; } }
+  checkReq(); render();
+}
+function autoFollow(ms){ later(()=>{ if(!S.answers.f1){ S.answers.f1=S.follow.auto; S.by.f1=S.follow.owner; log(`${PEOPLE[S.follow.owner].name} answered the follow-up → ${S.follow.opts[S.follow.auto]}`); checkReq(); } }, ms); }
+function checkReq(){
+  if (S.reqStep==='ask' && QS.every(x=>S.answers[x.id])){
+    S.reqStep='follow'; S.follow = followUp();
+    say('requirements','All answers are in. I\'ve checked them against each other and against architecture.md. One follow-up is in the question file:');
+    say('requirements', S.follow.text, {q:true});
+    if (S.follow.owner!==S.role) q.then(()=>autoFollow(4500));
+  } else if (S.reqStep==='follow' && S.answers.f1){
+    S.reqStep='done';
+    say('requirements','Thanks. I\'ve written requirements.md from your answers. It\'s ready for the Product Owner to approve.').then(()=>finish(STAGES[S.i]));
+  }
+}
+function autoB1(ms){ later(()=>{ if(!S.answers.b1){ S.answers.b1='A'; S.by.b1='po'; log(`Priya answered: missing date of birth → ${missing()}`); resumeBuild(); } }, ms); }
+function tickBuild(){
+  const steps = BUILD();
+  if (S.build===3 && !S.answers.b1){
+    say('build','I\'ve stopped. Question for the Product Owner: if an application is missing a date of birth, what should the check do? It\'s in the plan file.', {q:true});
+    if (S.role!=='po') q.then(()=>autoB1(4500));
+    return;
+  }
+  if (S.build===3 && S.answers.b1 && !S.files['src/checks/repeat_applications']) write('src/checks/repeat_applications', true);
+  if (S.build < steps.length){ later(()=>{ S.build++; tickBuild(); }, 1700); }
+  else { say('build','Unit 1 is done: code, tests, and the plan fully ticked off. Ready for review.').then(()=>finish(STAGES[S.i])); }
+}
+function resumeBuild(){ say('build','Got it. Continuing the plan.'); q.then(()=>tickBuild()); }
+
+function approve(){
+  const st = STAGES[S.i];
+  if (st.gate.owner===S.role && st.id!=='intent'){
+    S.myApprovals++;
+    const unseen = Object.keys(S.files).filter(p=>S.files[p].stage===S.i && p!=='request' && !S.seen[p]);
+    if (unseen.length){ S.rubber=true; award(-10,`Approved without opening ${unseen.map(p=>FILES[p].label).join(', ')}`,'Rubber stamp! In AI-DLC your approval is the safety net. Open what the AI wrote before you say yes.'); }
+    else award(15,`Reviewed everything before approving ${st.name}`);
+  }
+  log(`${whoLong(st.gate.owner)} approved: ${st.name}`);
+  S.clock += st.time || 30; S.i++;
+  if (STAGES[S.i].id==='done'){ endBadges(); setTimeout(()=>{ const el=document.getElementById('stage'), dock=document.getElementById('dock'); const y=el.getBoundingClientRect().top+window.scrollY-(dock?dock.offsetHeight:0)-20; window.scrollTo({top:Math.max(0,y), behavior:reduce?'auto':'smooth'}); },80); }
+  enter(S.i); render();
+}
+function change(){
+  const st = STAGES[S.i]; S.changes[st.id]=true;
+  log(`${who(S.role)} requested a change: ${st.gate.change.label}`);
+  award(10,'Asked the AI to change its draft','The AI drafts, you decide. Changing a draft is quicker than rewriting it.'); badge('change');
+  S.view = st.outputs[0]; S.fresh = st.outputs[0];
+  say(st.id, st.gate.change.ai); render();
+}
+function setRole(r){
+  S.role=r; document.body.dataset.role=r;
+  const st = STAGES[S.i];
+  if (st.kind==='questions' && S.reqStep==='ask' && S.files[st.during[0]]) startQuestions();
+  if (st.kind==='questions' && S.reqStep==='follow' && !S.answers.f1 && S.follow.owner!==r) autoFollow(3500);
+  if (st.kind==='build' && S.build===3 && !S.answers.b1 && r!=='po') autoB1(3500);
+  render();
+}
+function restart(role, go){ gen++; q=Promise.resolve(); clearToasts(); S=fresh(role||S.role); lastGo=''; document.body.dataset.role=S.role; render(); if (go) start(); else window.scrollTo({top:0}); }
+function start(){ if (S.started) return; S.started=true; enter(0,true); write('request'); S.view='ask'; S.fresh=null; S.audit=[]; log(`${who('po')==='You'?'You':'Priya'} wrote the intent from lender feedback`); lastGo=''; render(); }
+function renderStart(){
+  const el=document.getElementById('startbar'); if(!el) return;
+  el.innerHTML = S.started ? `<p class="note">Playing as <b>${PEOPLE[S.role].title}</b>. You can switch roles at any time to see the same moment from another seat.</p><button class="b quiet" data-act="restart">Restart from the beginning</button>`
+   : `<button class="b startb" data-act="start">Start as ${PEOPLE[S.role].title} →</button><p class="note">Choose a role above, then press Start. Nothing happens until you do.</p>`;
+}
+
+/* ---------- game ---------- */
+const BADGES = {
+  reader:{icon:'🔍', name:'No Rubber Stamps', how:'Open every file written in a stage before you approve it'},
+  quick:{icon:'⚡', name:'Quick Decider', how:'Answer your questions fast, so the AI isn\'t left waiting'},
+  guru:{icon:'🚦', name:'Gate Guru', how:'Correctly guess who approves every stage'},
+  conflict:{icon:'🧩', name:'Conflict Resolver', how:'Settle a conflict the AI found in the answers'},
+  change:{icon:'✏️', name:'Editor, Not Author', how:'Ask the AI to change one of its drafts'},
+  fraud:{icon:'🛡️', name:'Fraud Stopper', how:'Close the missing-data gap during the build'},
+  trail:{icon:'📜', name:'Paper Trail', how:'Open audit.md yourself from the project folder'},
+  explorer:{icon:'🗂️', name:'Explorer', how:'Open 6 different files yourself'}
+};
+let tq=[], tbusy=false, tgen=0;
+function toast(html, kind){ tq.push({html, kind}); if(!tbusy) nextToast(); }
+function nextToast(){
+  const box=document.getElementById('hudmsg'); if(!box) return;
+  const m=tq.shift();
+  if(!m){ tbusy=false; box.innerHTML=''; return; }
+  tbusy=true; const g=++tgen;
+  box.innerHTML=`<div class="hmsg ${m.kind||''}">${m.html}</div>`;
+  const long = /class="coach"/.test(m.html);
+  setTimeout(()=>{ if(g===tgen) nextToast(); }, tq.length ? (long?3800:2200) : (long?6500:4500));
+}
+function clearToasts(){ tq=[]; tbusy=false; tgen++; const b=document.getElementById('hudmsg'); if(b) b.innerHTML=''; }
+function award(pts, why, coach){
+  S.score += pts; S.plog.push({pts, why});
+  toast(`<b class="${pts>0?'plus':pts<0?'minus':'zero'}">${pts>0?'+':''}${pts} pts</b> ${why}${coach?`<span class="coach">${coach}</span>`:''}`, pts<0?'bad':pts===0?'meh':'');
+  renderHud();
+}
+function badge(k){ if (S.badges[k]) return; S.badges[k]=true; toast(`<b class="plus">Badge unlocked</b> ${BADGES[k].icon} ${BADGES[k].name}`,'badge'); renderHud(); }
+function guess(r){
+  const st=STAGES[S.i]; if (S.guess[st.id]) return; S.guess[st.id]=r;
+  const o=st.gate.owner;
+  if (r==='skip'){ toast('Guess skipped. No points this time.','meh'); }
+  else if (r===o) award(10,`Right: the ${PEOPLE[o].title} approves ${st.name}`);
+  else award(0,`Not quite: the ${PEOPLE[o].title} approves ${st.name}`, `Each gate belongs to whoever owns that kind of decision.`);
+  S.waitGuess = 'reveal'; render();
+  later(()=>{ S.msgs[st.id].push({text:`OK, starting ${st.name}.`}); run(st); }, 2000);
+}
+function endBadges(){
+  if (S.myApprovals && !S.rubber) badge('reader');
+  const mine = QS.filter(x=>x.owner===S.role); if (mine.length && !S.slow && mine.every(x=>S.by[x.id]===S.role)) badge('quick');
+  const g = STAGES.slice(1,-1); if (g.every(s=>S.guess[s.id]===s.gate.owner)) badge('guru');
+}
+function maxScore(r){
+  r = r||S.role;
+  const gates = STAGES.slice(1,-1);
+  let m = gates.length*10;
+  m += QS.filter(x=>x.owner===r).length*10;
+  if (r==='po') m += 15 + 20;
+  m += gates.filter(st=>st.gate.owner===r).length*15;
+  m += gates.filter(st=>st.gate.owner===r && st.gate.change).length*10;
+  return m;
+}
+function rank(){ const p=S.score/maxScore(); return p>=.8?['AI-DLC Champion','You worked the framework the way it\'s meant to be worked.']:p>=.55?['AI-DLC Practitioner','Solid. A few more careful reviews and you\'re a champion.']:['AI-DLC Apprentice','You\'ve seen the whole flow. Replay to sharpen your gate instincts.']; }
+function rankOld(){ return S.score>=140?['AI-DLC Champion','You worked the framework the way it\'s meant to be worked.']:S.score>=90?['AI-DLC Practitioner','Solid. A few more careful reviews and you\'re a champion.']:['AI-DLC Apprentice','You\'ve seen the whole flow. Replay to sharpen your gate instincts.']; }
+function turnInfo(){
+  if (!S.started) return {mine:true, text:'Choose a role, then press <b>Start</b>.'};
+  const st=STAGES[S.i];
+  if (st.id==='done') return {mine:true, text:'Finished! See your score and badges below.'};
+  if (S.waitGuess===true) return {mine:true, text:`Guess who approves <b>${st.name}</b>. The buttons are in the approval gate.`};
+  if (S.waitGuess==='reveal') return {who:null, text:'Starting the stage…'};
+  if (st.kind==='questions' && S.reqStep!=='done' && S.files[st.during[0]]){
+    const mineOpen = QS.filter(x=>x.owner===S.role && !S.answers[x.id]).length + (S.follow && S.follow.owner===S.role && !S.answers.f1 ? 1 : 0);
+    if (mineOpen) return {mine:true, text:`Answer your ${mineOpen>1?mineOpen+' questions':'question'} in the questions file below. Look for the boxes marked <b>Your turn</b>.`};
+    const other = QS.find(x=>!S.answers[x.id]) || (S.follow && !S.answers.f1 ? S.follow : null);
+    if (other) return {who:other.owner, text:`Waiting on <b>${PEOPLE[other.owner].name} (${PEOPLE[other.owner].title})</b> to answer.`};
+  }
+  if (st.kind==='build' && S.build===3 && !S.answers.b1) return S.role==='po' ? {mine:true, text:'The AI has stopped. Answer its question in the plan file below.'} : {who:'po', text:'The AI has stopped. Waiting on <b>Priya (Product Owner)</b> to answer.'};
+  if (S.ready[st.id]){
+    const o=st.gate.owner;
+    if (o===S.role){ const unseen=Object.keys(S.files).filter(p=>S.files[p].stage===S.i && p!=='request' && !S.seen[p]); return {mine:true, text: unseen.length ? `Open what the AI wrote (${unseen.map(p=>FILES[p].label).join(', ')}), then approve in the gate.` : `It's your decision. Approve <b>${st.name}</b> in the approval gate, or request a change.`}; }
+    return {who:o, text:`Waiting on <b>${PEOPLE[o].name} (${PEOPLE[o].title})</b> to approve. Press <b>Watch ${PEOPLE[o].name} approve</b> to continue.`};
+  }
+  return {who:null, text:'The AI is working. Watch the chat and the files.'};
+}
+function focusInfo(){
+  if (!S.started) return null;
+  const st=STAGES[S.i]; if (st.id==='done') return null;
+  const t = turnInfo();
+  if (S.waitGuess===true) return {hl:'sec-gate', col:'var(--role)', go:'happening', mine:true};
+  if (S.waitGuess==='reveal') return {hl:'sec-ai', col:'var(--c-ai)', go:'happening'};
+  if (st.kind==='questions' && S.reqStep!=='done' && S.files[st.during[0]]){
+    if (t.mine) return {hl:'sec-files', col:'var(--role)', go:'files', mine:true};
+    if (t.who) return {hl:'sec-files', col:`var(--${t.who})`, go:'happening'};
+  }
+  if (st.kind==='build' && S.build===3 && !S.answers.b1) return t.mine ? {hl:'sec-files', col:'var(--role)', go:'files', mine:true} : {hl:'sec-files', col:'var(--po)', go:'happening'};
+  if (S.ready[st.id]){
+    const o=st.gate.owner;
+    if (o===S.role){ const unseen=Object.keys(S.files).filter(p=>S.files[p].stage===S.i && p!=='request' && !S.seen[p]); return unseen.length ? {hl:'sec-files', col:'var(--role)', go:'files', mine:true} : {hl:'sec-gate', col:'var(--role)', go:'happening', mine:true}; }
+    return {hl:'sec-gate', col:`var(--${o})`, go:'happening'};
+  }
+  return {hl:'sec-ai', col:'var(--c-ai)', go:'happening', busy:true};
+}
+let lastGo = '';
+function applyFocus(){
+  const f = focusInfo();
+  document.querySelectorAll('.focus').forEach(e=>e.classList.remove('focus','busy'));
+  if (!f) return;
+  const el = document.getElementById(f.hl);
+  if (el){ el.classList.add('focus'); if (f.busy) el.classList.add('busy'); el.style.setProperty('--fc', f.col); }
+  const key = `${S.i}:${f.go}:${f.hl}`;
+  if (key===lastGo) return;
+  lastGo = key;
+  let target = f.go==='files' ? (document.querySelector('#sec-files .q.mine') || document.getElementById('sec-files')) : document.getElementById('row-happening');
+  if (!target) return;
+  const dock = document.getElementById('dock');
+  const y = target.getBoundingClientRect().top + window.scrollY - (dock ? dock.offsetHeight : 0) - (f.go==='files' ? 24 : 48);
+  if (Math.abs(window.scrollY - y) > 40) window.scrollTo({top:y, behavior: reduce ? 'auto' : 'smooth'});
+}
+function renderTurn(){
+  const el=document.getElementById('turn'); if(!el||!S) return;
+  const t=turnInfo();
+  const col = t.mine ? 'var(--role)' : t.who ? `var(--${t.who})` : 'var(--muted)';
+  el.className = 'turn '+(t.mine?'me':t.who?'other':'idle');
+  el.style.setProperty('--tc', col);
+  el.innerHTML = `<span class="tl2">${t.mine?'Your turn':t.who?PEOPLE[t.who].title+'\'s turn':'Please wait'}</span><span class="tt">${t.text}</span>`;
+}
+function renderHud(){
+  const h=document.getElementById('hudstats'); if(!h||!S) return;
+  h.innerHTML = `<div class="score"><span class="k">Score</span><b>${S.score}</b><span class="of"> / ${maxScore()}</span></div>
+   <div class="prog"><span class="k">Stage</span><b>${S.started?Math.min(S.i+1,STAGES.length-1):0}/${STAGES.length-1}</b></div>
+   <div class="prog2"><span class="k">Progress ${S.started?Math.min(S.i,STAGES.length-1):0}/${STAGES.length-1} done</span><span class="bar"><span style="width:${S.started?Math.round(Math.min(S.i,STAGES.length-1)/(STAGES.length-1)*100):0}%"></span></span></div>
+   <div class="bdg"><span class="k">Badges ${Object.keys(S.badges).length}/${Object.keys(BADGES).length}</span><span class="icons">${Object.entries(BADGES).map(([k,b])=>`<span class="bi ${S.badges[k]?'on':''}" title="${b.name}: ${b.how}">${b.icon}</span>`).join('')}</span></div>`;
+}
+
+/* ---------- render ---------- */
+function qBlock(x){
+  const mine = x.owner===S.role, a = S.answers[x.id];
+  const opts = Object.entries(x.opts).map(([k,v])=>{
+    if (!a && mine) return `<label class="opt"><input type="radio" name="${x.id}" value="${k}" data-q="${x.id}"><span><b>${k}</b> ${v}</span></label>`;
+    return `<div class="opt ${a===k?'picked':'dim'}"><span>${a===k?'●':'○'}</span><span><b>${k}</b> ${v}</span></div>`;
+  }).join('') + (!a ? `<div class="opt dim"><span>○</span><span><b>X</b> Other (write your own answer)</span></div>`:'');
+  const status = a ? `<span class="note">Answered by ${who(S.by[x.id])}</span>` : mine ? `<span class="yourturn">Your turn: pick an answer</span>` : `<span class="waiting">${PEOPLE[x.owner].name} is answering…</span>`;
+  return `<div class="q ${mine&&!a?'mine':''}" style="--oc:var(--${x.owner})"><div class="qh"><span class="owner ${x.owner}">${PEOPLE[x.owner].title}</span>${status}</div><p><b>${x.text}</b></p><div class="opts">${opts}</div></div>`;
+}
+function renderRoles(){
+  document.getElementById('roles').innerHTML = Object.entries(PEOPLE).map(([k,p])=>`
+    <button class="role" style="--c:var(--${k})" aria-pressed="${S.role===k}" data-pick="${k}">
+      <span class="who">${p.title}</span><span class="sub">Play as ${p.name}. ${p.blurb}.</span><span class="you">${S.started?'You are playing this role':'Selected'}</span>
+    </button>`).join('');
+}
+function renderRail(){
+  const total = STAGES.length-1, cur = S.started ? S.i : -1;
+  const state = i => !S.started ? (i===0?'next':'later') : i<cur ? 'done' : i===cur ? 'now' : i===cur+1 ? 'next' : 'later';
+  const doneN = S.started ? Math.min(cur,total) : 0;
+  const nowS = S.started && cur<total ? STAGES[cur] : null, nextS = S.started ? STAGES[cur+1] : STAGES[0];
+  const st = STAGES[S.i];
+  const sum = !S.started ? `<div class="stagerow"><span class="nm">Ready to start</span><span class="desc">Choose a role and press Start. You'll move through ${total} stages across 3 phases.</span></div>`
+    : st.id==='done' ? `<div class="stagerow"><span class="pill2 done">All ${total} stages complete</span><span class="desc">See your score, badges and the full paper trail below.</span></div>`
+    : `<div class="stagerow"><span class="pill2">Stage ${S.i+1} of ${total} · ${st.phase}</span>${st.placeholder?'<span class="pill2 cond">Placeholder in v1</span>':st.cond?`<span class="pill2 cond">Only for ${st.cond}</span>`:'<span class="pill2 must">Always runs</span>'}<span class="nm">${st.name}</span><span class="desc">${SHORT[st.id]}</span>${nextS && nextS.id!=='done'?`<span class="nx">Next: ${nextS.name}</span>`:''}</div>`;
+  const groups = PHASES.map(([ph,qq])=>{
+    const steps = STAGES.map((s,i)=>({s,i})).filter(o=>o.s.phase===ph);
+    const pst = steps.every(o=>state(o.i)==='done') ? 'pdone' : steps.some(o=>state(o.i)==='now') ? 'pnow' : '';
+    return `<div class="pg ${pst}" style="flex:${steps.length}"><div class="pl"><b>${ph}</b> <span>${qq}${ph==='Operations'?' · placeholder in v1':''}</span></div><div class="ps">${steps.map(({s,i})=>{const t=state(i); return `<div class="sp ${t} ${s.placeholder?'ph':''}" ${t==='now'?'aria-current="step"':''}><span class="dot">${t==='done'?'✓':i+1}</span><span class="sl">${s.name}</span>${t==='now'?'<span class="stag now">You are here</span>':t==='next'?'<span class="stag next">Up next</span>':s.cond?'<span class="stag cond">If needed</span>':''}</div>`;}).join('')}</div></div>`;
+  }).join('');
+  document.getElementById('rail').innerHTML = `<div class="track">${groups}</div>${sum}`;
+  const nowEl = document.querySelector('.sp.now'), tr = document.querySelector('.track');
+  if (nowEl && tr && tr.scrollWidth>tr.clientWidth) tr.scrollLeft = nowEl.offsetLeft - tr.clientWidth/2 + nowEl.offsetWidth/2;
+}
+function waitingOnPeople(st){
+  if (st.kind==='questions' && S.files[st.during[0]] && S.reqStep!=='done') return true;
+  if (st.kind==='build' && S.build===3 && !S.answers.b1) return true;
+  return false;
+}
+const SC = {in:'var(--c-in)', ai:'var(--c-ai)', team:'var(--c-ppl)', out:'var(--c-out)', gate:'var(--c-gate)'};
+function flowHTML(st){
+  const ready = !!S.ready[st.id], people = waitingOnPeople(st);
+  const cls = k => {
+    if (S.waitGuess) return k==='gate' ? 'active' : k==='in' ? 'done' : '';
+    if (k==='in') return 'done';
+    if (S.waitGuess) return k==='gate' ? 'active' : '';
+    if (k==='ai') return ready||people ? 'done' : 'active';
+    if (k==='team') return people ? 'active' : ready ? 'done' : '';
+    if (k==='out') return ready ? 'done' : '';
+    if (k==='gate') return ready ? 'active' : '';
+  };
+  const names = arr => `<ul>${arr.map(p=>`<li class="mono" style="font-size:12.5px">${FILES[p].label}</li>`).join('')}</ul>`;
+  const outs = [...(st.during||[]), ...st.outputs];
+  const box = (k,n,label,body) => `<div class="fx ${cls(k)}" style="--sc:${SC[k]}" role="listitem"><span class="n"><span class="num">${n}</span>${label}<span class="st"></span></span><div class="t">${body}</div></div>`;
+  return `<div class="flow" role="list" aria-label="This stage, step by step">
+    ${box('in',1,'Reads',names(st.inputs))}
+    ${box('ai',2,'AI works',st.aiDoes)}
+    ${box('team',3,'People',st.teamDoes)}
+    ${box('out',4,'Writes',names(outs))}
+    ${box('gate',5,'Approval',`${PEOPLE[st.gate.owner].title} (${PEOPLE[st.gate.owner].name}) says yes`)}
+  </div>`;
+}
+const sec = (color, head, body, extra='', id='', sid='') => `<section ${sid?`id="${sid}"`:''} class="sec ${extra}" style="--sc:${color}"><div class="sh">${head}</div><div class="sb" ${id?`id="${id}"`:''}>${body}</div></section>`;
+const GATE_WHY = {po:'Business and product decisions belong to the Product Owner.', eng:'Technical accuracy and code quality belong to the Software Engineer.', pm:'The plan, its order and its risks belong to the Project Manager.'};
+const gateWhy = st => GATE_WHY[st.gate.owner];
+function gateHTML(st){
+  const g = st.gate, owner = g.owner, mine = owner===S.role, ready = !!S.ready[st.id];
+  let waitText = 'The AI is still working. The gate opens when it has finished.';
+  if (st.kind==='questions' && !ready){
+    const myOpen = QS.some(x=>x.owner===S.role && !S.answers[x.id]) || (S.follow && S.follow.owner===S.role && !S.answers.f1);
+    waitText = myOpen ? 'Answer your questions in the file below to continue.' : 'Waiting for the rest of the team to answer…';
+  }
+  if (st.kind==='build' && !ready && S.build===3 && !S.answers.b1) waitText = S.role==='po' ? 'The AI has stopped and is waiting for your answer, in the plan file below.' : 'The AI has stopped and is waiting for Priya to answer.';
+  const chg = g.change && !S.changes[st.id];
+  let body;
+  const gs = S.guess[st.id];
+  const guessUI = st.id==='intent' ? '' : !gs ? `<div class="guess big"><p class="gq">Who approves <b>${st.name}</b>?</p><p class="hint">Guess right for +10 points. The stage starts once you've guessed.</p><div class="gbtns">${Object.keys(PEOPLE).map(k=>`<button data-guess="${k}">${PEOPLE[k].title}</button>`).join('')}</div><button class="linkb" data-guess="skip">Skip the guess</button></div>` : gs==='skip' ? `<p class="gres no">Guess skipped. It's the ${PEOPLE[owner].title}.</p>` : `<p class="gres ${gs===owner?'ok':'no'}">${gs===owner?'✓ Right!':'✗ You guessed '+PEOPLE[gs].title+'.'} The ${PEOPLE[owner].title} approves this stage.</p><p class="hint">${gateWhy(st)}</p>`;
+  if (S.waitGuess===true && !gs) body = `<p class="state open">Your guess</p>${guessUI}`;
+  else if (!ready) body = `<p class="state wait">Closed</p>${guessUI}<p class="hint">${S.waitGuess==='reveal'?'Starting the stage…':waitText}</p>`;
+  else if (mine) body = `<p class="state open">Open · your decision</p><p>Nothing moves to the next stage until you say yes.</p><div class="btns"><button class="b" data-act="approve">${g.label}</button>${chg?`<button class="b alt" data-act="change">Request a change: ${g.change.label.toLowerCase()}</button>`:''}</div>`;
+  else body = `<p class="state open">Open · ${PEOPLE[owner].name}'s decision</p><p>${PEOPLE[owner].name}, the ${PEOPLE[owner].title}, approves this stage. You can see the gate, but it isn't yours.</p><div class="btns"><button class="b alt" data-act="approve">Watch ${PEOPLE[owner].name} approve →</button></div>`;
+  if (ready && mine && st.id!=='intent'){ const unseen=Object.keys(S.files).filter(p=>S.files[p].stage===S.i && p!=='request' && !S.seen[p]); if (unseen.length) body += `<p class="warnline">You haven't opened: ${unseen.map(p=>`<button class="linkb" data-view="${p}">${FILES[p].label}</button>`).join(', ')}</p>`; }
+  return sec(((gs&&S.waitGuess!==true)||ready)?`var(--${owner})`:SC.gate, `Approval gate · ${(gs&&S.waitGuess!==true)||ready?PEOPLE[owner].title:'?'}`, body, `gate ${ready?'ready':''}`, '', 'sec-gate');
+}
+function viewerHTML(st){
+  const tab = (p, kind) => {
+    const written = kind==='in' || S.files[p];
+    return `<button class="ftab ${kind} ${written?'':'pending'}" role="tab" aria-selected="${S.view===p}" ${written?`data-view="${p}"`:'aria-disabled="true"'}>${FILES[p].label}${written?(kind==='out'&&S.files[p].stage===S.i?' <span class="tagr new">new</span>':''):' <span class="note">(not written yet)</span>'}</button>`;
+  };
+  const f = FILES[S.view] || FILES[st.inputs[0]];
+  const isIn = st.inputs.includes(S.view);
+  const outs = [...(st.during||[]),...st.outputs];
+  const isOut = outs.includes(S.view);
+  return `<section class="viewer" id="sec-files" aria-label="Files for this stage">
+    <div class="trow" style="--sc:var(--c-in)"><span class="tl">Reads</span><div class="tabs" role="tablist">${st.inputs.map(p=>tab(p,'in')).join('')}</div></div>
+    <div class="trow" style="--sc:var(--c-out)"><span class="tl">Writes</span><div class="tabs" role="tablist">${outs.map(p=>tab(p,'out')).join('')}</div></div>
+    <div class="vbody" style="--sc:${isIn?'var(--c-in)':isOut?'var(--c-out)':'var(--muted)'}">
+      <div class="fhead"><span class="kind">${isIn?'Input':isOut?'Written in this stage':'From an earlier stage'}</span><span class="path">${f.path}</span><span class="what">${f.what}${S.fresh===S.view && S.files[S.view]?' <b class="justw">Just written by the AI.</b>':''}</span></div>
+      <div class="fbody" id="fbody">${f.html()}</div>
+    </div>
+  </section>`;
+}
+function folderHTML(){
+  const order = ['request','aidlc-docs/aidlc-state.md','aidlc-docs/audit.md','aidlc-docs/inception/reverse-engineering/architecture.md','aidlc-docs/inception/requirements/requirement-verification-questions.md','aidlc-docs/inception/requirements/requirements.md','aidlc-docs/inception/user-stories/stories.md','aidlc-docs/inception/plans/execution-plan.md','aidlc-docs/inception/application-design/units.md','aidlc-docs/construction/repeat-check/nfr-requirements.md','aidlc-docs/construction/plans/repeat-check-code-generation-plan.md','aidlc-docs/construction/build-and-test/build-and-test-summary.md','src/checks/repeat_applications'];
+  const groups = [['aidlc-docs/',p=>/^aidlc-docs\/[^/]+$/.test(p)],['aidlc-docs/inception/',p=>p.startsWith('aidlc-docs/inception/')],['aidlc-docs/construction/',p=>p.startsWith('aidlc-docs/construction/')],['identity-risk-api/src/ (product code)',p=>p.startsWith('src/')]];
+  const item = p => S.files[p] ? `<button data-view="${p}" aria-current="${S.view===p}">${FILES[p].label}${S.files[p].stage===S.i?' <span class="tagr new">new</span>':''}</button>` : '';
+  const count = Object.keys(S.files).filter(p=>p!=='request').length;
+  return sec('var(--c-folder)', `Project folder · ${count} file${count===1?'':'s'}`, `<p class="note">Everything AI-DLC writes is saved here, next to the code. Select a file to open it above. Folder names are simplified.</p><div class="tree">${groups.map(([name,fn])=>{const items=order.filter(fn).map(item).join(''); return `<div class="dir">${name}</div>${items||'<div class="ghost">nothing yet</div>'}`;}).join('')}</div>`, 'fixed', 'folderbox');
+}
+function renderStage(){
+  const st = STAGES[S.i], el = document.getElementById('stage');
+  if (!S.started){ el.innerHTML = `<section class="card prestart"><p class="eyebrow">Ready when you are</p><h2>11 stages, 3 phases, one change to the Identity Risk API</h2><p>When you press Start you'll play the <b>${PEOPLE[S.role].title}</b>. At every stage you'll first guess who approves it. Then you'll watch the AI work, answer the questions that are yours, open what it writes, and approve when it's your call.</p><p class="note">Points for good habits, badges to collect, and a rank at the end.</p></section>`; return; }
+  if (st.id==='done'){ el.innerHTML = summaryHTML(); return; }
+  const r = st.roles[S.role], p = PEOPLE[S.role];
+  const msgs = (S.msgs[st.id]||[]).map(m=>`<div class="msg ${m.q?'ask':''}"><span class="badge">AI</span><p>${m.text}</p></div>`).join('') + (S.typing?`<div class="msg"><span class="badge">AI</span><p class="typing" aria-label="The AI is working"><span></span><span></span><span></span> <i class="note">${st.aiDoes}…</i></p></div>`:'');
+  const aiState = S.ready[st.id] ? 'Finished' : S.waitGuess ? 'Waiting to start' : waitingOnPeople(st) ? 'Waiting for people' : 'Working';
+  el.innerHTML = `
+  <p class="rowlabel">What's happening</p>
+  <div class="row r3" id="row-happening">
+    ${sec('var(--role)', `Your role · ${p.title}`, `<div class="trio"><div><span class="k">What you do now</span><p class="now">${r.now}</p></div><div><span class="k">What you did before AI-DLC</span><p>${r.today}</p></div><div><span class="k">What's changed</span><p>${r.changed}</p></div></div>`, 'fixed youc', '', 'sec-role')}
+    ${sec(SC.ai, `The AI assistant <span class="aistate ${aiState==='Working'?'on':''}">${aiState}</span>`, `<div class="chat">${msgs}</div>`, 'fixed', 'chat', 'sec-ai')}
+    ${gateHTML(st)}
+  </div>
+  <p class="rowlabel">Inputs and outputs</p>
+  ${viewerHTML(st)}
+  <p class="rowlabel">What's been updated</p>
+  <div class="row r3b">
+    ${folderHTML()}
+    ${sec(SC.gate, `audit.md · live`, `<div class="audit">${S.audit.map(a=>`<div><span class="t">${a.t}</span> ${a.text}</div>`).join('')||'<span class="note">Nothing logged yet.</span>'}</div><p class="note" style="margin-top:8px">Simulated clock: ${clk()}</p>`, 'fixed', 'auditbox')}
+    ${sec('var(--muted)', 'Words used in this stage', `<dl class="terms">${st.terms.map(([t,d])=>`<div><dt>${t}</dt><dd>${d}</dd></div>`).join('')}</dl>`, 'fixed')}
+  </div>`;
+  ['chat','auditbox'].forEach(id=>{const e=document.getElementById(id); if(e) e.scrollTop=e.scrollHeight;});
+}
+const SUM = {
+  po:{shift:'From writing tickets to setting intent and making fast decisions.', did:['Turned lender feedback into a short intent','Answered the business questions up front, in one session','Resolved a conflict the AI caught before any code existed','Edited AI-drafted stories rather than writing them','Answered a build question in minutes, mid-construction','Accepted the result against traceable tests'],
+      v2:'v2 adds an Ideation phase before this, where a Product agent helps you frame the intent, research the market and set scope. A feedback loop then brings production data back to you.'},
+  eng:{shift:'From writing the code to steering and verifying the AI that writes it.', did:['Confirmed the AI found the right codebase','Checked the AI\'s summary of the existing product','Answered the technical questions before any build','Reviewed speed and privacy requirements','Reviewed and approved the generated code and tests','Released through the existing pipeline'],
+      v2:'v2 adds named AI agents for architecture, code, quality and operations, plus a reviewer agent that checks designs first. You approve skeletons, checkpoints and the verification step.'},
+  pm:{shift:'From tracking tasks to owning the plan, risks and dependencies, and unblocking decisions.', did:['Logged the data retention risk on day one','Answered the delivery question and unblocked the rest','Approved a plan of stages, not tickets','Ordered Bolts measured in hours','Tracked progress through plan checkboxes','Got governance evidence for free from the project folder'],
+      v2:'v2 adds a Delivery agent that drafts the delivery plan, a risk log and external dependencies, with an approval gate at every stage. Spotting and clearing blocked gates becomes a core part of your job.'}
+};
+function summaryHTML(){
+  const p = PEOPLE[S.role], s = SUM[S.role];
+  const files = Object.keys(S.files).filter(k=>FILES[k]);
+  const [rk, rkt] = rank();
+  const game = `<section class="card gamecard"><div class="final"><div><span class="k">Final score</span><p class="big">${S.score}<span class="of"> / ${maxScore()}</span></p><p class="note">${Math.round(Math.max(0,S.score)/maxScore()*100)}% of the maximum for a ${PEOPLE[S.role].title}</p></div><div><span class="k">Your rank</span><p class="rk">${rk}</p><p class="note">${rkt}</p></div></div>
+    <div class="summary"><div><h3>How you scored</h3><ul class="plog">${S.plog.map(x=>`<li><b class="${x.pts>0?'plus':x.pts<0?'minus':'zero'}">${x.pts>0?'+':''}${x.pts}</b> ${x.why}</li>`).join('')||'<li>No points yet</li>'}</ul></div>
+    <div><h3>Badges</h3><div class="bgrid">${Object.entries(BADGES).map(([k,b])=>`<div class="bcard ${S.badges[k]?'on':''}"><span class="bi2">${b.icon}</span><div><b>${b.name}</b><p class="note">${S.badges[k]?'Earned':'Locked: '+b.how}</p></div></div>`).join('')}</div></div></div></section>`;
+  return game + `<section class="card youc"><span class="tag">Complete · ${p.title}</span><h2>The change went from lender feedback to release, and every decision is on record</h2>
+     <div class="summary"><div><h3>What you did as the ${p.title}</h3><ul>${s.did.map(x=>`<li>${x}</li>`).join('')}</ul></div>
+     <div class="trio"><div><span class="k">The big shift</span><p class="now">${s.shift}</p></div><div class="v2"><b>What changes in v2:</b> ${s.v2}</div></div></div>
+     <div class="btns">${Object.keys(PEOPLE).filter(k=>k!==S.role).map(k=>`<button class="b alt" data-try="${k}">Replay as ${PEOPLE[k].title}</button>`).join('')}<button class="b quiet" data-act="restart">Start again</button></div>
+   </section>
+   <section class="card"><h3>The paper trail: ${files.length} files written</h3><p class="note">Each file was written by the AI, read by a later stage, and approved by a person.</p>
+     <ul>${files.map(k=>`<li><span class="mono" style="font-size:13.5px">${FILES[k].path}</span>: ${FILES[k].what}</li>`).join('')}</ul></section>
+   <section class="card"><h3>The full audit.md</h3><div class="audit" style="max-height:none">${S.audit.map(a=>`<div><span class="t">${a.t}</span> ${a.text}</div>`).join('')}</div></section>`;
+}
+let lastView=null;
+function render(){
+  const fb=document.getElementById('fbody'), fo=document.getElementById('folderbox');
+  const keep={fb:fb&&lastView===S.view?fb.scrollTop:0, fo:fo?fo.scrollTop:0};
+  if (S.view && STAGES[S.i].id!=='done'){ S.seen[S.view]=true; }
+  if (S.clicked['aidlc-docs/audit.md'] && !S.badges.trail) setTimeout(()=>badge('trail'));
+  if (Object.keys(S.clicked).filter(k=>FILES[k]).length>=6 && !S.badges.explorer) setTimeout(()=>badge('explorer'));
+  renderRoles(); renderStart(); renderRail(); renderStage(); renderHud(); renderTurn(); applyFocus();
+  const nf=document.getElementById('fbody'), no=document.getElementById('folderbox');
+  if(nf) nf.scrollTop=keep.fb; if(no) no.scrollTop=keep.fo; lastView=S.view;
+}
+
+document.addEventListener('click', e=>{
+  const pick = e.target.closest('[data-pick]'); if (pick){ setRole(pick.dataset.pick); return; }
+  const v = e.target.closest('[data-view]'); if (v){ S.view=v.dataset.view; S.clicked[S.view]=true; if (S.fresh!==S.view) S.fresh=null; render(); return; }
+  const gb = e.target.closest('[data-guess]'); if (gb){ guess(gb.dataset.guess); return; }
+  const tr = e.target.closest('[data-try]'); if (tr){ restart(tr.dataset.try, true); return; }
+  const a = e.target.closest('[data-act]'); if (!a) return;
+  if (a.dataset.act==='approve') approve();
+  if (a.dataset.act==='change') change();
+  if (a.dataset.act==='restart') restart();
+  if (a.dataset.act==='start') start();
+});
+document.addEventListener('change', e=>{ if (e.target.dataset.q) answer(e.target.dataset.q, e.target.value); });
+
+S = fresh('po'); render();
+</script>
+</body>
+</html>
