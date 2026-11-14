@@ -48,6 +48,12 @@ h1,h2,h3{text-wrap:balance;line-height:1.2}
 .tb{all:unset;cursor:pointer;font:500 13px/1 var(--sans);padding:8px 10px;border-radius:8px;border:1px solid rgba(241,242,243,.25);white-space:nowrap}
 .tb:hover{background:rgba(241,242,243,.1)}
 .tb[aria-pressed="true"]{background:#F1F2F3;color:#1B1D21}
+#btn-theme{display:inline-flex;align-items:center;gap:9px}
+.saber{display:inline-flex;flex-direction:column;align-items:center;margin:-5px 0;--sc:#3D9BFF}
+#btn-theme[data-mode="dark"] .saber{--sc:#FF3B45}
+.saber .blade{width:3px;height:15px;border-radius:2px 2px 0 0;background:var(--sc);box-shadow:0 0 4px 1px var(--sc),0 0 9px 1px color-mix(in srgb,var(--sc) 55%,transparent);transform-origin:50% 100%;transition:transform .28s ease-in}
+#btn-theme.sheath .blade{transform:scaleY(0)}
+.saber .hilt{width:5px;height:7px;border-radius:1px 1px 2px 2px;background:linear-gradient(#C9CDD3 0 2px,#7D838C 2px 3px,#A4A9B1 3px)}
 
 .pop{position:absolute;right:14px;top:54px;z-index:40;width:min(380px,calc(100vw - 28px));background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.25);padding:14px;display:flex;flex-direction:column;gap:8px;max-height:70vh;overflow:auto}
 .bcard{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;border:1px solid var(--line);opacity:.5}
@@ -288,7 +294,7 @@ details summary{cursor:pointer;font-size:13.5px;color:var(--muted)}
   <div class="brand"><i>AI</i><span>AI-DLC v1 Learning Lab</span></div>
   <nav class="stepper" id="stepper" aria-label="Stages"></nav>
   <div class="tools">
-    <button class="tb" id="btn-theme">Dark mode</button>
+    <button class="tb" id="btn-theme"><span class="saber" aria-hidden="true"><i class="blade"></i><i class="hilt"></i></span><span id="theme-txt">Dark mode</span></button>
     <button class="tb hide-s" id="btn-inst" aria-pressed="false" title="Larger text and a discussion prompt at every stage">Instructor view</button>
     <button class="tb hide-s" id="btn-restart">Restart</button>
   </div>
@@ -1286,9 +1292,12 @@ document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s
 document.addEventListener('keydown', e=>{ if (!S.started||e.target.closest('select')) return; if (e.key==='ArrowRight'){ if (S.view<S.step){ S.view=seek(S.view,1); renderAll(); } else if (!S.busy){ const st=STEPS[S.step]; if (st.act.type==='prompt') send(); else if (ready(st)) next(); } } else if (e.key==='ArrowLeft'&&S.view>0){ S.view=seek(S.view,-1); renderAll(); } });
 
 const isDark = () => { const t=document.documentElement.dataset.theme; return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
-const themeLabel = () => document.getElementById('btn-theme').textContent = isDark() ? 'Light mode' : 'Dark mode';
+const themeLabel = () => { const d=isDark(); document.getElementById('theme-txt').textContent = d ? 'Light mode' : 'Dark mode'; document.getElementById('btn-theme').dataset.mode = d ? 'dark' : 'light'; };
 try { const t=localStorage.getItem('aidlc-lab-theme'); if (t==='dark'||t==='light') document.documentElement.dataset.theme=t; } catch(e){}
-document.getElementById('btn-theme').addEventListener('click', ()=>{ const t=isDark()?'light':'dark'; document.documentElement.dataset.theme=t; try { localStorage.setItem('aidlc-lab-theme', t); } catch(e){} themeLabel(); });
+// The blade retracts into the hilt, the theme changes, then the blade comes back in the new colour.
+let sheathing=false;
+document.getElementById('btn-theme').addEventListener('click', e=>{ if (sheathing) return; const b=e.currentTarget; sheathing=true; b.classList.add('sheath');
+  setTimeout(()=>{ const t=isDark()?'light':'dark'; document.documentElement.dataset.theme=t; try { localStorage.setItem('aidlc-lab-theme', t); } catch(e){} themeLabel(); b.classList.remove('sheath'); sheathing=false; }, reduce?0:300); });
 themeLabel();
 S=fresh(); load(); renderAll();
 </script>
