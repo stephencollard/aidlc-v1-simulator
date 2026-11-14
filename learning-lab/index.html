@@ -287,6 +287,60 @@ details summary{cursor:pointer;font-size:13.5px;color:var(--muted)}
 .v1t,.v2t{font:600 10.5px/1 var(--mono);padding:3px 5px;border-radius:4px;margin-right:4px}
 .v1t{background:var(--panel2);border:1px solid var(--line);color:var(--muted)}.v2t{background:var(--accent);color:#fff}
 .card2 .codes{flex:none}
+.dot.skip{cursor:pointer}
+/* ---- v4: stage list, progress, glossary, badges, cues ---- */
+.frow{white-space:normal}
+.frow .nm{overflow:visible;text-overflow:clip;overflow-wrap:anywhere;min-width:0;line-height:1.3}
+.now-name{all:unset;cursor:pointer;font-size:13.5px;color:rgba(241,242,243,.92);white-space:nowrap;align-self:center;padding:7px 10px;border-radius:8px;border:1px solid rgba(241,242,243,.25);display:inline-block}
+.now-name:hover{background:rgba(241,242,243,.1)}
+.now-name .sn{display:none}
+@media (max-width:1320px){.stepper .ph{display:none}.now-name{display:inline-block}.now-name .sn{display:inline}}
+.sgrp{font:600 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 8px 2px}
+.srow{all:unset;cursor:pointer;display:grid;grid-template-columns:28px 1fr;gap:0 8px;align-items:start;padding:6px 8px;border-radius:8px;box-sizing:border-box;width:100%}
+.srow:hover{background:var(--panel2)}
+.srow .sd{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:600 11px/1 var(--mono);border:1.5px solid var(--line);color:var(--muted)}
+.srow.done .sd{background:var(--good);border-color:var(--good);color:#fff}
+.srow.now .sd{background:var(--accent);border-color:var(--accent);color:#fff}
+.srow.skip .sd{border-style:dashed}
+.srow b{font-weight:600}.srow small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35}
+.srow.now small{color:var(--accent);font-weight:600}
+.gprog{flex:0 0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:7px 10px;padding:10px 14px 8px;border-bottom:1px solid var(--line)}
+.gprog .k{flex:1}
+.gbar{flex:1 0 100%;height:6px;border-radius:9px;background:var(--line);overflow:hidden;min-width:40px}
+.gbar i{display:block;height:100%;background:var(--good);border-radius:9px}
+.gprog .k{white-space:nowrap}
+.glb{all:unset;cursor:pointer;font:500 12.5px/1 var(--sans);padding:6px 9px;border-radius:7px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.glb:hover{color:var(--ink);border-color:var(--muted)}
+.gterm{all:unset;cursor:help;border-bottom:1.5px dotted var(--muted)}
+.gterm:hover,.gterm:focus-visible{border-bottom-color:var(--accent)}
+#tip{position:fixed;z-index:70;background:var(--bar);color:#F1F2F3;border-radius:10px;padding:9px 12px;font-size:13.5px;line-height:1.4;box-shadow:0 10px 30px rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.2);display:flex;flex-direction:column;gap:2px;pointer-events:none}
+#tip b{text-transform:capitalize}
+.gl{margin:0;display:flex;flex-direction:column;gap:8px}.gl dt{font-weight:600;text-transform:capitalize}.gl dd{margin:0;color:var(--muted);font-size:13.5px}
+.here{font:700 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:#fff;padding:5px 7px;border-radius:6px;margin-left:auto;white-space:nowrap;flex:0 0 auto}
+.wsgo{flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:10px 14px;border-top:1px solid var(--line);background:var(--panel2)}
+.outsd summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.outsd summary::-webkit-details-marker{display:none}
+.outsd summary::after{content:"Show";font-size:12.5px;color:var(--muted)}
+.outsd[open] summary::after{content:"Hide"}
+.m.term .f{color:#FF7B85}
+.smap{display:grid;grid-template-columns:auto minmax(0,1.1fr) minmax(0,1.6fr) minmax(0,1.5fr);gap:0;font-size:14px}
+.smap>span{padding:7px 10px 7px 0;border-top:1px solid var(--line)}
+.smap>.hd{border-top:none;font:600 10.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.smap .sk{color:var(--muted)}
+@media (max-width:980px){.smap{grid-template-columns:auto 1fr}.smap>.hd{display:none}.smap>span:nth-child(4n+3),.smap>span:nth-child(4n+4){grid-column:2;border-top:none;padding-top:0}}
+.flw{list-style:none;padding:0!important;margin:0;display:flex;flex-direction:column;gap:8px}
+.flw li{display:grid;grid-template-columns:22px 1fr;gap:8px}
+.flw .y{color:var(--good);font-weight:700}.flw .n{color:var(--warn);font-weight:700}
+.flw small{display:block;color:var(--muted);font-size:13px}
+.bgrid{display:flex;flex-wrap:wrap;gap:8px}
+.bchip{display:inline-flex;gap:6px;align-items:center;padding:5px 10px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;opacity:.45}
+.bchip.on{opacity:1;border-color:var(--accent);background:var(--soft)}
+.wif{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.wif>div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--panel);display:flex;flex-direction:column;gap:3px;font-size:14px}
+.wif .d{font:600 12.5px/1.4 var(--mono)}.wif .up{color:var(--good)}.wif .dn{color:var(--accent)}
+.ocards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.ocards .box{background:var(--panel)}
+.ocards .big{font-size:34px}
 </style>
 </head>
 <body data-pane="guide">
@@ -294,13 +348,15 @@ details summary{cursor:pointer;font-size:13.5px;color:var(--muted)}
   <div class="brand"><i>AI</i><span>AI-DLC v1 Learning Lab</span></div>
   <nav class="stepper" id="stepper" aria-label="Stages"></nav>
   <div class="tools">
+    <button class="tb hide-s" id="btn-badges" title="Badges you have earned">Badges</button>
     <button class="tb" id="btn-theme"><span class="saber" aria-hidden="true"><i class="blade"></i><i class="hilt"></i></span><span id="theme-txt">Dark mode</span></button>
     <button class="tb hide-s" id="btn-inst" aria-pressed="false" title="Larger text and a discussion prompt at every stage">Instructor view</button>
     <button class="tb hide-s" id="btn-restart">Restart</button>
   </div>
 </header>
 <div id="pop" class="pop" hidden></div>
-<div id="toast" hidden></div>
+<div id="toast" role="status" hidden></div>
+<div id="tip" role="tooltip" hidden></div>
 <div class="main">
   <section class="pane" id="pane-guide" aria-label="Lesson guide"></section>
   <section class="pane" id="pane-ws" aria-label="Project workspace"></section>
@@ -317,7 +373,7 @@ const ADD = '\u0001';
 const ROLES = {po:'Product Owner', ux:'UX Designer', arch:'Architect', eng:'Software Engineer', pm:'Project Manager'};
 const NAMES = {po:'Priya', ux:'Mei', arch:'Tomas', eng:'Sam', pm:'Jordan'};
 let S, gen = 0;
-function fresh(keep){ return {started:false, col:{}, inst:keep?keep.inst:false, step:0, view:0, busy:false, a:{}, ch:{}, used:{}, files:{}, tabs:[], path:null, center:'files', msgs:[], typing:false, badges:{}, opened:{}, stepOpened:{}, build:0, build2:0, built:false, sLock:false, bLock:false, pv:'after', sel:'riley', res:null, runs:{}, running:false, audit:[], clock:540, follow:null, qLock:false, fLock:false, changes:{}, done:false, pane:'guide', lastTarget:''}; }
+function fresh(keep){ return {started:false, col:{}, inst:keep?keep.inst:false, step:0, view:0, busy:false, a:{}, ch:{}, used:{}, files:{}, tabs:[], path:null, center:'files', msgs:[], typing:false, badges:{}, opened:{}, stepOpened:{}, build:0, build2:0, late:{}, outsOpen:false, built:false, sLock:false, bLock:false, pv:'after', sel:'riley', res:null, runs:{}, running:false, audit:[], clock:540, follow:null, qLock:false, fLock:false, changes:{}, done:false, pane:'guide', lastTarget:''}; }
 
 /* ================= decisions ================= */
 const QS = [
@@ -350,6 +406,10 @@ const matchTxt = () => matchND()?'name and date of birth':'name, date of birth a
 const batch = () => S.a.q5==='B';
 const lat = () => S.a.q6==='B'?'1 second':'200 milliseconds';
 const tight = () => !!S.changes.stories;
+// Flaws planted in the AI's drafts. Each is either caught at its approval gate, or found late.
+const reOK = () => !!(S.changes.re||S.late.re);
+const planBug = () => !(S.changes.cgplan||S.late.plan);
+const testGap = () => !(S.changes.tests||S.late.test);
 const b1txt = () => ({A:'return reason code ID-VEL-00 "unable to check"',B:'treat it as a pass',C:'treat it as high risk'})[S.a.b1];
 
 /* ================= the mock product ================= */
@@ -368,7 +428,7 @@ function assess(a, built){
       else why='The new check was skipped. You chose to treat missing details as a pass.';
     } else {
       const c=(matchND()?a.nd:a.nda)[winKey()], t=thrN();
-      if (c>=t){ codes.push(['ID-VEL-01', tight()?`${c} applications for this identity in the last ${win()}`:'Identity seen on multiple recent applications','warn']); if (raise()) score=Math.min(95,score+50); }
+      if (planBug()?c>t:c>=t){ codes.push(['ID-VEL-01', tight()?`${c} applications for this identity in the last ${win()}`:'Identity seen on multiple recent applications','warn']); if (raise()) score=Math.min(95,score+50); }
       why=`${c} application${c===1?'':'s'} matching on ${matchTxt()} in the last ${win()}. Your threshold is ${t}.`+(batch()?' Your build runs this check overnight, so the warning would arrive the next day.':'');
     }
   }
@@ -467,6 +527,7 @@ The Identity Risk API helps lenders decide whether a loan application is likely 
 - Each application is assessed on its own. No check looks across applications.
 - Application data is deleted after 7 days (data retention policy, \`storage/applications.py\`).
 - An assessment takes about 300 milliseconds today.
+${reOK()?ADD:''}- A failed check raises the risk score by ${reOK()?50:30} points (\`scoring/score.py\`).
 - Reason codes live in one list: \`reason_codes/codes.py\`.`},
  'aidlc-docs/inception/reverse-engineering/api-documentation.md':{lang:'md', about:'What lenders send to the API and what comes back.', gen:()=>`# API documentation
 
@@ -618,12 +679,11 @@ ${BUILD2().map((t,i)=>`- [${i<S.build2?'x':' '}] Step ${i+1}: ${t}`).join('\n')}
  'aidlc-docs/construction/build-and-test/build-and-test-summary.md':{lang:'md', about:'Proof that it works. Each test traces back to a story or requirement.', gen:()=>`# Build and test summary
 
 Build: succeeded
-Tests: 19 passed, 0 failed
+Tests: ${testGap()?18:19} passed, 0 failed
 
 ## Unit: repeat-check
 - PASS  Warning appears at ${thrN()} applications in ${win()} (story 1)
-- PASS  No warning below ${thrN()} (story 1)
-- PASS  Check adds ${lat()} or less (story 3)
+${testGap()?'':`- PASS  No warning below ${thrN()} (story 1)\n`}- PASS  Check adds ${lat()} or less (story 3)
 - PASS  Missing date of birth: ${b1txt()} (answer in the NFR plan)
 - PASS  Only scrambled fingerprints are stored (privacy)
 
@@ -683,7 +743,7 @@ def run(application):
    if (b>=4) L.push('    # Missing date of birth: answered by the Product Owner in the NFR plan','    if application.date_of_birth is None:', S.a.b1==='A'?'        return CheckResult(code="ID-VEL-00", detail="unable to check")':S.a.b1==='C'?'        return CheckResult(code="ID-VEL-01", raise_score=True, detail="date of birth missing")':'        return CheckResult.clear()  # treated as a pass','');
    L.push('    # Privacy: compare scrambled fingerprints, never the raw details', matchND()?'    identity = fingerprint.of(application.name, application.date_of_birth)':'    identity = fingerprint.of(application.name, application.date_of_birth, application.address)');
    if (b>=2) L.push('','    # R1: count earlier applications for the same identity','    count = applications.count_matching(identity, within=WINDOW)');
-   if (b>=3){ L.push(''); if (lenderSet()) L.push('    # R2: each lender can set their own number','    threshold = lender.threshold if lender else THRESHOLD'); L.push(`    if count >= ${lenderSet()?'threshold':'THRESHOLD'}:`);
+   if (b>=3){ L.push(''); if (lenderSet()) L.push('    # R2: each lender can set their own number','    threshold = lender.threshold if lender else THRESHOLD'); L.push(`    if count ${planBug()?'>':'>='} ${lenderSet()?'threshold':'THRESHOLD'}:`);
      L.push(b>=5?`        return CheckResult(code="ID-VEL-01", raise_score=${raise()?'True':'False'},`:'        pass  # reason code comes in step 5'); if (b>=5) L.push(tight()?'                           detail=f"{count} applications in the last {WINDOW}")':'                           detail="multiple recent applications")'); L.push('    return CheckResult.clear()'); }
    else L.push('    ...  # more to come');
    return L.join('\n'); }},
@@ -742,12 +802,12 @@ def test_sanctions_hit(): ...
 def test_warns_at_threshold():
     result = check_with(applications=${thrN()}, within="${win()}")
     assert result.code == "ID-VEL-01"
-
+${testGap()?'':`
 
 def test_no_warning_below_threshold():
     result = check_with(applications=${thrN()-1}, within="${win()}")
     assert result.code is None
-
+`}
 
 # Story 3: stay fast
 def test_adds_little_time():
@@ -801,7 +861,7 @@ const BASE = ['README.md','aidlc-rules/core-workflow.md','aidlc-rules/details/in
 const ORDER = ['aidlc-docs/aidlc-state.md','aidlc-docs/audit.md','aidlc-docs/inception/reverse-engineering/business-overview.md','aidlc-docs/inception/reverse-engineering/architecture.md','aidlc-docs/inception/reverse-engineering/api-documentation.md','aidlc-docs/inception/requirements/requirement-verification-questions.md','aidlc-docs/inception/requirements/requirements.md','aidlc-docs/inception/user-stories/personas.md','aidlc-docs/inception/user-stories/stories.md','aidlc-docs/inception/plans/user-stories-assessment.md','aidlc-docs/inception/plans/story-generation-plan.md','aidlc-docs/inception/plans/execution-plan.md','aidlc-docs/inception/plans/unit-of-work-plan.md','aidlc-docs/inception/application-design/components.md','aidlc-docs/inception/application-design/unit-of-work.md','aidlc-docs/inception/application-design/unit-of-work-dependency.md','aidlc-docs/inception/application-design/unit-of-work-story-map.md','aidlc-docs/construction/plans/repeat-check-nfr-requirements-plan.md','aidlc-docs/construction/plans/repeat-check-code-generation-plan.md','aidlc-docs/construction/plans/console-warning-code-generation-plan.md','aidlc-docs/construction/repeat-check/nfr-requirements/nfr-requirements.md','aidlc-docs/construction/build-and-test/build-and-test-summary.md','aidlc-rules/core-workflow.md','aidlc-rules/details/inception/requirements-analysis.md','src/api/assess.py','src/checks/address_match.py','src/checks/document_check.py','src/checks/repeat_applications.py','src/checks/sanctions.py','src/console/result_view.py','src/reason_codes/codes.py','src/scoring/score.py','src/storage/applications.py','tests/test_checks.py','tests/test_console_warning.py','tests/test_repeat_applications.py','README.md'];
 const P = {state:'aidlc-docs/aidlc-state.md', audit:'aidlc-docs/audit.md', arch:'aidlc-docs/inception/reverse-engineering/architecture.md', biz:'aidlc-docs/inception/reverse-engineering/business-overview.md', api:'aidlc-docs/inception/reverse-engineering/api-documentation.md', qs:'aidlc-docs/inception/requirements/requirement-verification-questions.md', req:'aidlc-docs/inception/requirements/requirements.md', pers:'aidlc-docs/inception/user-stories/personas.md', st:'aidlc-docs/inception/user-stories/stories.md', plan:'aidlc-docs/inception/plans/execution-plan.md', comp:'aidlc-docs/inception/application-design/components.md', units:'aidlc-docs/inception/application-design/unit-of-work.md', usa:'aidlc-docs/inception/plans/user-stories-assessment.md', sgp:'aidlc-docs/inception/plans/story-generation-plan.md', uowp:'aidlc-docs/inception/plans/unit-of-work-plan.md', dep:'aidlc-docs/inception/application-design/unit-of-work-dependency.md', map:'aidlc-docs/inception/application-design/unit-of-work-story-map.md', nfrp:'aidlc-docs/construction/plans/repeat-check-nfr-requirements-plan.md', nfr:'aidlc-docs/construction/repeat-check/nfr-requirements/nfr-requirements.md', cgp2:'aidlc-docs/construction/plans/console-warning-code-generation-plan.md', view:'src/console/result_view.py', tests2:'tests/test_console_warning.py', cgp:'aidlc-docs/construction/plans/repeat-check-code-generation-plan.md', bts:'aidlc-docs/construction/build-and-test/build-and-test-summary.md', rules:'aidlc-rules/core-workflow.md', code:'src/checks/repeat_applications.py', codes:'src/reason_codes/codes.py', assess:'src/api/assess.py', store:'src/storage/applications.py', tests:'tests/test_repeat_applications.py'};
 const fname = p => p.split('/').pop();
-const BUILD = () => ['Create the check and the identity fingerprint',`Count matching applications over ${win()}`,`Compare the count with the threshold (${thrN()})`, S.a.b1?`Missing date of birth: ${b1txt()}`:'Handle a missing date of birth', raise()?'Raise the score and add reason code ID-VEL-01':'Add reason code ID-VEL-01','Write the tests for stories 1 and 3, and for the agreed rules','Connect the check to the API'];
+const BUILD = () => ['Create the check and the identity fingerprint',`Count matching applications over ${win()}`,planBug()?`Flag the identity when the count is more than ${thrN()}`:`Flag the identity when the count is ${thrN()} or more`, S.a.b1?`Missing date of birth: ${b1txt()}`:'Handle a missing date of birth', raise()?'Raise the score and add reason code ID-VEL-01':'Add reason code ID-VEL-01','Write the tests for stories 1 and 3, and for the agreed rules','Connect the check to the API'];
 const BUILD2 = () => [`Make ID-VEL-01 stand out in the console: ${S.a.q8==='B'?'a banner above the result, plus a highlighted reason code':'a highlighted reason code'} (requirement R4b)`, tight()?'Show the count and the time period in the warning (story 2)':'Use the reason code description as the warning text (story 2)','Write the tests for requirement R4b and story 2'];
 
 /* ================= stages ================= */
@@ -905,9 +965,11 @@ const STEPS = [
    {t:'Application data is deleted after 7 days.', fb:'Yes. To count applications over time we need to keep them. This rule limits how far back the new check can look.'},
    {t:'Three checks run today.', fb:'True, but adding a fourth is straightforward.'}]},
   body:()=>`<p>We want to count how often an identity appears over time. Which fact in ${fl(P.arch)} could get in the way?</p>`},
- {id:'re-approve', stage:'reverse', title:'Your first approval gate', act:{type:'chips', chips:()=>[approveChip('arch','Reverse Engineering')]},
+ {id:'re-approve', stage:'reverse', title:'Your first approval gate', act:{type:'chips', chips:()=>[approveChip('arch','Reverse Engineering'),
+    {label:'Request a change: data is kept for 30 days, not 7', text:'I think application data is kept for 30 days, not 7. Please correct architecture.md.', stay:true, ops:()=>[{say:'I checked again. <b>storage/applications.py</b> sets RETENTION_DAYS = 7, so the summary is right on that point. I have not changed it.'}]},
+    {label:'Request a change: a failed check adds 50 points, not 30', text:'architecture.md says a failed check raises the score by 30 points. score.py says RAISE_BY = 50. Please correct it.', stay:true, set:()=>{S.changes.re=true; log('Architect requested a correction to architecture.md');}, ops:()=>[{mod:P.arch},{badge:'fact'},{say:'You are right. <b>score.py</b> says 50. I\'ve corrected architecture.md, and the changed line is highlighted.'}]}]},
   enter:()=>[askApprove('arch','Reverse engineering is complete.')],
-  body:()=>`<p>The AI has stopped. It will not start the next stage until a person approves this one. That pause is an <b>approval gate</b>, and almost every stage ends with one.</p><p>Each gate belongs to whoever owns that kind of decision. This one is about how the system is put together, so the <b>Architect</b> decides.</p><p>Reply in the AI assistant panel.</p>${idea('The AI drafts. People decide. Nothing moves on without a yes.')}`},
+  body:()=>`<p>The AI has stopped. It will not start the next stage until a person approves this one. That pause is an <b>approval gate</b>, and almost every stage ends with one.</p><p>Each gate belongs to whoever owns that kind of decision. This one is about how the system is put together, so the <b>Architect</b> decides.</p><div class="box"><b>Check before you approve</b><p>AI drafts can contain mistakes. The summary names the code files its facts come from, such as ${fl('src/scoring/score.py')} and ${fl(P.store)}. Open them and compare.</p><p>Approve if it is right. If not, ask for a correction. From here on, some drafts have a mistake in them and some don't.</p></div>${idea('The AI drafts. People decide. An approval is only worth something if you checked.')}`},
  {id:'rq-answer', stage:'requirements', title:'Answer the AI\'s questions', act:{type:'answer', qs:QS.map(q=>q.id)},
   enter:()=>[{say:'Before I write any requirements, I have 8 questions. I won\'t guess.'},{write:P.qs},{say:'They are in <b>requirement-verification-questions.md</b>. Choose an option for each, then tell me when you\'re done.'},{mate:'ux',say:'I asked the AI to include a question on how the warning looks to analysts.'},{mate:'arch',say:'Mine is the one about when the check runs. It changes the design.'}],
   body:()=>{ const n=QS.filter(q=>S.a[q.id]).length; return `<p>This is the heart of AI-DLC v1. The AI writes every open question into a <b>question file</b>. The team answers in the file, usually together in a session called <b>Mob Elaboration</b>.</p>
@@ -934,15 +996,15 @@ const STEPS = [
  {id:'st-read', stage:'stories', title:'From requirements to stories', act:{type:'open', paths:[P.st]},
   enter:()=>[{say:'Plan approved. Writing personas and user stories from the approved requirements…'},{write:P.pers},{write:P.st},{say:'Three stories are ready in <b>stories.md</b>. Each acceptance criterion will become an automated test.'},{mate:'ux',say:'I shaped Farah\'s persona with the AI. Look hard at story 2: could a tester answer yes or no to it?'}],
   body:()=>`<p>User stories keep the work tied to real people. Each has <b>acceptance criteria</b>: the conditions that must be true for it to count as done.</p><p>Open ${fl(P.st)}. Read the "Accept when" lines closely. Could each one be tested with a clear yes or no?</p>`},
- {id:'st-decide', stage:'stories', title:'Edit, don\'t just accept', act:{type:'chips', chips:()=>[approveChip('po','User Stories','Approve the stories'),{label:'Request a change: make story 2 testable', text:'Story 2 says "the reason is clear". That can\'t be tested. Please make it specific: the warning must show how many applications were found and the time period.', stay:true, set:()=>{S.changes.stories=true; log('Product Owner requested a change to story 2');}, ops:()=>[{mod:P.st},{say:'Good catch. Story 2 now says the warning must show the count and the time period. The new lines are highlighted in stories.md.'}]}]},
+ {id:'st-decide', stage:'stories', title:'Edit, don\'t just accept', act:{type:'chips', chips:()=>[approveChip('po','User Stories','Approve the stories'),{label:'Request a change: make story 2 testable', text:'Story 2 says "the reason is clear". That can\'t be tested. Please make it specific: the warning must show how many applications were found and the time period.', stay:true, set:()=>{S.changes.stories=true; log('Product Owner requested a change to story 2');}, ops:()=>[{mod:P.st},{badge:'editor'},{say:'Good catch. Story 2 now says the warning must show the count and the time period. The new lines are highlighted in stories.md.'}]}]},
   enter:()=>[askApprove('po','User stories are complete.')],
   body:()=>`<p>Look at story 2 in ${fl(P.st)}. ${tight()?'It now names exactly what the response must include. A test can check that.':'"The reason is clear" is an opinion, not a test. A vague criterion becomes a vague test, and then a vague product.'}</p><p>You can approve the draft as it is, or ask the AI to change it first.</p>${idea('You are the editor, not the author. Changing a draft takes seconds, so use that power.')}`},
  {id:'pl-read', stage:'plan', title:'The AI plans the rest', act:{type:'open', paths:[P.plan]},
-  enter:()=>[{say:'Deciding which of the remaining stages this change needs…'},{write:P.plan},{say:'My plan is in <b>execution-plan.md</b>. I\'m skipping four stages and explaining why.'},{mate:'arch',say:'Skipping Application Design is fine by me for a change this small. Your call, Jordan.'}],
+  enter:()=>[{say:'Deciding which of the remaining stages this change needs…'},{write:P.plan},{say:'My plan is in <b>execution-plan.md</b>. I\'m skipping four stages and explaining why.'},{mate:'arch',say:'Skipping Application Design is fine by me. It is one small check, and the code is easy to follow.'},{mate:'eng',say:'I disagree. It is a new component that touches storage and the API. I\'d want a short design before anyone builds it.'}],
   body:()=>`<p>AI-DLC v1 is <b>adaptive</b>. A one-line fix skips almost everything. A new product runs every stage. The AI proposes what this change needs.</p><p>Open ${fl(P.plan)} and look at what it marked RUN and SKIP.</p>`},
- {id:'pl-decide', stage:'plan', title:'Challenge the plan', act:{type:'chips', chips:()=>[approveChip('pm','Workflow Planning','Approve the plan'),{label:'Request a change: add back Application Design', text:'Please add Application Design back in. I want to see where the new check fits before we build.', stay:true, set:()=>{S.changes.plan=true; log('Team asked for Application Design to be added back');}, ops:()=>[{mod:P.plan},{say:'Done. Application Design is back in the plan. It will run next as its own stage, with its own approval, before I split the work into units.'}]}]},
+ {id:'pl-decide', stage:'plan', title:'Challenge the plan', act:{type:'chips', chips:()=>[{...approveChip('pm','Workflow Planning','Approve the plan'), ops:()=>[{log:'Project Manager approved: Workflow Planning'},{fn:()=>{S.clock+=30;}},...(S.changes.plan?[]:[{mate:'eng',say:'Understood. I\'ll look harder at the build plan instead.'}])]},{label:'Request a change: add back Application Design', text:'Please add Application Design back in. I want to see where the new check fits before we build.', stay:true, set:()=>{S.changes.plan=true; log('Team asked for Application Design to be added back');}, ops:()=>[{mod:P.plan},{say:'Done. Application Design is back in the plan. It will run next as its own stage, with its own approval, before I split the work into units.'},{mate:'arch',say:'Fair enough. One short file won\'t slow us down.'}]}]},
   enter:()=>[askApprove('pm','Workflow planning is complete.')],
-  body:()=>`<p>The plan is the AI's proposal, not a decision. If a skipped stage worries you, ask for it back.</p><p>The plan sets out the order of work and its risks, so the <b>Project Manager</b> approves it, with the Architect's advice on what's safe to skip.</p>`},
+  body:()=>`<p>The plan is the AI's proposal, not a decision. If a skipped stage worries you, ask for it back.</p><p><b>Tomas and Sam disagree</b> about Application Design, and both have a point. Someone has to settle it. Approve the plan as it is, or ask for the stage back.</p><p>The plan sets out the order of work and its risks, so the <b>Project Manager</b> approves it, with the Architect's advice on what's safe to skip.</p>`},
  {id:'ad-read', stage:'appdesign', when:()=>!!S.changes.plan, title:'The design stage you asked for', act:{type:'open', paths:[P.comp]},
   enter:()=>[{say:'Application Design is back in the plan, so it runs now, before I split the work into units.'},{write:P.comp},{say:'<b>components.md</b> shows where the new check fits in the existing product.'}],
   body:()=>`<p>You asked for this stage, so it runs as a stage of its own, with its own document and its own approval.</p><p>Open ${fl(P.comp)}. For a change this small, the design is one short file.</p>`},
@@ -963,9 +1025,9 @@ const STEPS = [
   body:()=>`<p>The units and their order are the delivery plan, so the <b>Project Manager</b> approves them.</p>`},
  {id:'inc-recap', stage:'units', title:'Inception is complete', act:{type:'next'},   body:()=>`<p>Pause and look at the <code>aidlc-docs/inception</code> folder. In a short time the team has agreed:</p><ul><li>how the product works today</li><li>what to build, in ${Object.keys(S.a).length} recorded decisions</li><li>stories with testable criteria</li><li>a plan, and the work split into units</li></ul>${idea('Inception is finished, and not one line of code has been written. That is the point. The thinking comes first, and the AI turns it into code quickly.')}<p>Next is <b>Construction</b>. It is a loop: each unit goes through its design stages and Code Generation before the next unit starts. Build and Test runs once at the end.</p>`},
  {id:'nfr-plan', stage:'nfr', title:'Unit 1: a question before the quality rules', act:{type:'answer', qs:['b1'], file:P.nfrp, hint:'Answer the question in repeat-check-nfr-requirements-plan.md.'},
-  enter:()=>[{say:'Construction begins. I take one unit at a time, so I start with <b>repeat-check</b>. Functional Design is skipped, as planned, so its first stage is NFR Requirements.'},{write:P.nfrp},{say:'My plan for this stage has one question. The requirements don\'t say what the check should do when an application has no date of birth, and I won\'t guess. Please answer in <b>repeat-check-nfr-requirements-plan.md</b>.', ask:true, owner:'po'}],
-  body:()=>`<p><b>Non-functional requirements</b> (NFRs) describe how well something must work: speed, privacy, security, and what happens when things go wrong.</p><p>While planning this stage, the AI found a case nobody had covered: what if an application has no date of birth? It stopped and asked instead of guessing.</p><p>Open ${fl(P.nfrp)} and answer. This is a business decision, so the <b>Product Owner</b> answers. Think about it: fraudsters sometimes leave fields blank on purpose, and genuine customers sometimes fill forms in badly.</p>${idea('The AI asks in a file, before any code is planned. Once a build plan is approved the AI follows it exactly, so gaps have to be closed first.')}`,
-  after:()=>[{fn:()=>{S.bLock=true; log(`Product Owner answered: missing date of birth, ${b1txt()}`);}},{me:'I\'ve answered the question in the plan.'},{say:'Thank you. Writing the NFR requirements…'},{write:P.nfr},{say:'<b>nfr-requirements.md</b> is ready. It includes your answer. I\'ve also proposed storing a scrambled fingerprint of each identity, so we never keep raw personal details for this check.'}]},
+  enter:()=>[{say:'Construction begins. I take one unit at a time, so I start with <b>repeat-check</b>. Functional Design is skipped, as planned, so its first stage is NFR Requirements.'},{write:P.nfrp},{say:'My plan for this stage has one question. The requirements don\'t say what the check should do when an application has no date of birth, and I won\'t guess. Please answer in <b>repeat-check-nfr-requirements-plan.md</b>.', ask:true, owner:'po'},{mate:'eng',say:'Treat it as a pass. Blocking a real customer over a blank field will flood the lenders\' support lines.'},{mate:'ux',say:'A silent pass hides the gap from analysts, and fraudsters leave fields blank on purpose. At least tell them the check could not run.'}],
+  body:()=>`<p><b>Non-functional requirements</b> (NFRs) describe how well something must work: speed, privacy, security, and what happens when things go wrong.</p><p>While planning this stage, the AI found a case nobody had covered: what if an application has no date of birth? It stopped and asked instead of guessing.</p><p>Open ${fl(P.nfrp)} and answer. This is a business decision, so the <b>Product Owner</b> answers.</p><p><b>Sam and Mei disagree</b> in the chat. Read both views, then settle it with your answer.</p>${idea('The AI asks in a file, before any code is planned. Once a build plan is approved the AI follows it exactly, so gaps have to be closed first.')}`,
+  after:()=>[{fn:()=>{S.bLock=true; log(`Product Owner answered: missing date of birth, ${b1txt()}`);}},{me:'I\'ve answered the question in the plan.'},S.a.b1==='A'?{mate:'eng',say:'I can live with that. Nobody is blocked, and nothing is hidden.'}:S.a.b1==='B'?{mate:'ux',say:'Then I want to see how often it happens once we are live.'}:{mate:'eng',say:'That will catch more fraud. Expect complaints from genuine customers.'},{say:'Thank you. Writing the NFR requirements…'},{write:P.nfr},{say:'<b>nfr-requirements.md</b> is ready. It includes your answer. I\'ve also proposed storing a scrambled fingerprint of each identity, so we never keep raw personal details for this check.'}]},
  {id:'nfr-read', stage:'nfr', title:'How well must it work?', act:{type:'open', paths:[P.nfr]},
   body:()=>`<p>Open ${fl(P.nfr)}. Find your answer on the error handling line.</p><p>Notice the privacy line too. The AI proposed it, but a person has to agree to it.</p>`},
  {id:'nfr-approve', stage:'nfr', title:'Approve the NFRs', act:{type:'chips', chips:()=>[approveChip('arch','NFR Requirements (repeat-check)','Approve the NFR requirements')]},
@@ -974,14 +1036,19 @@ const STEPS = [
  {id:'cg-plan', stage:'code', title:'Unit 1: a plan before any code', act:{type:'open', paths:[P.cgp]},
   enter:()=>[{say:'NFR Design and Infrastructure Design are skipped, as planned. That brings repeat-check to Code Generation. Before I write code I write a plan, so you can see exactly what I will do.'},{write:P.cgp},{say:'The plan has 7 steps. It is in <b>repeat-check-code-generation-plan.md</b>.'}],
   body:()=>`<p>Code Generation has two parts. First the AI writes a checklist of build steps. Only when that is approved does it write code.</p><p>Open ${fl(P.cgp)}. Step 4 holds the answer you gave a moment ago. Keep the file open: you'll watch the boxes get ticked.</p>`},
- {id:'cg-go', stage:'code', title:'Start the build', act:{type:'chips', chips:()=>[{label:'Approve the plan. Start building.', text:'The plan looks right. Start building.', ops:()=>[{log:'Software Engineer approved: code generation plan (repeat-check)'},...build1()]}]},
+ {id:'cg-go', stage:'code', title:'Start the build', act:{type:'chips', chips:()=>[{label:'Approve the plan. Start building.', text:'The plan looks right. Start building.', ops:()=>[{log:'Software Engineer approved: code generation plan (repeat-check)'},...build1()]},
+    {label:'Request a change: step 1 should store names and addresses as they are', text:'Step 1 should store the name and address as they are, not a fingerprint.', stay:true, ops:()=>[{say:'I can\'t make that change. <b>nfr-requirements.md</b> says only a scrambled fingerprint is stored, never the raw details, and the Architect approved it. Step 1 stays as it is.'}]},
+    {label:'Request a change: step 3 does not match requirement R2', text:`Step 3 only flags an identity when the count is more than ${thrN()}. Requirement R2 says ${thrN()} or more is suspicious. Please fix the plan.`, stay:true, set:()=>{S.changes.cgplan=true; log('Software Engineer requested a correction to step 3 of the code generation plan');}, ops:()=>[{mod:P.cgp},{badge:'plan'},{say:`Good catch. "More than ${thrN()}" would have missed the case exactly at the threshold. Step 3 now says "${thrN()} or more".`}]}]},
   enter:()=>[askApprove('eng','The code generation plan for repeat-check is ready.')],
-  body:()=>`<p>The <b>Software Engineer</b> approves the build plan. After that the AI follows it step by step, and does nothing that is not in it.</p><p>Approve the plan, then watch the file list and the plan file. New files are marked <b>N</b>.</p>`},
+  body:()=>`<p>The <b>Software Engineer</b> approves the build plan in ${fl(P.cgp)}. After that the AI follows it step by step, and does nothing that is not in it. A mistake in the plan becomes a mistake in the code.</p><p>Check each step against ${fl(P.req)} and ${fl(P.nfr)} before you reply.</p><p>Once you approve, watch the file list and the plan file. New files are marked <b>N</b>.</p>`},
  {id:'cg-read', stage:'code', title:'Read what was built', act:{type:'open', paths:[P.code]},
+  enter:()=>S.changes.re?[]:[{mate:'eng',say:'One thing before I review. architecture.md says a failed check adds 30 points. The code says 50. Nobody checked it at the gate, and I nearly designed around the wrong number. I\'ve had the AI correct it.'},{fn:()=>{S.late.re=true;}},{mod:P.arch},{log:'architecture.md corrected late: a failed check adds 50 points, not 30'}],
   body:()=>`<p>Open ${fl(P.code)}. You don't need to read code to follow it: the grey comment lines explain each part, and name the requirement it comes from.</p><p>Find your decisions in it: <code>WINDOW</code>, <code>THRESHOLD</code>, and what happens when the date of birth is missing.</p><div class="box"><b>Also changed</b><p>${fl(P.codes)}, ${fl(P.assess)} and ${fl(P.store)} are marked M. Green lines are the ones the AI added.</p></div>`},
- {id:'cg-approve', stage:'code', title:'Approve the code', act:{type:'chips', chips:()=>[approveChip('eng','Code Generation (repeat-check)','Approve the code')]},
+ {id:'cg-approve', stage:'code', title:'Approve the code', act:{type:'chips', chips:()=>[approveChip('eng','Code Generation (repeat-check)','Approve the code'),
+    {label:'Request a change: one of story 1\'s criteria has no test', text:'Story 1 has two acceptance criteria. I can only find a test for the first. Please add a test that no warning appears below the threshold.', stay:true, set:()=>{S.changes.tests=true; log('Software Engineer requested a missing test for story 1');}, ops:()=>[{mod:P.tests},{badge:'gap'},{say:'You are right, I missed one. I\'ve added <b>test_no_warning_below_threshold</b> to the test file.'}]},
+    {label:'Request a change: WINDOW does not match the requirements', text:'WINDOW in the code does not match the requirements. Please check it.', stay:true, ops:()=>[{say:`I checked. WINDOW is "${win()}", which is what requirement R1 says. I have not changed it.`}]}]},
   enter:()=>[askApprove('eng','Code generation for repeat-check is complete.')],
-  body:()=>`<p>The <b>Software Engineer</b> reviews the code against the requirements and the team's standards, then approves it. The AI never approves its own work.</p>${idea('The engineer\'s job has moved from writing most of the code to steering and checking it.')}`},
+  body:()=>`<p>The <b>Software Engineer</b> reviews the code against the requirements and the team's standards, then approves it. The AI never approves its own work.</p><p>In ${fl(P.code)}, find your decisions: <code>WINDOW</code>, <code>THRESHOLD</code>, and what happens when the date of birth is missing.</p><p>Then compare ${fl(P.tests)} with ${fl(P.st)}. Does every "Accept when" line for stories 1 and 3 have a test?</p>${idea('The engineer\'s job has moved from writing most of the code to steering and checking it.')}`},
  {id:'cg2-plan', stage:'code', title:'Unit 2: around the loop again', act:{type:'open', paths:[P.cgp2]},
   enter:()=>[{say:'repeat-check is complete. Now <b>console-warning</b> goes through Construction from the top. I decide the design stages again for each unit. This one stores no data and adds no work to an assessment, so NFR Requirements has nothing to add here and I am skipping it for this unit.'},{log:'NFR Requirements skipped for console-warning: no new quality requirements'},{write:P.cgp2},{say:'Its plan has 3 steps. It is in <b>console-warning-code-generation-plan.md</b>.'}],
   body:()=>`<p>Construction is a loop. The first unit is finished, design and code, so the second one starts. Each unit gets its own plans, its own files and its own approvals.</p><p>The stages are judged again for each unit. The console warning has no new speed or privacy concerns, so the AI went straight to its build plan and said why.</p><p>Open ${fl(P.cgp2)}.</p>${idea('One unit at a time, each one finished before the next begins. Nothing is left half-built.')}`},
@@ -993,7 +1060,11 @@ const STEPS = [
   body:()=>`<p>${fl(P.view)} is marked M. Open it if you like: the green lines make the warning stand out for analysts${tight()?', and show the count and time period you asked for in story 2':''}.</p><p>With this approval both units are built. Build and Test comes next, once, for everything together.</p>`},
  {id:'bt-run', stage:'test', title:'Build and run the tests', act:{type:'prompt', text:'Run the build and all the tests.'},
   body:()=>`<p>The AI wrote the tests for each unit as it built it. Now that both units are done, it builds the product and runs every test, old and new.</p><p>Send the message and watch the test run.</p>`,
-  after:()=>[{term:['$ build','Build succeeded.','','$ pytest tests/ -q','tests/test_checks.py ............                [ 63%]','tests/test_repeat_applications.py .....       [ 89%]','tests/test_console_warning.py ..              [100%]','','19 passed in 2.41s']},{write:P.bts},{say:'All 19 tests passed: 12 existing and 7 new. The results are in <b>build-and-test-summary.md</b>.'}]},
+  after:()=>{ const gap=testGap(), bug=planBug(), n=gap?18:19, run=fail=>['$ pytest tests/ -q','tests/test_checks.py ............','tests/test_repeat_applications.py '+(fail?'F':'.')+(gap?'...':'....'),'tests/test_console_warning.py ..','',...(fail?[`FAILED test_warns_at_threshold: no warning at ${thrN()} applications`,`1 failed, ${n-1} passed in 2.38s`]:[`${n} passed in 2.41s`])];
+    return [{term:['$ build','Build succeeded.','',...run(bug)]},
+     ...(bug?[{say:`One test failed. Step 3 of the plan said "more than ${thrN()}", and I followed the plan exactly. Requirement R2 says "${thrN()} or more". I've corrected the plan and the code, and I'm running the tests again.`},{fn:()=>{S.late.plan=true;}},{log:'Test failure traced to step 3 of the code generation plan. Plan and code corrected'},{mod:P.cgp},{mod:P.code},{mate:'eng',say:'That one is on me. I approved the plan without checking step 3 against the requirements.'},{term:run(false)}]:[]),
+     {write:P.bts},{say:`All ${n} tests passed: 12 existing and ${n-12} new. The results are in <b>build-and-test-summary.md</b>.`},
+     ...(gap?[{mate:'eng',say:'Hold on. Story 1 has two acceptance criteria, and I count one test for it. We approved the code with a gap. I\'ve asked the AI to add the missing test.'},{fn:()=>{S.late.test=true;}},{log:'Missing test for story 1 found after code approval. Test added'},{mod:P.tests},{term:['$ pytest tests/ -q','19 passed in 2.44s']},{mod:P.bts},{say:'Added <b>test_no_warning_below_threshold</b>. All 19 tests pass, and the summary is updated.'}]:[])]; }},
  {id:'bt-read', stage:'test', title:'Trace the results', act:{type:'open', paths:[P.bts]},
   body:()=>`<p>Open ${fl(P.bts)}. Each new test names the story or decision it proves.</p>${idea('This is traceability: a line you can follow from the intent, to a requirement, to a story, to a passing test.')}`},
  {id:'bt-try', stage:'test', title:'Try what you built', act:{type:'preview', app:'alex', built:true}, enter:()=>[{mate:'ux',say:'Try it the way Farah would. Would she notice the warning and understand it?'}],   body:()=>{ const ran=S.runs['b:alex']; const r=ran?assess(APPS.alex,true):null; const hit=r&&r.codes.some(c=>c[0]==='ID-VEL-01');
@@ -1007,17 +1078,62 @@ const STEPS = [
   enter:()=>[{say:'In AI-DLC v1, Operations is a placeholder. I have no rules for it, so the release goes through your existing pipeline and process.'},{mate:'pm',say:'Release slot is booked and the change approval is signed off. Sam, go ahead.'}],
   after:()=>[{term:['$ git push origin main','$ release-pipeline deploy identity-risk-api','[1/4] Build release package ....... done','[2/4] Deploy to staging ........... done','[3/4] Smoke tests ................. 5 passed','[4/4] Deploy to production ........ done','','identity-risk-api v2.4.0 is live']},{log:'Change released through the existing pipeline'},{say:'The change is live. AI-DLC v1 writes no documents for this phase.'},{mate:'po',say:'I\'ll let the lenders know the new reason code is on.'}],
   body:()=>`<p>The third phase covers deploying and running the product. In v1 it is named but not yet defined, so the team releases the way it does today.</p><p>Send the message to run the team's existing release pipeline.</p>`},
- {id:'ops-live', stage:'ops', title:'It\'s live', act:{type:'next'}, after:()=>[{fn:()=>{S.done=true;S.center='done';}}],
-  body:()=>`<p>The change is in production. Lenders will now see the warning on real applications.</p><div class="box"><b>What v2 adds here</b><p>A full Operations phase: deployment, monitoring, incident runbooks, and a feedback loop that sends what you learn in production back to the start.</p></div><p>Continue to finish the lab.</p>`},
+ {id:'ops-live', stage:'ops', title:'It\'s live', act:{type:'next'}, after:()=>[{badge:'ship'}],
+  body:()=>`<p>The change is in production. Lenders will now see the warning on real applications.</p><div class="box"><b>What v2 adds here</b><p>A full Operations phase: deployment, monitoring, incident runbooks, and a feedback loop that sends what you learn in production back to the start.</p></div><p>Continue to see what happened next.</p>`},
+ {id:'ops-month', stage:'ops', title:'One month later', act:{type:'next'}, after:()=>[{fn:()=>{S.done=true;S.center='done';}}],
+  enter:()=>[{mate:'po',say:'The first month of figures from the lenders is in.'}],
+  body:()=>{ const o=outcome(); return `<p>The check has been live for a month. This is what your decisions led to.</p>${outcomeCards(o)}<div class="box"><b>Why these numbers</b><ul>${o.notes.map(n=>`<li>${n}</li>`).join('')}</ul></div><p style="color:var(--muted)">The figures are made up for training. v1 has no stage for this: watching production and feeding it back into the next intent is what a full Operations phase is for.</p>`; }},
  {id:'finish', stage:'ops', title:'You\'ve completed the lab', act:{type:'end'},
   body:()=>`<p>You took a change from a lender's complaint to working, tested software, and every decision along the way is on record.</p><p>The summary in the middle shows what was created. You can still browse every file and use the app.</p><ul><li>Click any stage at the top to re-read its lesson and who was involved.</li><li>Press <b>Restart</b> and make different choices to see a different product.</li></ul>`}
 ];
 const stageSteps = id => STEPS.map((s,i)=>({s,i})).filter(o=>o.s.stage===id && live(o.i));
 
-function badge(){}
+const BADGES = [['intent','🎯','Clear intent','Chose an intent that states the outcome, first time.'],['first','👀','Saw the problem','Ran the product and watched the fraud slip through.'],['constraint','🔎','Constraint spotter','Found the fact that limits the design, first time.'],['fact','🧐','Fact checker','Caught a wrong fact in the AI\'s summary before approving it.'],['editor','✏️','Sharp editor','Made a vague acceptance criterion testable.'],['plan','📋','Plan checker','Caught a build step that broke a requirement.'],['gap','🧪','Gap finder','Spotted an acceptance criterion with no test.'],['tester','🧭','Edge-case tester','Tried all four applicants in your build.'],['ship','🚀','Shipped','Took the change all the way to production.']];
+let toastT;
+function badge(id, instant){ if (!id||S.badges[id]) return; S.badges[id]=true; if (instant) return; const b=BADGES.find(x=>x[0]===id), t=document.getElementById('toast'); t.textContent=`${b[1]} Badge earned: ${b[2]}`; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>{ t.hidden=true; }, 3400); }
+const badgesHTML = () => `<b>Badges: ${BADGES.filter(b=>S.badges[b[0]]).length} of ${BADGES.length}</b>`+BADGES.map(b=>`<div class="bcard ${S.badges[b[0]]?'on':''}"><span class="e">${b[1]}</span><div><b>${b[2]}</b><p>${b[3]}</p></div></div>`).join('');
+const GLOSS = {'non-functional requirements':'How well something must work, such as speed, privacy and security. Not what it does.','acceptance criteria':'The conditions that must be true for a story to count as done. Each one should be testable.','reverse engineering':'The stage where the AI reads existing code and writes down how the product works.','execution plan':'The AI\'s list of which stages will run and which are skipped, with a reason for each.','approval gate':'A point where the AI stops and waits for a person to approve before it continues.','question file':'A file where the AI writes its questions. Each has options and an [Answer]: tag for the team to fill in.','unit of work':'A group of stories that is designed, built and tested together.','user stories':'Short descriptions of what a user needs, each with acceptance criteria.','reason code':'A short code the product returns to explain part of a risk score.','traceability':'Being able to follow a line from the intent to a requirement, a story and a passing test.','rule files':'Plain-text files in the project that tell the AI assistant how to work.','brownfield':'A change to a product that already has code.','greenfield':'A brand-new product with no existing code.','audit log':'The file where every request, answer and approval is recorded.','construction':'The second phase: design and build each unit, then test everything together.','inception':'The first phase: agree what to build, and why.','personas':'Short descriptions of the people a product is for.','adaptive':'The workflow only runs the stages a piece of work needs.','intent':'A short statement of the outcome you want. It starts the workflow.'};
+const GRE = new RegExp('\\b('+Object.keys(GLOSS).sort((a,b)=>b.length-a.length).join('|')+')\\b','i');
+// Underline the first use of each glossary term in the guide, so a learner can hover or tap for its meaning.
+function glossify(root){ if (!root) return; const used=new Set(), w=document.createTreeWalker(root, NodeFilter.SHOW_TEXT), nodes=[]; while (w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(n=>{ if (n.parentElement.closest('button,a,code,h2,h3,summary,.k,.chipst')) return; let node=n, m;
+    while (node && (m=GRE.exec(node.nodeValue))){ const key=m[1].toLowerCase(), hit=node.splitText(m.index), after=hit.splitText(m[0].length);
+      if (!used.has(key)){ used.add(key); const b=document.createElement('button'); b.className='gterm'; b.dataset.term=key; b.textContent=hit.nodeValue; hit.replaceWith(b); }
+      node=after; } });
+}
+function showTip(el){ const tip=document.getElementById('tip'); tip.innerHTML=`<b>${esc(el.dataset.term)}</b><span>${esc(GLOSS[el.dataset.term])}</span>`; tip.hidden=false;
+  const r=el.getBoundingClientRect(), w=Math.min(300, innerWidth-16); tip.style.width=w+'px'; tip.style.left=Math.max(8, Math.min(r.left, innerWidth-w-8))+'px';
+  const h=tip.offsetHeight; tip.style.top=(r.bottom+6+h>innerHeight ? r.top-h-6 : r.bottom+6)+'px'; }
+const hideTip = () => { document.getElementById('tip').hidden=true; };
+/* What happened in production, worked out from the learner's decisions. The figures are made up for training. */
+function outcome(){ const w=winKey(), t=thrN(), notes=[];
+  let stopped={h24:{3:14,5:6}, d7:{3:34,5:22}, d30:{3:38,5:30}}[w][t];
+  notes.push(`A ${win().replace(' days','-day').replace(' hours','-hour')} period with a threshold of ${t} ${stopped>=30?'catches most repeat use of an identity':stopped>=20?'catches the faster fraud rings, and misses slower ones':'misses most of this fraud, which is spread over days'}.`);
+  if (batch()){ stopped=Math.round(stopped*.5); notes.push('The check runs overnight, so half the warnings arrived after the loan had been paid out.'); }
+  if (!raise()){ stopped=Math.round(stopped*.6); notes.push('The score did not change, so lenders\' automatic systems approved these loans. Only analysts who read the reason code stopped them.'); }
+  let fp=matchND()?120:9; if (w==='d30') fp=Math.round(fp*1.6); if (w==='h24') fp=Math.round(fp*.4); if (t===5) fp=Math.round(fp*.3);
+  notes.push(matchND()?'Matching on name and date of birth alone flags people who simply share both, like Maria Garcia.':'Matching on name, date of birth and address keeps wrongly flagged customers low.');
+  if (S.a.b1==='B'){ stopped=Math.max(0,stopped-3); notes.push('Applications with no date of birth passed silently. Three fraud cases used that gap.'); }
+  else if (S.a.b1==='C'){ stopped=Math.min(40,stopped+2); fp+=190; notes.push('Every application with no date of birth was treated as high risk. That stopped two more fraud cases, and flagged 190 genuine customers who had filled the form in badly.'); }
+  else notes.push('210 applications came back as "unable to check". Analysts could see the gap, and reviewed them.');
+  const banner=S.a.q8==='B', mins=tight()?(banner?2:3):(banner?5:6);
+  notes.push(tight()?'The warning shows the count and the time period, so analysts act on it quickly.':'The warning does not say why it fired. Analysts look each one up, and lenders sent 31 support tickets asking what ID-VEL-01 means.');
+  return {stopped, total:40, fp, mins, notes};
+}
+function withAlt(a, ch, fn){ const sa=S.a, sc=S.changes, sf=S.follow; try { S.a={...sa,...a}; S.changes={...sc,...ch}; if ('q1' in a) S.follow=null; return fn(); } finally { S.a=sa; S.changes=sc; S.follow=sf; } }
+const outcomeCards = o => `<div class="ocards"><div class="box"><span class="k">Fraud cases stopped</span><div class="big">${o.stopped}</div><p>of ${o.total} attempts of this kind</p></div><div class="box"><span class="k">Genuine customers wrongly flagged</span><div class="big">${o.fp}</div><p>in the month</p></div><div class="box"><span class="k">Analyst time per warning</span><div class="big">${o.mins}</div><p>minutes, on average</p></div></div>`;
+function whatIfHTML(){ const me=outcome(), w=winKey();
+  const alts=[[w==='d7'?'a 24-hour period':'a 7-day period', w==='d7'?{q1:'A'}:{q1:'B'}, {}],[matchND()?'matching on address as well':'matching on name and date of birth only', {q4:matchND()?'A':'B'}, {}],[batch()?'running the check in real time':'running the check overnight', {q5:batch()?'A':'B'}, {}],[S.a.b1==='B'?'saying "unable to check" for a missing date of birth':'treating a missing date of birth as a pass', {b1:S.a.b1==='B'?'A':'B'}, {}],[tight()?'leaving story 2 vague':'making story 2 testable', {}, {stories:!tight()}]];
+  const d=(now,alt,goodUp)=>now===alt?'<span>no change</span>':`<span class="${(alt>now)===goodUp?'up':'dn'}">${alt>now?'▲':'▼'} ${alt} (you: ${now})</span>`;
+  return `<div class="wif">${alts.map(([label,a,ch])=>{ const o=withAlt(a,ch,outcome); return `<div><b>With ${label}</b><span class="d">Fraud stopped ${d(me.stopped,o.stopped,true)}</span><span class="d">Wrongly flagged ${d(me.fp,o.fp,false)}</span><span class="d">Minutes per warning ${d(me.mins,o.mins,false)}</span></div>`; }).join('')}</div>`;
+}
+const GATE = {workspace:'Nobody. The AI moves on by itself.', reverse:'Architect', requirements:'Product Owner', stories:'Product Owner, twice: the plan, then the stories', plan:'Project Manager', appdesign:'Architect', units:'Project Manager, twice: the plan, then the units', nfr:'Architect, after the Product Owner answered the plan\'s question', code:'Software Engineer, twice for each unit: the plan, then the code', test:'Product Owner'};
+const stageMapHTML = () => `<div class="smap"><span class="hd">No.</span><span class="hd">Stage</span><span class="hd">In this lab</span><span class="hd">Who approved</span>${STAGES.filter(s=>s.n>0).map(s=>{ const sk=s.skip&&s.skip(); return `<span class="${sk?'sk':''}">${s.ph?'':s.n}</span><span class="${sk?'sk':''}"><b>${s.name}</b></span><span class="${sk?'sk':''}">${s.ph?'A placeholder in v1. You released the usual way.':sk?'Skipped. '+s.why.replace(/^The execution plan skipped it: /,'Reason: '):'Ran'+(s.cond?', because the work needed it':', as it always does')}</span><span class="${sk?'sk':''}">${s.ph||sk?'':GATE[s.id]}</span>`; }).join('')}</div>`;
+const FLAWS = [['re','A wrong fact in the summary of the existing product','An engineer found it later, after nearly designing around the wrong number.'],['stories','A vague acceptance criterion in story 2','It was never fixed, so the warning went live without saying why it fired.'],['cgplan','A build step that broke requirement R2','A failing test found it in Build and Test, after the code was written.'],['tests','An acceptance criterion with no test','A teammate found it in Build and Test, after the code was approved.']];
+const flawsHTML = () => `<ul class="flw">${FLAWS.map(f=>{ const ok=!!S.changes[f[0]]; return `<li><span class="${ok?'y':'n'}">${ok?'✓':'✗'}</span><span><b>${f[1]}</b><small>${ok?'You caught it at the approval gate.':'Approved without being caught. '+f[2]}</small></span></li>`; }).join('')}</ul>`;
 
 /* ================= saved progress ================= */
-const SAVE_KEY = 'aidlc-v1-lab-progress-2';
+const SAVE_KEY = 'aidlc-v1-lab-progress-3';
 // Saved only while idle, so a refresh mid-animation returns to the moment just before that action.
 function save(){ if (!S.started || S.busy || S.running || S.typing) return; try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch(e){} }
 function load(){ try { const d=JSON.parse(localStorage.getItem(SAVE_KEY)||'null'); if (!d || !d.started || !(d.step>=0 && d.step<STEPS.length) || !d.files) return; S=Object.assign(fresh(), d, {busy:false, running:false, typing:false, lastTarget:''}); S.view=Math.min(S.view, S.step); } catch(e){} }
@@ -1072,7 +1188,7 @@ async function pick(i){ const st=STEPS[S.step]; if (S.busy||st.act.type!=='chips
 async function send(){ const st=STEPS[S.step]; if (S.busy||st.act.type!=='prompt') return; S.msgs.push({who:'me',html:esc(st.act.text)}); await next(); }
 async function jumpTo(target){ if (S.busy) return; S.busy=true;
   while (S.step<target){ const st=STEPS[S.step], a=st.act;
-    if (a.type==='choose'){ S.ch[st.id]=a.ok; if (st.id==='intent-pick') badge('intent',true); if (st.id==='re-quiz') badge('constraint',true); }
+    if (a.type==='choose'){ S.ch[st.id]=a.ok; }
     else if (a.type==='answer') a.qs.forEach(q=>{ if (!S.a[q]) S.a[q]=DEF[q]; });
     else if (a.type==='prompt') S.msgs.push({who:'me',html:esc(a.text)});
     else if (a.type==='chips'){ const cs=a.chips(), c=cs.find(x=>!x.stay); if (c.set) c.set(); S.msgs.push({who:'me',html:esc(c.text)}); if (c.ops) await play(c.ops(), true); }
@@ -1080,7 +1196,8 @@ async function jumpTo(target){ if (S.busy) return; S.busy=true;
   }
   S.busy=false; renderAll();
 }
-function openFile(p){ if (!S.files[p]) return; const a=p.split('/'); for (let i=1;i<a.length;i++) S.col[a.slice(0,i).join('/')+'/']=false; if (!S.tabs.includes(p)){ S.tabs.push(p); if (S.tabs.length>5) S.tabs.shift(); } S.path=p; S.center='files'; S.opened[p]=true; S.stepOpened[p]=true; renderAll(); }
+function openFile(p){ if (!S.files[p]) return; const a=p.split('/'); for (let i=1;i<a.length;i++) S.col[a.slice(0,i).join('/')+'/']=false; if (!S.tabs.includes(p)){ S.tabs.push(p); if (S.tabs.length>5) S.tabs.shift(); } S.path=p; S.center='files'; S.opened[p]=true; S.stepOpened[p]=true; renderAll(); if (S.view===S.step&&!S.busy&&ready(STEPS[S.step])&&autoOK()) next(); }
+const autoOK = () => { if (STEPS[S.step].act.type!=='open') return false; let j=S.step+1; while (j<STEPS.length&&!live(j)) j++; return j<STEPS.length && ['chips','choose','prompt','answer'].includes(STEPS[j].act.type); };
 function closeTab(p){ const i=S.tabs.indexOf(p); if (i<0) return; S.tabs.splice(i,1); if (S.path===p) S.path=S.tabs[Math.max(0,i-1)]||S.tabs[0]||null; renderAll(); }
 function answer(q, v){ if (q==='f1'?S.fLock:q==='s1'?S.sLock:q==='b1'?S.bLock:S.qLock) return; if (!S.files[q==='s1'?P.sgp:q==='b1'?P.nfrp:P.qs]) return; S.a[q]=v; renderAll(); }
 function runAssess(){ if (S.running) return; const g=gen; S.running=true; S.res=null; renderWs();
@@ -1133,7 +1250,7 @@ const colOf = sc => sc>=70?'var(--accent)':sc>=40?'var(--warn)':'var(--good)';
 function checkCard(a){ const W={'24 hours':1,'7 days':7,'30 days':30}[win()], t=thrN();
   const shell=(cls,status,inner)=>`<div class="chk ${cls}"><div class="chkh"><span class="newp">New</span><b>Repeat-application check</b><span class="stat">${status}</span></div>${inner}</div>`;
   if (!a.dob){ const m={A:['amb','Unable to check','The date of birth is missing, so the check could not run. Your build tells the lender so, with reason code ID-VEL-00.'],B:['off','Skipped','The date of birth is missing. Your build treats this as a pass and says nothing.'],C:['hit','Treated as high risk','The date of birth is missing. Your build treats this as high risk.']}[S.a.b1]; return shell(m[0],m[1],`<p class="why">${m[2]}</p>`); }
-  const days=(matchND()?a.tnd:a.tnda).filter(d=>d<W), c=days.length, hit=c>=t, max=Math.max(t+2,c+1);
+  const days=(matchND()?a.tnd:a.tnda).filter(d=>d<W), c=days.length, hit=planBug()?c>t:c>=t, max=Math.max(t+2,c+1);
   const x=d=>(304-(d/W)*288).toFixed(1);
   const tl=`<svg viewBox="0 0 320 72" class="tl" role="img" aria-label="${c} matching application${c===1?'':'s'} in the last ${win()}"><line x1="16" y1="30" x2="304" y2="30" style="stroke:var(--line)" stroke-width="2"/>${[0,.25,.5,.75,1].map(f=>`<line x1="${16+f*288}" y1="24" x2="${16+f*288}" y2="36" style="stroke:var(--line)" stroke-width="2"/>`).join('')}${days.map(d=>`<circle cx="${x(d)}" cy="30" r="${d===0?8:6.5}" style="fill:${hit?'var(--accent)':'var(--good)'};stroke:var(--panel)" stroke-width="2.5" ${d===0?'':'fill-opacity=".7"'}/>`).join('')}<text x="16" y="60" font-size="11.5" style="fill:var(--muted)">${win()} ago</text><text x="304" y="60" font-size="11.5" text-anchor="end" style="fill:var(--muted)">This application</text></svg>`;
   return shell(hit?'hit':'ok', hit?'Triggered':'Clear', `<div class="chkg"><div><div class="cnt"><b>${c}</b><span>application${c===1?'':'s'} for this identity<br>in the last ${win()}</span></div><div class="meter"><div class="mfill" style="width:${c/max*100}%"></div><div class="mthr" style="left:${t/max*100}%"><span>Threshold ${t}</span></div></div></div><div>${tl}</div></div><p class="why">Matched on ${matchTxt()}.${batch()?' Your build runs this check overnight, so the warning would arrive the next day.':''}${hit&&!raise()?' You chose to add a reason code without changing the score.':''}</p>`);
@@ -1163,6 +1280,11 @@ function summaryHTML(){ const made=Object.keys(S.files).filter(p=>S.files[p].sta
   return `<div class="sumv"><div><span class="k">Lab complete</span><h2 style="font-size:28px;margin-top:4px">From a lender's complaint to tested software</h2></div>
   <div class="cards"><div class="box"><span class="k">Documents and code written</span><div class="big">${made.length}</div><p>new files, plus ${mod.length} existing files changed</p></div><div class="box"><span class="k">Decisions on record</span><div class="big">${S.audit.length}</div><p>entries in audit.md</p></div></div>
   <div class="box"><b>The product you built</b><ul><li>Looks back <b>${win()}</b>, matching on ${matchTxt()}</li><li>Flags at <b>${thrN()}</b> or more applications${lenderSet()?' (lenders can change this)':''}</li><li>${raise()?'Raises the score and adds':'Adds'} reason code ID-VEL-01</li><li>Missing date of birth: ${b1txt()}</li><li>Analysts see the warning as ${S.a.q8==='B'?'a banner above the result':'a highlighted reason code'}</li><li>Story 2 was ${tight()?'tightened, so the warning explains itself':'left vague, so the warning text is vague'}</li></ul><div><button class="btn sm" data-center="app">Open the app preview</button></div></div>
+  <div class="box"><b>One month in production</b><p style="color:var(--muted)">What your decisions led to. The figures are made up for training.</p>${outcomeCards(outcome())}</div>
+  <div class="box"><b>What would have changed</b><p style="color:var(--muted)">The same month, if one decision had gone the other way.</p>${whatIfHTML()}</div>
+  <div class="box"><b>Mistakes in the AI's drafts: you caught ${FLAWS.filter(f=>S.changes[f[0]]).length} of ${FLAWS.length}</b>${flawsHTML()}</div>
+  <div class="box"><b>Badges: ${BADGES.filter(b=>S.badges[b[0]]).length} of ${BADGES.length}</b><div class="bgrid">${BADGES.map(b=>`<span class="bchip ${S.badges[b[0]]?'on':''}" title="${b[3]}">${b[1]} ${b[2]}</span>`).join('')}</div></div>
+  <div class="box"><b>The 13 stages of AI-DLC v1, and what happened to each</b>${stageMapHTML()}</div>
   <div class="cards">${Object.entries({po:'From writing tickets to setting intent and making fast decisions.',ux:'From designing screens up front to shaping personas, stories and how results appear, then testing the real thing early.',arch:'From drawing designs to setting guardrails, checking the AI understands the system, and approving quality requirements.',eng:'From writing most of the code to steering and verifying the AI that writes it.',pm:'From tracking tasks to owning the plan, risks and dependencies, and unblocking decisions.'}).map(([k,t])=>`<div class="box role" style="--rc:var(--${k});border-left-width:4px"><b>${ROLES[k]}</b><p>${t}</p></div>`).join('')}</div>
   <div class="box v2box"><span class="k">Looking ahead</span><h3 style="font-size:20px">What changes in AI-DLC v2</h3>
    <p>Everything you practised here carries over: clear intent, answering questions up front, and approving each stage. v2 widens the framework at both ends and gives the AI named roles.</p>
@@ -1190,24 +1312,22 @@ function summaryHTML(){ const made=Object.keys(S.files).filter(p=>S.files[p].sta
   <div><button class="btn primary" id="again">Restart and make different choices</button></div></div>`;
 }
 let lastPath=null;
+const wsGo = () => { const st=STEPS[S.step]; return S.started&&S.center!=='done'&&S.view===S.step&&!S.busy&&ready(st)&&(['open','answer','preview'].includes(st.act.type)||st.id==='bt-explore') ? '<div class="wsgo"><span>Done here. Continue when you\'re ready.</span><button class="btn primary" data-act="next">Continue</button></div>' : ''; };
 function renderWs(){ const el=document.getElementById('pane-ws'); const old=document.getElementById('code'), keep=old&&lastPath===S.path?old.scrollTop:0, oe=el.querySelector('.exp'), ke=oe?oe.scrollTop:0;
   const c=S.center;
-  el.innerHTML=`<div class="phd"><div class="seg"><button data-center="files" aria-pressed="${c==='files'}">Files</button><button data-center="app" aria-pressed="${c==='app'}">App preview</button>${S.done?`<button data-center="done" aria-pressed="${c==='done'}">Summary</button>`:''}</div><h2 style="margin-left:6px;color:var(--muted);font-weight:500">${c==='files'?'The project, as the AI and the team see it':c==='app'?'The product, as a lender sees it':'What you achieved'}</h2></div>
-   ${c==='files'?`<div class="wsb"><div class="exp">${explorerHTML()}</div><div class="ed">${editorHTML()}</div></div>`:c==='app'?previewHTML():summaryHTML()}`;
+  el.innerHTML=`<div class="phd"><div class="seg"><button data-center="files" aria-pressed="${c==='files'}">Files</button><button data-center="app" aria-pressed="${c==='app'}">App preview</button>${S.done?`<button data-center="done" aria-pressed="${c==='done'}">Summary</button>`:''}</div><h2 style="margin-left:6px;color:var(--muted);font-weight:500">${c==='files'?'The project, as the AI and the team see it':c==='app'?'The product, as a lender sees it':'What you achieved'}</h2>${['files','app'].includes(target())?'<span class="here">Your move</span>':''}</div>
+   ${c==='files'?`<div class="wsb"><div class="exp">${explorerHTML()}</div><div class="ed">${editorHTML()}</div></div>`:c==='app'?previewHTML():summaryHTML()}${wsGo()}`;
   const nc=document.getElementById('code'); if (nc) nc.scrollTop=keep; const ne=el.querySelector('.exp'); if (ne) ne.scrollTop=ke; lastPath=S.path;
 }
 function renderChat(){ const el=document.getElementById('pane-ai'); const st=STEPS[S.step];
-  const msgs=S.msgs.map(m=>m.who==='term'?`<div class="m term">${m.lines.slice(0,m.n).map(l=>/passed|succeeded|done$|is live/.test(l)?`<span class="p">${esc(l)}</span>`:esc(l)).join('\n')}</div>`
+  const msgs=S.msgs.map(m=>m.who==='term'?`<div class="m term">${m.lines.slice(0,m.n).map(l=>/FAILED|failed/.test(l)?`<span class="f">${esc(l)}</span>`:/passed|succeeded|done$|is live/.test(l)?`<span class="p">${esc(l)}</span>`:esc(l)).join('\n')}</div>`
     :m.who==='mate'?`<div class="m ai mate" style="--rc:var(--${m.role})"><span><span class="own">${NAMES[m.role]} · ${ROLES[m.role]}</span></span><span>${m.html}</span></div>`
     :`<div class="m ${m.who} ${m.ask?'ask':''}" ${m.owner?`style="--rc:var(--${m.owner})"`:''}>${m.ask&&m.owner?`<span><span class="own">${ROLES[m.owner]} decides</span></span>`:''}<span>${m.html}</span></div>`).join('')+(S.typing?'<div class="m ai typing"><span><i></i><i></i><i></i></span></div>':'');
-  let comp;
-  if (!S.started) comp='';
-  else if (S.view!==S.step) comp='<p class="hintc">You are looking back at an earlier step.</p>';
-  else if (S.busy) comp='<p class="hintc">The AI is working…</p>';
+  let comp='';
+  if (!S.started||S.view!==S.step||S.busy) comp='';
   else if (st.act.type==='prompt') comp=`<span class="k">Suggested message</span><div class="sugg">${esc(st.act.text)}</div><button class="btn primary" data-act="send">Send to the AI</button>`;
   else if (st.act.type==='chips') comp=`<span class="k">Your reply</span>${st.act.chips().map((c,i)=>S.used[st.id+':'+i]?'':`<button class="btn chipb ${i===0?'primary':''}" data-chip="${i}">${esc(c.label)}</button>`).join('')}`;
-  else comp='<p class="hintc">Nothing to send right now. Follow the guide on the left.</p>';
-  el.innerHTML=`<div class="phd"><h2>AI assistant and team chat</h2><span class="k" style="margin-left:auto">${S.busy&&S.started?'Working':'Idle'}</span></div><div class="scroll" id="chatsc"><div class="chat">${msgs}</div></div><div class="composer" id="composer">${comp}</div>`;
+  el.innerHTML=`<div class="phd"><h2>AI assistant and team chat</h2>${comp?'<span class="here">Your move</span>':`<span class="k" style="margin-left:auto">${S.busy&&S.started?'Working':'Idle'}</span>`}</div><div class="scroll" id="chatsc"><div class="chat">${msgs}</div></div>${comp?`<div class="composer" id="composer">${comp}</div>`:''}`;
   const sc=document.getElementById('chatsc'); sc.scrollTop=sc.scrollHeight;
 }
 function moveHTML(){ const st=STEPS[S.step], a=st.act;
@@ -1218,30 +1338,43 @@ function moveHTML(){ const st=STEPS[S.step], a=st.act;
   if (a.type==='chips') return `<div class="move"><span class="lab">Your move</span><span>Reply to the AI in the AI assistant panel.</span></div>`;
   if (ready(st)) return `<div class="move"><span class="lab">Your move</span><span>${a.type==='next'?'Read this step, then continue.':'Done. Continue when you\'re ready.'}</span></div><button class="btn primary" data-act="next">Continue</button>`;
   const txt = a.type==='open'?`Open ${a.paths.map(fname).join(' and ')} in the file list.`:a.type==='answer'?a.hint||(a.qs.length>1?`Answer the questions in the file (${a.qs.filter(q=>S.a[q]).length} of ${a.qs.length} done).`:'Answer the follow-up at the bottom of the file.'):a.type==='preview'?`In the app preview, select ${APPS[a.app].name} and run a risk assessment.`:'Choose an option above.';
-  return `<div class="move"><span class="lab">Your move</span><span>${txt}</span></div><button class="btn primary" disabled>Continue</button>`;
+  return `<div class="move" role="status"><span class="lab">Your move</span><span>${txt}</span></div><button class="btn primary" disabled>Continue</button>`;
 }
 function renderGuide(){ const el=document.getElementById('pane-guide'); const st=STEPS[S.view], sg=STAGES[SI[st.stage]], ss=stageSteps(st.stage);
   let extra='';
   if (st.act.type==='choose'){ const c=S.ch[st.id]; extra=st.act.opts.map((o,i)=>`<button class="opt ${c===i?(i===st.act.ok?'ok':'no'):''}" data-pick="${i}" ${S.view!==S.step?'disabled':''}>${esc(o.t)}${c===i?`<span class="fb">${esc(o.fb)}</span>`:''}</button>`).join(''); }
-  const outs=sg.outs.length?`<div class="box"><span class="k">Written in this stage</span><ul class="outs">${sg.outs.map(p=>`<li class="${S.files[p]?'w':''}"><span class="tk">${S.files[p]?'✓':''}</span>${S.files[p]?fl(p):`<span style="color:var(--muted)">${fname(p)}</span>`}</li>`).join('')}</ul></div>`:'';
+  const nw=sg.outs.filter(p=>S.files[p]).length;
+  const outs=sg.outs.length?`<details class="box outsd" ${S.outsOpen?'open':''}><summary><span class="k">Written in this stage · ${nw} of ${sg.outs.length}</span></summary><ul class="outs">${sg.outs.map(p=>`<li class="${S.files[p]?'w':''}"><span class="tk">${S.files[p]?'✓':''}</span>${S.files[p]?fl(p):`<span style="color:var(--muted)">${fname(p)}</span>`}</li>`).join('')}</ul></details>`:'';
   const roles=`<span class="k">Who's involved at this stage</span>`+Object.keys(sg.roles).map(r=>`<div class="role" style="--rc:var(--${r})"><b>${NAMES[r]}, ${ROLES[r]}</b><p>${sg.roles[r]}</p></div>`).join('');
-  el.innerHTML=`<div class="scroll"><div class="g-body">
+  const all=STEPS.map((x,i)=>i).filter(live), at=all.filter(i=>i<=S.step).length, left=Math.round((all.length-at)*.65);
+  el.innerHTML=`<div class="gprog"><div class="gbar" role="progressbar" aria-label="Lab progress" aria-valuemin="0" aria-valuemax="${all.length}" aria-valuenow="${at}"><i style="width:${(S.done?1:(at-1)/all.length)*100}%"></i></div><span class="k">${S.done?'Lab complete':`Step ${at} of ${all.length} · about ${Math.max(1,left)} min left`}</span><button class="glb" data-act="gloss">Glossary</button></div>
+   <div class="scroll"><div class="g-body">
     <div><span class="chipst">${sg.ph?'Operations · a placeholder in v1':sg.n?`Stage ${sg.n} of 13 · ${sg.phase}`:sg.pre||'Before you start'}${sg.cond?' · runs only when needed':''}</span><h2>${sg.name}</h2><p style="color:var(--muted);margin-top:4px">${sg.sum}</p></div>
-    <div class="sdots" aria-label="Step ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length} in this stage">${ss.map(o=>`<i class="${o.i<S.step?'d':''} ${o.i===S.view?'c':''}"></i>`).join('')}<span class="k" style="margin-left:6px">Step ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length}</span></div>
-    <h3>${st.title}</h3>${st.body()}${extra}${outs}${roles}
+    <div class="sdots" aria-label="Step ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length} in this stage">${ss.map(o=>`<i class="${o.i<S.step?'d':''} ${o.i===S.view?'c':''}"></i>`).join('')}<span class="k" style="margin-left:6px">Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length}</span></div>
+    <h3>${st.title}</h3>${st.body()}${extra}${roles}${outs}
     ${S.inst?`<div class="box"><span class="k">Ask the group</span><p>${sg.talk}</p></div>`:''}
    </div></div>
    <div class="g-foot">${moveHTML()}<div class="navrow"><button class="btn sm" data-act="back" ${S.view===0?'disabled':''}>‹ Earlier step</button><span class="k">${S.inst?'Right arrow key continues':''}</span><button class="btn sm" data-act="fwd" ${S.view>=S.step?'disabled':''}>Later step ›</button></div></div>`;
+  hideTip(); glossify(el.querySelector('.g-body'));
 }
 function renderTop(){ const cs=curStage(), vs=SI[STEPS[S.view].stage]; const groups=['Start','Inception','Construction','Operations'];
-  document.getElementById('stepper').innerHTML=groups.map(g=>`<div class="ph"><span class="pn">${g}</span><div class="ds">${STAGES.map((s,i)=>{ if (s.phase!==g) return ''; const sk=!!(s.skip&&s.skip()&&S.files[P.plan]), dn=S.done||i<cs, nm=s.name+(sk?' (skipped for this change)':''); return `<button class="dot ${sk?'skip':dn?'done':i===cs?'now':''} ${i===vs&&vs!==cs?'view':''}" data-stage="${i}" title="${s.n&&!s.ph?s.n+'. ':''}${nm}" aria-label="${nm}">${sk?'–':dn?'✓':s.ph?'•':s.n||'•'}</button>`; }).join('')}</div></div>`).join('')+`<span class="now-name">${S.done?'Complete':STAGES[cs].name}</span>`;
+  document.getElementById('stepper').innerHTML=groups.map(g=>`<div class="ph"><span class="pn">${g}</span><div class="ds">${STAGES.map((s,i)=>{ if (s.phase!==g) return ''; const sk=!!(s.skip&&s.skip()&&S.files[P.plan]), dn=S.done||i<cs, nm=s.name+(sk?' (skipped for this change)':''); return `<button class="dot ${sk?'skip':dn?'done':i===cs?'now':''} ${i===vs&&vs!==cs?'view':''}" data-stage="${i}" title="${s.n&&!s.ph?s.n+'. ':''}${nm}" aria-label="${nm}">${sk?'–':dn?'✓':s.ph?'•':s.n||'•'}</button>`; }).join('')}</div></div>`).join('')+`<button class="now-name" id="btn-stages" aria-haspopup="true" title="See all the stages">${S.done?'Complete':`<span class="sn">${STAGES[cs].ph?'':STAGES[cs].n?`Stage ${STAGES[cs].n} of 13 · `:''}</span>${STAGES[cs].name}`} ▾</button>`;
+  document.getElementById('btn-badges').textContent=`🏅 ${BADGES.filter(b=>S.badges[b[0]]).length}/${BADGES.length}`;
   document.getElementById('btn-inst').setAttribute('aria-pressed',S.inst); document.body.classList.toggle('inst',S.inst);
 }
+function stagesHTML(){ const cs=curStage(), planned=!!S.files[P.plan]; let out='<b>The stages of AI-DLC v1</b>';
+  ['Start','Inception','Construction','Operations'].forEach(g=>{ out+=`<div class="sgrp">${g==='Start'?'Before the stages':g}</div>`+STAGES.map((s,i)=>{ if (s.phase!==g) return ''; const sk=!!(s.skip&&s.skip()&&planned), dn=S.done||i<cs, nowS=!S.done&&i===cs;
+    const note=sk?'Skipped for this change. '+s.why.replace(/^The execution plan skipped it: /,'Reason: '):nowS?'You are here':dn?'Done':s.skip&&!planned?'Runs only when needed. Decided at Workflow Planning.':s.ph?'A placeholder in v1':'To come';
+    return `<button class="srow ${sk?'skip':dn?'done':nowS?'now':''}" data-stage="${i}"><span class="sd">${sk?'–':dn?'✓':s.n&&!s.ph?s.n:'•'}</span><span><b>${s.name}</b><small>${note}</small></span></button>`; }).join(''); });
+  return out; }
 function target(){ if (!S.started||S.view!==S.step) return ''; const st=STEPS[S.step], t=st.act.type; if (t==='end') return ''; if (S.busy) return 'chat'; if (t==='prompt'||t==='chips') return 'composer'; if (ready(st)) return 'guide'; if (t==='open'||t==='answer') return 'files'; if (t==='preview') return 'app'; return 'guide'; }
+let focusKey='';
 function renderAll(){ renderTop(); renderGuide(); renderWs(); renderChat();
   const t=target(); document.getElementById('pane-guide').classList.toggle('attn',t==='guide'); document.getElementById('pane-ws').classList.toggle('attn',t==='files'||t==='app'); document.getElementById('pane-ai').classList.toggle('working',t==='chat'); const c=document.getElementById('composer'); if (c) c.classList.toggle('attn',t==='composer');
   const pane={guide:'guide',files:'ws',app:'ws',composer:'ai',chat:'ai'}[t]||S.pane; if (t!==S.lastTarget){ S.lastTarget=t; if (t) S.pane=pane; }
   document.body.dataset.pane=S.pane;
+  const fk=[S.step,S.view,t,S.started&&ready(STEPS[S.step])].join('|');
+  if (S.started && fk!==focusKey){ focusKey=fk; const q={guide:'#pane-guide [data-act="next"]:not([disabled])', files:'.frow.need, #code .optline:not([disabled])', app:'.person.need, [data-act="run"]', composer:'#composer .btn'}[t], fx=q&&document.querySelector(q); if (fx && document.getElementById('pop').hidden) fx.focus(); }
   document.getElementById('mnav').innerHTML=[['guide','Guide'],['ws','Project'],['ai','AI assistant']].map(([k,l])=>`<button data-pane="${k}" aria-pressed="${S.pane===k}" class="${pane===k&&S.pane!==k?'dotme':''}">${l}</button>`).join('');
   if (!S.started) renderStart();
   save();
@@ -1252,19 +1385,23 @@ function renderStart(){ document.getElementById('veil').innerHTML=`<div class="v
   <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px"><li>Work with an AI assistant the way a real team does: send requests, answer its questions, approve its work.</li><li>Browse every document and code file as it is created.</li><li>Use the product before and after, and see how your decisions changed it.</li></ul>
   <div><span class="k">Your team</span><div class="team" style="margin-top:6px">${Object.keys(ROLES).map(k=>`<span class="tm" style="--rc:var(--${k})"><b>${NAMES[k]}</b> ${ROLES[k]}</span>`).join('')}</div><p style="color:var(--muted);margin-top:6px">You drive the AI assistant on the team's behalf. The guide shows who is involved at each stage and whose decision each step is.</p></div>
   <div><span class="k">How are you using the lab?</span><div class="pick two" style="margin-top:6px"><button class="pk" data-inst="0" aria-pressed="${!S.inst}"><b>On my own</b><small>Self-guided, at your own pace</small></button><button class="pk" data-inst="1" aria-pressed="${S.inst}"><b>Leading a group</b><small>Larger text and a discussion prompt at every stage</small></button></div></div>
-  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn primary" id="go" style="font-size:17px;padding:14px 22px">Start the lab</button><span style="color:var(--muted)">About 20 minutes. No technical knowledge needed. The scenario is made up for training.</span></div>
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn primary" id="go" style="font-size:17px;padding:14px 22px">Start the lab</button><span style="color:var(--muted)">About 30 minutes. No technical knowledge needed. The scenario is made up for training.</span></div>
  </div></div>`; }
 
 /* ================= events ================= */
 document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s); let x;
-  const pop=document.getElementById('pop');
+  const pop=document.getElementById('pop'), was=pop.hidden?'':pop.dataset.kind;
+  if ((x=c('.gterm'))){ showTip(x); return; }
+  hideTip();
   if ((x=c('[data-jump]'))){ pop.hidden=true; jumpTo(+x.dataset.jump); return; }
   if (!c('#pop')) pop.hidden=true;
   if (c('#go')){ start(); return; }
   if ((x=c('[data-inst]'))){ S.inst=x.dataset.inst==='1'; renderAll(); return; }
   if (c('#btn-inst')){ S.inst=!S.inst; renderAll(); return; }
   if (c('#btn-restart')||c('#again')){ restart(); return; }
+  if (c('#btn-badges')){ if (was!=='badges'){ pop.dataset.kind='badges'; pop.innerHTML=badgesHTML(); pop.hidden=false; } return; }
   if (!S.started) return;
+  if (c('#btn-stages')){ if (was!=='stages'){ pop.dataset.kind='stages'; pop.innerHTML=stagesHTML(); pop.hidden=false; } return; }
   if ((x=c('[data-close]'))){ closeTab(x.dataset.close); return; }
   if ((x=c('[data-dir]'))){ S.col[x.dataset.dir]=!S.col[x.dataset.dir]; renderAll(); return; }
   if (c('#colall')){ const dirs=new Set(); Object.keys(S.files).forEach(p=>{ const a=p.split('/'); for (let i=1;i<a.length;i++) dirs.add(a.slice(0,i).join('/')+'/'); }); const any=Object.values(S.col).some(Boolean); S.col={}; if (!any) dirs.forEach(d=>S.col[d]=true); renderAll(); return; }
@@ -1275,8 +1412,8 @@ document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s
   if ((x=c('[data-sel]'))){ S.sel=x.dataset.sel; renderAll(); return; }
   if ((x=c('[data-pv]'))){ S.pv=x.dataset.pv; renderAll(); return; }
   if ((x=c('[data-chip]'))){ pick(+x.dataset.chip); return; }
-  if ((x=c('[data-pick]'))){ const st=STEPS[S.step]; if (S.view!==S.step||st.act.type!=='choose') return; S.ch[st.id]=+x.dataset.pick; if (ready(st)) badge(st.id==='intent-pick'?'intent':'constraint'); renderAll(); return; }
-  if ((x=c('[data-stage]'))){ const i=+x.dataset.stage, first=STEPS.findIndex((s,k)=>s.stage===STAGES[i].id&&live(k));
+  if ((x=c('[data-pick]'))){ const st=STEPS[S.step]; if (S.view!==S.step||st.act.type!=='choose') return; const firstTry=S.ch[st.id]===undefined; S.ch[st.id]=+x.dataset.pick; if (ready(st)&&firstTry) badge(st.id==='intent-pick'?'intent':'constraint'); renderAll(); return; }
+  if ((x=c('[data-stage]'))){ pop.hidden=true; const i=+x.dataset.stage, first=STEPS.findIndex((s,k)=>s.stage===STAGES[i].id&&live(k));
     if (first<0){ pop.dataset.kind='jump'; pop.innerHTML=S.files[P.plan]?`<b>${STAGES[i].name}: skipped for this change</b><p>${STAGES[i].why}</p><p style="color:var(--muted)">It is still one of the 13 stages of AI-DLC v1. A stage marked "when needed" only runs when the work calls for it.</p>`:`<b>${STAGES[i].name}</b><p>This stage only runs when the work needs it. The AI proposes whether to run it at Workflow Planning, and the team decides.</p>`; pop.hidden=false; }
     else if (first<=S.step){ S.view=Math.min(first,S.step); if (i===curStage()) S.view=S.step; renderAll(); }
     else if (S.busy){ pop.dataset.kind='jump'; pop.innerHTML='<p>Wait for the AI to finish, then try again.</p>'; pop.hidden=false; }
@@ -1286,10 +1423,16 @@ document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s
     if (a==='next'){ if (!S.busy&&S.view===S.step&&ready(STEPS[S.step])) next(); }
     else if (a==='send') send(); else if (a==='run') runAssess();
     else if (a==='closepop') pop.hidden=true;
+    else if (a==='gloss'){ if (was!=='gloss'){ pop.dataset.kind='gloss'; pop.innerHTML='<b>Glossary</b><dl class="gl">'+Object.keys(GLOSS).sort().map(k=>`<div><dt>${k}</dt><dd>${esc(GLOSS[k])}</dd></div>`).join('')+'</dl>'; pop.hidden=false; } }
     else if (a==='back'){ S.view=seek(S.view,-1); renderAll(); } else if (a==='fwd'){ S.view=seek(S.view,1); renderAll(); } else if (a==='current'){ S.view=S.step; renderAll(); }
   }
 });
-document.addEventListener('keydown', e=>{ if (!S.started||e.target.closest('select')) return; if (e.key==='ArrowRight'){ if (S.view<S.step){ S.view=seek(S.view,1); renderAll(); } else if (!S.busy){ const st=STEPS[S.step]; if (st.act.type==='prompt') send(); else if (ready(st)) next(); } } else if (e.key==='ArrowLeft'&&S.view>0){ S.view=seek(S.view,-1); renderAll(); } });
+document.addEventListener('mouseover', e=>{ const t=e.target.closest&&e.target.closest('.gterm'); if (t) showTip(t); });
+document.addEventListener('mouseout', e=>{ if (e.target.closest&&e.target.closest('.gterm')) hideTip(); });
+document.addEventListener('focusin', e=>{ if (e.target.classList&&e.target.classList.contains('gterm')) showTip(e.target); });
+document.addEventListener('focusout', e=>{ if (e.target.classList&&e.target.classList.contains('gterm')) hideTip(); });
+document.addEventListener('toggle', e=>{ if (e.target.classList&&e.target.classList.contains('outsd')) S.outsOpen=e.target.open; }, true);
+document.addEventListener('keydown', e=>{ if (e.key==='Escape'){ document.getElementById('pop').hidden=true; hideTip(); return; } if (!S.started||e.target.closest('select')) return; if (e.key==='ArrowRight'){ if (S.view<S.step){ S.view=seek(S.view,1); renderAll(); } else if (!S.busy){ const st=STEPS[S.step]; if (st.act.type==='prompt') send(); else if (ready(st)) next(); } } else if (e.key==='ArrowLeft'&&S.view>0){ S.view=seek(S.view,-1); renderAll(); } });
 
 const isDark = () => { const t=document.documentElement.dataset.theme; return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
 const themeLabel = () => { const d=isDark(); document.getElementById('theme-txt').textContent = d ? 'Light mode' : 'Dark mode'; document.getElementById('btn-theme').dataset.mode = d ? 'dark' : 'light'; };
