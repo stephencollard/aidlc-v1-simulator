@@ -63,8 +63,8 @@ h1,h2,h3{text-wrap:balance;line-height:1.2}
 #toast{position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:60;background:var(--bar);color:#fff;padding:10px 16px;border-radius:999px;font-weight:500;box-shadow:0 10px 30px rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.2)}
 
 /* main grid */
-.main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(230px,var(--wl,360px)) 10px minmax(300px,1fr) 10px minmax(230px,var(--wr,360px));gap:0;padding:10px}
-body.inst{--wl:430px}
+.main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(230px,var(--wl,410px)) 10px minmax(300px,1fr) 10px minmax(230px,var(--wr,360px));gap:0;padding:10px}
+body.inst{--wl:470px}
 .split{cursor:col-resize;position:relative;touch-action:none;border-radius:6px}
 .split::after{content:"";position:absolute;left:50%;top:50%;width:4px;height:40px;border-radius:4px;transform:translate(-50%,-50%);background:color-mix(in srgb,var(--muted) 45%,transparent);transition:height .15s,background .15s}
 .split:hover::after,.split.drag::after,.split:focus-visible::after{background:var(--accent);height:72px}
@@ -309,11 +309,11 @@ details summary{cursor:pointer;font-size:13.5px;color:var(--muted)}
 .srow b{font-weight:600}.srow small{display:block;color:var(--muted);font-size:12.5px;line-height:1.35}
 .srow.now small{color:var(--accent);font-weight:600}
 .gprog{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid var(--line)}
-.gprog .k{flex:0 0 auto;font-size:10.5px}
+.gprog .k{flex:0 0 auto;font-size:11px}
 .gbar{flex:1 1 30px;height:5px;border-radius:9px;background:var(--line);overflow:hidden;min-width:40px}
 .gbar i{display:block;height:100%;background:var(--good);border-radius:9px}
 .gprog .k{white-space:nowrap}
-.glb{all:unset;cursor:pointer;font:500 12px/1 var(--sans);padding:5px 8px;border-radius:7px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.glb{all:unset;cursor:pointer;font:500 13px/1 var(--sans);padding:5px 8px;border-radius:7px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .glb:hover{color:var(--ink);border-color:var(--muted)}
 .gterm{all:unset;cursor:help;border-bottom:1.5px dotted var(--muted)}
 .gterm:hover,.gterm:focus-visible{border-bottom-color:var(--accent)}
@@ -347,26 +347,26 @@ details summary{cursor:pointer;font-size:13.5px;color:var(--muted)}
 .ocards .big{font-size:34px}
 /* ---- v5: condensed guide. The step text keeps its size; everything around it is smaller or quieter. ---- */
 .g-body{padding:12px 16px 14px;gap:10px}
-.g-body h2{font-size:19px}
-.g-body h3{font-size:16.5px}
+.g-body h2{font-size:21px}
+.g-body h3{font-size:17px}
 .grow1{display:flex;justify-content:space-between;align-items:center;gap:4px 10px;flex-wrap:wrap;margin-bottom:4px}
-.grow1 .chipst{font-size:10.5px}
-.gsum{color:var(--muted);font-size:13px;line-height:1.4;margin-top:2px}
+.grow1 .chipst{font-size:11px}
+.gsum{color:var(--muted);font-size:14px;line-height:1.4;margin-top:2px}
 .sdots i{width:14px;height:4px}
 .g-body .box{padding:8px 11px;gap:4px}
 .g-body .idea{padding:7px 11px}
 .g-body ul{gap:3px}
 .roles{display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--line);padding-top:8px}
-.roles .role{border-left-width:3px;padding:0 0 0 8px;font-size:12.5px;line-height:1.4;color:var(--muted)}
+.roles .role{border-left-width:3px;padding:0 0 0 8px;font-size:14px;line-height:1.4;color:var(--muted)}
 .roles .role b{font-weight:600}
-.g-body .outsd{border:none;background:none;padding:0;font-size:12.5px}
-.g-body .outsd .outs li{font-size:12px}
+.g-body .outsd{border:none;background:none;padding:0;font-size:13.5px}
+.g-body .outsd .outs li{font-size:13px}
 .g-foot{padding:8px 12px 6px;gap:6px}
-.g-foot .move{font-size:14px;line-height:1.35}
+.g-foot .move{font-size:15px;line-height:1.35}
 .g-foot .btn.primary{padding:8px 14px}
-.navrow .btn.sm{border-color:transparent;background:none;padding:2px 4px;font-size:12.5px;color:var(--muted)}
+.navrow .btn.sm{border-color:transparent;background:none;padding:2px 4px;font-size:13.5px;color:var(--muted)}
 .navrow .btn.sm:hover:not(:disabled){color:var(--ink)}
-body.inst .g-body h2{font-size:23px}body.inst .g-body h3{font-size:19px}body.inst .roles .role{font-size:14px}body.inst .gsum{font-size:15px}
+body.inst .g-body h2{font-size:23px}body.inst .g-body h3{font-size:19px}body.inst .roles .role{font-size:15.5px}body.inst .gsum{font-size:15px}
 </style>
 </head>
 <body data-pane="guide">
@@ -1373,11 +1373,11 @@ function renderGuide(){ const el=document.getElementById('pane-guide'); const st
   if (st.act.type==='choose'){ const c=S.ch[st.id]; extra=st.act.opts.map((o,i)=>`<button class="opt ${c===i?(i===st.act.ok?'ok':'no'):''}" data-pick="${i}" ${S.view!==S.step?'disabled':''}>${esc(o.t)}${c===i?`<span class="fb">${esc(o.fb)}</span>`:''}</button>`).join(''); }
   const nw=sg.outs.filter(p=>S.files[p]).length;
   const outs=sg.outs.length?`<details class="outsd" ${S.outsOpen?'open':''}><summary><span class="k">Written in this stage · ${nw} of ${sg.outs.length}</span></summary><ul class="outs">${sg.outs.map(p=>`<li class="${S.files[p]?'w':''}"><span class="tk">${S.files[p]?'✓':''}</span>${S.files[p]?fl(p):`<span style="color:var(--muted)">${fname(p)}</span>`}</li>`).join('')}</ul></details>`:'';
-  const roles=`<span class="k" style="font-size:10px">Who's involved at this stage</span>`+Object.keys(sg.roles).map(r=>`<p class="role" style="--rc:var(--${r})"><b>${NAMES[r]}, ${ROLES[r]}.</b> ${sg.roles[r]}</p>`).join('');
+  const roles=`<span class="k">Who's involved at this stage</span>`+Object.keys(sg.roles).map(r=>`<p class="role" style="--rc:var(--${r})"><b>${NAMES[r]}, ${ROLES[r]}.</b> ${sg.roles[r]}</p>`).join('');
   const all=STEPS.map((x,i)=>i).filter(live), at=all.filter(i=>i<=S.step).length, left=Math.round((all.length-at)*.65);
   el.innerHTML=`<div class="gprog"><div class="gbar" role="progressbar" aria-label="Lab progress" aria-valuemin="0" aria-valuemax="${all.length}" aria-valuenow="${at}"><i style="width:${(S.done?1:(at-1)/all.length)*100}%"></i></div><span class="k">${S.done?'Lab complete':`Step ${at} of ${all.length} · ${Math.max(1,left)} min left`}</span><button class="glb" data-act="gloss">Glossary</button></div>
    <div class="scroll"><div class="g-body">
-    <div><div class="grow1"><span class="chipst">${sg.ph?'Operations · a placeholder in v1':sg.n?`Stage ${sg.n} of 13 · ${sg.phase}`:sg.pre||'Before you start'}${sg.cond?' · when needed':''}</span><span class="sdots" aria-label="Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length} in this stage">${ss.map(o=>`<i class="${o.i<S.step?'d':''} ${o.i===S.view?'c':''}"></i>`).join('')}<span class="k" style="margin-left:4px;font-size:10px">Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length}</span></span></div><h2>${sg.name}</h2><p class="gsum">${sg.sum}</p></div>
+    <div><div class="grow1"><span class="chipst">${sg.ph?'Operations · a placeholder in v1':sg.n?`Stage ${sg.n} of 13 · ${sg.phase}`:sg.pre||'Before you start'}${sg.cond?' · when needed':''}</span><span class="sdots" aria-label="Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length} in this stage">${ss.map(o=>`<i class="${o.i<S.step?'d':''} ${o.i===S.view?'c':''}"></i>`).join('')}<span class="k" style="margin-left:4px">Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length}</span></span></div><h2>${sg.name}</h2><p class="gsum">${sg.sum}</p></div>
     <h3>${st.title}</h3>${st.body()}${extra}<div class="roles">${roles}</div>${outs}
     ${S.inst?`<div class="box"><span class="k">Ask the group</span><p>${sg.talk}</p></div>`:''}
    </div></div>
