@@ -1503,15 +1503,15 @@ function renderWs(){ const el=document.getElementById('pane-ws'); const old=docu
   const nc=document.getElementById('code'); if (nc) nc.scrollTop=keep; const ne=el.querySelector('.exp'); if (ne) ne.scrollTop=ke; const np=el.querySelector('.pv'); if (np) np.scrollTop=kp; lastPath=S.path;
 }
 function renderChat(){ const el=document.getElementById('pane-ai'); const st=STEPS[S.step];
-  const msgs=S.msgs.map(m=>m.who==='term'?`<div class="m term">${m.lines.slice(0,m.n).map(l=>/FAILED|failed/.test(l)?`<span class="f">${esc(l)}</span>`:/passed|succeeded|done$|is live/.test(l)?`<span class="p">${esc(l)}</span>`:esc(l)).join('\n')}</div>`
+  const msgs=(S.typing?'<div class="m ai typing"><span><i></i><i></i><i></i></span></div>':'')+S.msgs.slice().reverse().map(m=>m.who==='term'?`<div class="m term">${m.lines.slice(0,m.n).map(l=>/FAILED|failed/.test(l)?`<span class="f">${esc(l)}</span>`:/passed|succeeded|done$|is live/.test(l)?`<span class="p">${esc(l)}</span>`:esc(l)).join('\n')}</div>`
     :m.who==='mate'?`<div class="m ai mate" style="--rc:var(--${m.role})"><span><span class="own">${NAMES[m.role]} · ${ROLES[m.role]}</span></span><span>${m.html}</span></div>`
-    :`<div class="m ${m.who} ${m.ask?'ask':''}" ${m.owner?`style="--rc:var(--${m.owner})"`:''}>${m.ask&&m.owner?`<span><span class="own">${ROLES[m.owner]} decides</span></span>`:''}<span>${m.html}</span></div>`).join('')+(S.typing?'<div class="m ai typing"><span><i></i><i></i><i></i></span></div>':'');
+    :`<div class="m ${m.who} ${m.ask?'ask':''}" ${m.owner?`style="--rc:var(--${m.owner})"`:''}>${m.ask&&m.owner?`<span><span class="own">${ROLES[m.owner]} decides</span></span>`:''}<span>${m.html}</span></div>`).join('');
   let comp='';
   if (!S.started||S.view!==S.step||S.busy) comp='';
   else if (st.act.type==='prompt') comp=`<span class="k">Suggested message</span><div class="sugg">${esc(st.act.text)}</div><button class="btn primary" data-act="send">Send to the AI</button>`;
   else if (st.act.type==='chips') comp=`<span class="k">Your reply</span>${st.act.chips().map((c,i)=>S.used[st.id+':'+i]?'':`<button class="btn chipb ${i===0?'primary':''}" data-chip="${i}">${esc(c.label)}</button>`).join('')}`;
   el.innerHTML=`<div class="phd"><h2>AI assistant and team chat</h2>${comp?'<span class="here">Your move</span>':`<span class="k" style="margin-left:auto">${S.busy&&S.started?'Working':'Idle'}</span>`}</div>${comp?`<div class="composer" id="composer">${comp}</div>`:''}<div class="scroll" id="chatsc"><div class="chat">${msgs}</div></div>`;
-  const sc=document.getElementById('chatsc'); sc.scrollTop=sc.scrollHeight;
+  const sc=document.getElementById('chatsc'); sc.scrollTop=0;
 }
 function moveHTML(){ const st=STEPS[S.step], a=st.act;
   if (S.view!==S.step) return `<div class="move"><span class="lab wait">Review</span><span>You're looking back. Nothing changes here.</span></div><button class="btn primary" data-act="current">Return to the current step</button>`;
