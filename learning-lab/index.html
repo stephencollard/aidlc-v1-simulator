@@ -109,7 +109,7 @@ body.inst .g-body{font-size:1.0625rem}
 .opt.no{border-color:var(--warn)}.opt.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 9%,var(--panel))}
 .fb{font-size:.92em;margin-top:0.375rem;display:block}
 .opt.no .fb{color:var(--warn)}.opt.ok .fb{color:var(--good)}
-.g-foot{flex:0 0 auto;border-top:1px solid var(--line);padding:0.75rem 0.875rem;display:flex;flex-direction:column;gap:0.5rem;background:var(--panel2)}
+.g-foot{flex:0 0 auto;border-bottom:1px solid var(--line);padding:0.75rem 0.875rem;display:flex;flex-direction:column;gap:0.5rem;background:var(--panel2)}
 .move{display:flex;gap:0.625rem;align-items:center}
 .move .lab{flex:0 0 auto;font:700 0.6875rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:#fff;padding:0.375rem 0.5rem;border-radius:0.375rem}
 .move .lab.wait{background:var(--muted)}
@@ -204,7 +204,7 @@ details summary{cursor:pointer;font-size:0.8438rem;color:var(--muted)}
 .typing i{display:inline-block;width:0.375rem;height:0.375rem;border-radius:50%;background:var(--muted);margin-right:0.1875rem;animation:bl 1s infinite}
 .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
 @keyframes bl{50%{opacity:.25}}
-.composer{flex:0 0 auto;border-top:1px solid var(--line);padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem;background:var(--panel2);margin:0;transition:box-shadow .2s}
+.composer{flex:0 0 auto;border-bottom:1px solid var(--line);max-height:60%;overflow-y:auto;padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem;background:var(--panel2);margin:0;transition:box-shadow .2s}
 .sugg{border:1px dashed var(--muted);border-radius:0.625rem;padding:0.5rem 0.625rem;background:var(--panel);font-size:0.875rem;max-height:8.125rem;overflow:auto}
 .hintc{color:var(--muted);font-size:0.8438rem}
 .chipb{text-align:left}
@@ -330,7 +330,7 @@ details summary{cursor:pointer;font-size:0.8438rem;color:var(--muted)}
 #tip b{text-transform:capitalize}
 .gl{margin:0;display:flex;flex-direction:column;gap:0.5rem}.gl dt{font-weight:600;text-transform:capitalize}.gl dd{margin:0;color:var(--muted);font-size:0.8438rem}
 .here{font:700 0.6562rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:#fff;padding:0.3125rem 0.4375rem;border-radius:0.375rem;margin-left:auto;white-space:nowrap;flex:0 0 auto}
-.wsgo{flex:0 0 auto;display:flex;align-items:center;justify-content:flex-end;gap:0.75rem;padding:0.625rem 0.875rem;border-top:1px solid var(--line);background:var(--panel2)}
+.wsgo{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0.5rem 0.875rem;border-bottom:1px solid var(--line);background:var(--soft)}
 .outsd summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
 .outsd summary::-webkit-details-marker{display:none}
 .outsd summary::after{content:"Show";font-size:0.7812rem;color:var(--muted)}
@@ -370,7 +370,8 @@ details summary{cursor:pointer;font-size:0.8438rem;color:var(--muted)}
 .roles .role b{font-weight:600}
 .g-body .outsd{border:none;background:none;padding:0;font-size:0.8438rem}
 .g-body .outsd .outs li{font-size:0.8125rem}
-.g-foot{padding:0.5rem 0.75rem 0.375rem;gap:0.375rem}
+.g-foot{padding:0.625rem 0.75rem;gap:0.5rem}
+.gnav{flex:0 0 auto;border-top:1px solid var(--line);padding:0.25rem 0.75rem}
 .g-foot .move{font-size:0.9375rem;line-height:1.35}
 .g-foot .btn.primary{padding:0.5rem 0.875rem}
 .navrow .btn.sm{border-color:transparent;background:none;padding:0.125rem 0.25rem;font-size:0.8438rem;color:var(--muted)}
@@ -1497,8 +1498,8 @@ let lastPath=null;
 const wsGo = () => { const st=STEPS[S.step]; return S.started&&S.center!=='done'&&S.view===S.step&&!S.busy&&ready(st)&&(['open','answer','preview'].includes(st.act.type)||st.id==='bt-explore') ? '<div class="wsgo"><span>Done here. Continue when you\'re ready.</span><button class="btn primary" data-act="next">Continue</button></div>' : ''; };
 function renderWs(){ const el=document.getElementById('pane-ws'); const old=document.getElementById('code'), keep=old&&lastPath===S.path?old.scrollTop:0, oe=el.querySelector('.exp'), ke=oe?oe.scrollTop:0, op=el.querySelector('.pv'), kp=op?op.scrollTop:0;
   const c=S.center;
-  el.innerHTML=`<div class="phd"><div class="seg"><button data-center="files" aria-pressed="${c==='files'}">Files</button><button data-center="app" aria-pressed="${c==='app'}">App preview</button>${S.done?`<button data-center="done" aria-pressed="${c==='done'}">Summary</button>`:''}</div><h2 style="margin-left:0.375rem;color:var(--muted);font-weight:500">${c==='files'?'The project, as the AI and the team see it':c==='app'?'The product, as a lender sees it':'What you achieved'}</h2>${['files','app'].includes(target())?'<span class="here">Your move</span>':''}</div>
-   ${c==='files'?`<div class="wsb"><div class="exp">${explorerHTML()}</div><div class="ed">${editorHTML()}</div></div>`:c==='app'?previewHTML():summaryHTML()}${wsGo()}`;
+  el.innerHTML=`<div class="phd"><div class="seg"><button data-center="files" aria-pressed="${c==='files'}">Files</button><button data-center="app" aria-pressed="${c==='app'}">App preview</button>${S.done?`<button data-center="done" aria-pressed="${c==='done'}">Summary</button>`:''}</div><h2 style="margin-left:0.375rem;color:var(--muted);font-weight:500">${c==='files'?'The project, as the AI and the team see it':c==='app'?'The product, as a lender sees it':'What you achieved'}</h2>${['files','app'].includes(target())?'<span class="here">Your move</span>':''}</div>${wsGo()}
+   ${c==='files'?`<div class="wsb"><div class="exp">${explorerHTML()}</div><div class="ed">${editorHTML()}</div></div>`:c==='app'?previewHTML():summaryHTML()}`;
   const nc=document.getElementById('code'); if (nc) nc.scrollTop=keep; const ne=el.querySelector('.exp'); if (ne) ne.scrollTop=ke; const np=el.querySelector('.pv'); if (np) np.scrollTop=kp; lastPath=S.path;
 }
 function renderChat(){ const el=document.getElementById('pane-ai'); const st=STEPS[S.step];
@@ -1509,7 +1510,7 @@ function renderChat(){ const el=document.getElementById('pane-ai'); const st=STE
   if (!S.started||S.view!==S.step||S.busy) comp='';
   else if (st.act.type==='prompt') comp=`<span class="k">Suggested message</span><div class="sugg">${esc(st.act.text)}</div><button class="btn primary" data-act="send">Send to the AI</button>`;
   else if (st.act.type==='chips') comp=`<span class="k">Your reply</span>${st.act.chips().map((c,i)=>S.used[st.id+':'+i]?'':`<button class="btn chipb ${i===0?'primary':''}" data-chip="${i}">${esc(c.label)}</button>`).join('')}`;
-  el.innerHTML=`<div class="phd"><h2>AI assistant and team chat</h2>${comp?'<span class="here">Your move</span>':`<span class="k" style="margin-left:auto">${S.busy&&S.started?'Working':'Idle'}</span>`}</div><div class="scroll" id="chatsc"><div class="chat">${msgs}</div></div>${comp?`<div class="composer" id="composer">${comp}</div>`:''}`;
+  el.innerHTML=`<div class="phd"><h2>AI assistant and team chat</h2>${comp?'<span class="here">Your move</span>':`<span class="k" style="margin-left:auto">${S.busy&&S.started?'Working':'Idle'}</span>`}</div>${comp?`<div class="composer" id="composer">${comp}</div>`:''}<div class="scroll" id="chatsc"><div class="chat">${msgs}</div></div>`;
   const sc=document.getElementById('chatsc'); sc.scrollTop=sc.scrollHeight;
 }
 function moveHTML(){ const st=STEPS[S.step], a=st.act;
@@ -1530,12 +1531,13 @@ function renderGuide(){ const el=document.getElementById('pane-guide'); const st
   const roles=`<span class="k">Who's involved at this stage</span>`+Object.keys(sg.roles).map(r=>`<p class="role" style="--rc:var(--${r})"><b>${NAMES[r]}, ${ROLES[r]}.</b> ${sg.roles[r]}</p>`).join('');
   const all=STEPS.map((x,i)=>i).filter(live), at=all.filter(i=>i<=S.step).length, left=Math.round((all.length-at)*.65);
   el.innerHTML=`<div class="gprog"><div class="gbar" role="progressbar" aria-label="Lab progress" aria-valuemin="0" aria-valuemax="${all.length}" aria-valuenow="${at}"><i style="width:${(S.done?1:(at-1)/all.length)*100}%"></i></div><span class="k">${S.done?'Lab complete':`Step ${at} of ${all.length} · ${Math.max(1,left)} min left`}</span><button class="glb" data-act="gloss">Glossary</button></div>
+   <div class="g-foot">${moveHTML()}</div>
    <div class="scroll"><div class="g-body">
     <div><div class="grow1"><span class="chipst">${sg.ph?'Operations · a placeholder in v1':sg.n?`Stage ${sg.n} of 13 · ${sg.phase}`:sg.pre||'Before you start'}${sg.cond?' · when needed':''}</span><span class="sdots" aria-label="Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length} in this stage">${ss.map(o=>`<i class="${o.i<S.step?'d':''} ${o.i===S.view?'c':''}"></i>`).join('')}<span class="k" style="margin-left:0.25rem">Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length}</span></span></div><h2>${sg.name}</h2><p class="gsum">${sg.sum}</p></div>
     <h3>${st.title}</h3>${st.body()}${extra}<div class="roles">${roles}</div>${outs}
     ${S.inst?`<div class="box"><span class="k">Ask the group</span><p>${sg.talk}</p></div>`:''}
    </div></div>
-   <div class="g-foot">${moveHTML()}<div class="navrow"><button class="btn sm" data-act="back" ${S.view===0?'disabled':''}>‹ Earlier step</button><span class="k">${S.inst?'Right arrow key continues':''}</span><button class="btn sm" data-act="fwd" ${S.view>=S.step?'disabled':''}>Later step ›</button></div></div>`;
+   <div class="gnav"><div class="navrow"><button class="btn sm" data-act="back" ${S.view===0?'disabled':''}>‹ Earlier step</button><span class="k">${S.inst?'Right arrow key continues':''}</span><button class="btn sm" data-act="fwd" ${S.view>=S.step?'disabled':''}>Later step ›</button></div></div>`;
   hideTip(); glossify(el.querySelector('.g-body'));
 }
 function renderTop(){ const cs=curStage(), vs=SI[STEPS[S.view].stage]; const groups=['Start','Inception','Construction','Operations'];
