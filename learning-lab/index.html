@@ -368,6 +368,146 @@ details summary{cursor:pointer;font-size:0.8438rem;color:var(--muted)}
 .navrow .btn.sm{border-color:transparent;background:none;padding:0.125rem 0.25rem;font-size:0.8438rem;color:var(--muted)}
 .navrow .btn.sm:hover:not(:disabled){color:var(--ink)}
 body.inst .g-body h2{font-size:1.4375rem}body.inst .g-body h3{font-size:1.1875rem}body.inst .roles .role{font-size:0.9688rem}body.inst .gsum{font-size:0.9375rem}
+/* ---- v6: start guide ---- */
+.startc{max-width:56rem;gap:0.875rem;padding:1.5rem 1.75rem}
+.sthead{display:flex;align-items:center;gap:0.75rem}
+.sthead .k{flex:1}
+.stx{all:unset;cursor:pointer;width:2rem;height:2rem;display:grid;place-items:center;border-radius:0.5rem;font-size:1.25rem;color:var(--muted)}
+.stx:hover{background:var(--panel2);color:var(--ink)}
+.stdots{display:flex;gap:0.375rem}
+.stdots button{all:unset;cursor:pointer;width:1.75rem;height:0.375rem;border-radius:9rem;background:var(--line)}
+.stdots button[aria-current="step"]{background:var(--accent)}
+.stfoot{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:0.875rem;margin-top:0.25rem}
+.stfoot .sp{flex:1}
+.stfoot .muted{color:var(--muted);font-size:0.875rem}
+.lnk{all:unset;cursor:pointer;color:var(--muted);font-size:0.875rem;text-decoration:underline;text-underline-offset:0.1875rem}
+.lnk:hover{color:var(--ink)}
+.st2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem 1.5rem;align-items:start}
+.mapx{border:1px solid var(--line);border-radius:0.75rem;overflow:hidden;background:var(--panel2);font-size:0.8125rem}
+.mapx .mt{background:var(--bar);color:#E9EBEE;padding:0.375rem 0.625rem;font:600 0.6875rem/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between}
+.mapx .mc{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:0.375rem;padding:0.5rem;height:8.5rem}
+.mapx .mc>div{background:var(--panel);border:1px solid var(--line);border-radius:0.5rem;padding:0.5rem;display:flex;flex-direction:column;gap:0.25rem;font-weight:600}
+.mapx .mc>div.on{box-shadow:0 0 0 2px var(--accent)}
+.mapx .mc i{display:block;height:0.375rem;border-radius:9rem;background:var(--line)}
+.mapx .mc i.s{width:60%}
+.mapx .mc .yb{margin-top:auto;font:700 0.5625rem/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:#fff;border-radius:0.25rem;padding:0.25rem;align-self:flex-start}
+.nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.5rem}
+.nlist li{display:grid;grid-template-columns:1.5rem 1fr;gap:0.5rem;align-items:start}
+.nlist .n{width:1.5rem;height:1.5rem;border-radius:50%;background:var(--ink);color:var(--panel);display:grid;place-items:center;font:700 0.75rem/1 var(--mono)}
+.nlist p{margin:0;color:var(--muted);font-size:0.875rem}
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:0.625rem}
+.tips>div{border:1px solid var(--line);border-radius:0.625rem;padding:0.625rem 0.75rem;display:flex;flex-direction:column;gap:0.25rem;font-size:0.875rem}
+.tips>div p{color:var(--muted)}
+.tips>div.hot{border-color:var(--accent);background:var(--soft)}
+kbd{font:600 0.75rem/1 var(--mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:0.3125rem;padding:0.1875rem 0.375rem;background:var(--panel2);white-space:nowrap;display:inline-block}
+.keys{display:grid;grid-template-columns:auto 1fr;gap:0.4375rem 0.75rem;align-items:baseline;font-size:0.875rem;margin:0}
+.keys dt{text-align:right}.keys dd{margin:0;color:var(--muted)}
+.moves{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.4375rem;counter-reset:mv}
+.moves li{counter-increment:mv;display:grid;grid-template-columns:1.5rem 1fr;gap:0.5rem;font-size:0.9062rem}
+.moves li::before{content:counter(mv);width:1.5rem;height:1.5rem;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font:700 0.75rem/1 var(--mono)}
+.moves small{display:block;color:var(--muted);font-size:0.8125rem}
+.stnote{border-left:4px solid var(--accent);background:var(--soft);border-radius:0 0.625rem 0.625rem 0;padding:0.5rem 0.75rem;font-size:0.875rem}
+@media (max-width:980px){.st2{grid-template-columns:1fr}.startc{padding:1.125rem}}
+
+/* ---- v6: the mock product, Identity Risk Console ---- */
+.browser{max-width:72rem;border-radius:0.875rem}
+.app{--a-nav:#0B1F3A;--a-nav2:#12325C;--a-brand:#1463C9;--a-brand2:#0E9AA7;--a-bg:#EEF2F7;--a-card:#FFFFFF;--a-ink:#13202F;--a-mut:#5A6A7D;--a-line:#DCE3EB;--a-soft:#E8F0FB;--a-good:#1D8B57;--a-warn:#C27508;--a-bad:#CF3229;
+  background:var(--a-bg);color:var(--a-ink);container-type:inline-size;font-size:0.9375rem}
+:root[data-theme="dark"] .app{--a-nav:#050C17;--a-nav2:#0D2340;--a-brand:#4C93EE;--a-brand2:#2CC3CF;--a-bg:#0D1520;--a-card:#152131;--a-ink:#E4EBF3;--a-mut:#93A3B6;--a-line:#26364B;--a-soft:#1A2B44;--a-good:#43C489;--a-warn:#E6A644;--a-bad:#F1655C}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .app{--a-nav:#050C17;--a-nav2:#0D2340;--a-brand:#4C93EE;--a-brand2:#2CC3CF;--a-bg:#0D1520;--a-card:#152131;--a-ink:#E4EBF3;--a-mut:#93A3B6;--a-line:#26364B;--a-soft:#1A2B44;--a-good:#43C489;--a-warn:#E6A644;--a-bad:#F1655C}}
+.anav{display:flex;align-items:center;gap:1.25rem;padding:0 1.125rem;height:3.25rem;background:linear-gradient(90deg,var(--a-nav),var(--a-nav2));color:#E8EEF6}
+.alogo{display:flex;align-items:center;gap:0.5rem;white-space:nowrap}
+.alogo svg{width:1.625rem;height:1.625rem;flex:0 0 auto}
+.alogo b{font-size:1rem;letter-spacing:.01em}.alogo small{color:#9FB3CC;font-size:0.8125rem;font-weight:500}
+.anav nav{display:flex;gap:0.25rem;height:100%;flex:1;min-width:0}
+.anav nav span{display:flex;align-items:center;padding:0 0.75rem;font-size:0.8438rem;color:#A9BBD1;border-bottom:3px solid transparent;white-space:nowrap}
+.anav nav span.on{color:#fff;border-bottom-color:var(--a-brand2)}
+.aver{font:600 0.6875rem/1 var(--mono);letter-spacing:.03em;padding:0.375rem 0.625rem;border-radius:9rem;border:1px solid rgba(255,255,255,.25);color:#C6D3E3;white-space:nowrap}
+.aver.new{border-color:transparent;background:linear-gradient(90deg,var(--a-brand2),var(--a-good));color:#fff;box-shadow:0 0 0 3px rgba(14,154,167,.25)}
+.aava{width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;font:700 0.75rem/1 var(--sans);background:#2A4A74;color:#fff;flex:0 0 auto}
+.abody{display:grid;grid-template-columns:15.5rem minmax(0,1fr);min-height:30rem}
+.queue{background:var(--a-card);border-right:1px solid var(--a-line);padding:0.875rem 0.625rem;display:flex;flex-direction:column;gap:0.375rem}
+.qh{display:flex;justify-content:space-between;align-items:baseline;padding:0 0.375rem 0.375rem}
+.qh b{font-size:0.875rem}.qh span{font-size:0.75rem;color:var(--a-mut)}
+.app .person{all:unset;cursor:pointer;display:grid;grid-template-columns:2.25rem minmax(0,1fr) auto;gap:0.625rem;align-items:center;padding:0.5625rem 0.625rem;border-radius:0.625rem;border:1px solid transparent;position:relative}
+.app .person:hover{background:var(--a-bg)}
+.app .person.sel{background:var(--a-soft);border-color:color-mix(in srgb,var(--a-brand) 35%,transparent)}
+.app .person.sel::before{content:"";position:absolute;left:-0.625rem;top:0.5rem;bottom:0.5rem;width:3px;border-radius:0 3px 3px 0;background:var(--a-brand)}
+.app .person.need{border-color:var(--accent);animation:pulse 1.5s ease-in-out infinite}
+.app .person b{font-size:0.875rem;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app .person small{display:block;color:var(--a-mut);font-size:0.75rem;line-height:1.3}
+.ava{width:2.25rem;height:2.25rem;border-radius:50%;display:grid;place-items:center;font:700 0.75rem/1 var(--sans);color:#fff;background:var(--av);flex:0 0 auto}
+.ava.lg{width:3.25rem;height:3.25rem;font-size:1rem}
+.app .sc{font:700 0.75rem/1 var(--mono);color:#fff;padding:0.3125rem 0.4375rem;border-radius:0.375rem;background:var(--sv)}
+.adet{padding:1.125rem 1.25rem 1.25rem;display:flex;flex-direction:column;gap:0.875rem;min-width:0}
+.dhead{display:flex;align-items:center;gap:0.875rem;flex-wrap:wrap}
+.dhead h3{font-size:1.25rem;margin:0}.dhead small{color:var(--a-mut);font-size:0.8125rem}
+.dhead .sp{flex:1}
+.arun{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:0.5rem;font-weight:600;font-size:0.9062rem;color:#fff;padding:0.625rem 1rem;border-radius:0.625rem;background:linear-gradient(135deg,var(--a-brand),var(--a-brand2));box-shadow:0 0.375rem 1rem color-mix(in srgb,var(--a-brand) 35%,transparent)}
+.arun:hover{filter:brightness(1.07)}
+.arun:disabled{opacity:.6;cursor:default}
+.arun:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.dtiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.625rem}
+.tile{background:var(--a-card);border:1px solid var(--a-line);border-radius:0.75rem;padding:0.625rem 0.75rem;display:flex;flex-direction:column;gap:0.1875rem;min-width:0}
+.tile span{font:600 0.6562rem/1.3 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--a-mut)}
+.tile b{font-size:0.875rem;font-weight:600;overflow-wrap:anywhere}
+.tile.miss{border-color:color-mix(in srgb,var(--a-warn) 60%,var(--a-line))}.tile.miss b{color:var(--a-warn)}
+.acard{background:var(--a-card);border:1px solid var(--a-line);border-radius:0.875rem;padding:0.875rem 1rem;box-shadow:0 1px 2px rgba(16,32,52,.05),0 0.5rem 1.5rem rgba(16,32,52,.05);min-width:0;display:flex;flex-direction:column;gap:0.625rem}
+.acard h4{margin:0;font:600 0.6875rem/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--a-mut);display:flex;align-items:center;gap:0.5rem}
+.agrid{display:grid;grid-template-columns:minmax(0,17rem) minmax(0,1fr);gap:0.75rem}
+.agrid .wide{grid-column:1/-1}
+.ascore{align-items:center;text-align:center}
+.agauge{width:13.5rem;display:block;margin:0 auto -0.25rem}
+.pill{display:inline-flex;align-items:center;gap:0.375rem;font:700 0.6875rem/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;padding:0.375rem 0.625rem;border-radius:9rem;color:#fff;background:var(--pc)}
+.adelta{font-size:0.7812rem;color:var(--a-mut);padding:0.3125rem 0.625rem;border-radius:0.5rem;background:var(--a-bg)}
+.adelta.up{color:var(--a-bad);background:color-mix(in srgb,var(--a-bad) 10%,var(--a-card));font-weight:600}
+.ams{font-size:0.75rem;color:var(--a-mut)}
+.alist{display:flex;flex-direction:column;gap:0.4375rem}
+.arc{display:grid;grid-template-columns:1.375rem auto minmax(0,1fr);gap:0.5rem;align-items:center;padding:0.5rem 0.625rem;border-radius:0.5625rem;background:var(--a-bg);font-size:0.8438rem}
+.arc i{width:1.375rem;height:1.375rem;border-radius:50%;display:grid;place-items:center;font:700 0.75rem/1 var(--sans);font-style:normal;color:#fff;background:var(--a-good)}
+.arc code{font:600 0.75rem/1.3 var(--mono);white-space:nowrap}
+.arc.warn{background:color-mix(in srgb,var(--a-bad) 9%,var(--a-card));box-shadow:inset 3px 0 0 var(--a-bad)}.arc.warn i{background:var(--a-bad)}.arc.warn code{color:var(--a-bad)}
+.arc.info{background:color-mix(in srgb,var(--a-warn) 10%,var(--a-card));box-shadow:inset 3px 0 0 var(--a-warn)}.arc.info i{background:var(--a-warn)}.arc.info code{color:var(--a-warn)}
+.abanner{display:flex;gap:0.75rem;align-items:center;padding:0.75rem 1rem;border-radius:0.75rem;color:#fff;font-weight:600;background:linear-gradient(90deg,var(--a-bad),color-mix(in srgb,var(--a-bad) 70%,#7A0F2A));box-shadow:0 0.5rem 1.25rem color-mix(in srgb,var(--a-bad) 30%,transparent)}
+.abanner i{font-style:normal;width:1.75rem;height:1.75rem;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;flex:0 0 auto}
+.ains.off{border-style:dashed;background:transparent;box-shadow:none}
+.ains.off .lock{display:flex;gap:0.875rem;align-items:center;color:var(--a-mut);font-size:0.875rem}
+.ains.off svg{width:9rem;flex:0 0 auto;opacity:.45}
+.ains.on{border-color:color-mix(in srgb,var(--a-brand2) 55%,var(--a-line));box-shadow:0 0 0 3px color-mix(in srgb,var(--a-brand2) 14%,transparent),0 0.75rem 1.75rem rgba(16,32,52,.08)}
+.ains.on.hit{border-color:color-mix(in srgb,var(--a-bad) 55%,var(--a-line));box-shadow:0 0 0 3px color-mix(in srgb,var(--a-bad) 12%,transparent),0 0.75rem 1.75rem rgba(16,32,52,.08)}
+.newtag{font:700 0.5938rem/1 var(--mono);letter-spacing:.08em;color:#fff;padding:0.25rem 0.375rem;border-radius:0.3125rem;background:linear-gradient(90deg,var(--a-brand2),var(--a-good))}
+.ains .stt{margin-left:auto;font:700 0.6875rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:0.375rem 0.625rem;border-radius:9rem;color:#fff;background:var(--pc)}
+.vgrid{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:1.25rem;align-items:center}
+.vcnt{display:flex;gap:0.625rem;align-items:center}
+.vcnt b{font:700 2.75rem/1 var(--mono);color:var(--pc)}
+.vcnt span{font-size:0.8125rem;color:var(--a-mut);line-height:1.35}
+.vmeter{position:relative;height:0.625rem;border-radius:9rem;background:var(--a-bg);margin:1.75rem 0 0.25rem}
+.vmeter .f{height:100%;border-radius:9rem;background:var(--pc)}
+.vmeter .t{position:absolute;top:-0.4375rem;bottom:-0.4375rem;width:2px;background:var(--a-ink)}
+.vmeter .t span{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font:600 0.6562rem/1.7 var(--mono);white-space:nowrap;color:var(--a-ink)}
+.vchart{width:100%;height:auto;display:block}
+.anote{font-size:0.8125rem;color:var(--a-mut);margin:0}
+.aempty{border:1px dashed var(--a-line);border-radius:0.875rem;padding:1.75rem 1rem;text-align:center;color:var(--a-mut);display:flex;flex-direction:column;align-items:center;gap:0.5rem;font-size:0.875rem}
+.aempty svg{width:7.5rem;opacity:.5}
+.askel{display:grid;grid-template-columns:minmax(0,17rem) minmax(0,1fr);gap:0.75rem}
+.askel div{height:11rem;border-radius:0.875rem;background:linear-gradient(90deg,var(--a-card),var(--a-bg),var(--a-card));background-size:200% 100%;animation:shim 1s linear infinite;border:1px solid var(--a-line)}
+@keyframes shim{to{background-position:-200% 0}}
+.ajson summary{font-size:0.8125rem;color:var(--a-mut)}
+.ajson pre{margin:0.5rem 0 0;background:var(--a-nav);color:#CFE0F5;border-radius:0.625rem;padding:0.75rem;font:0.75rem/1.55 var(--mono);overflow:auto}
+.afoot{font-size:0.75rem;color:var(--a-mut);text-align:center;padding:0 1rem 0.875rem}
+.browser.isnew{border-color:color-mix(in srgb,var(--good) 50%,var(--line));box-shadow:0 0 0 3px color-mix(in srgb,var(--good) 14%,transparent),0 1rem 2.75rem rgba(0,0,0,.14)}
+.dhead .who{min-width:0;flex:1 1 12rem}
+@container (max-width:58rem){.anav nav span:nth-child(n+3){display:none}}
+@container (max-width:46rem){.abody{grid-template-columns:1fr;min-height:0}.anav nav{display:none}
+  .queue{border-right:none;border-bottom:1px solid var(--a-line);display:grid;grid-template-columns:1fr 1fr;gap:0.375rem;padding:0.625rem}
+  .qh{grid-column:1/-1;padding-bottom:0}
+  .app .person{grid-template-columns:2rem minmax(0,1fr) auto;gap:0.5rem;padding:0.4375rem 0.5rem;border-color:var(--a-line)}
+  .app .person.sel::before{display:none}
+  .app .person small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ava{width:2rem;height:2rem;font-size:0.6875rem}.ava.lg{width:2.75rem;height:2.75rem;font-size:0.875rem}
+  .adet{padding:0.875rem}.dhead h3{font-size:1.125rem}
+  .agrid,.askel,.vgrid{grid-template-columns:1fr}.agauge{width:11rem}}
+@container (max-width:30rem){.dtiles{grid-template-columns:1fr}.alogo small{display:none}.app .person small{display:none}.aver{display:none}}
 </style>
 </head>
 <body data-pane="guide">
@@ -376,6 +516,7 @@ body.inst .g-body h2{font-size:1.4375rem}body.inst .g-body h3{font-size:1.1875re
   <nav class="stepper" id="stepper" aria-label="Stages"></nav>
   <div class="tools">
     <button class="tb hide-s" id="btn-badges" title="Badges you have earned">Badges</button>
+    <button class="tb" id="btn-help" title="How to use the lab. Shortcut: ?">Help</button>
     <button class="tb" id="btn-theme"><span class="saber" aria-hidden="true"><i class="blade"></i><i class="hilt"></i></span><span id="theme-txt">Dark mode</span></button>
     <button class="tb hide-s" id="btn-inst" aria-pressed="false" title="Larger text and a discussion prompt at every stage">Instructor view</button>
     <button class="tb hide-s" id="btn-restart">Restart</button>
@@ -968,7 +1109,7 @@ const build2 = () => [{say:'Building console-warning.'},{mod:P.view},{tick2:1},{
 const STEPS = [
  {id:'tour', stage:'setup', title:'Find your way around', act:{type:'next'}, body:()=>`<p>This lab works like a real AI coding tool. You'll take one change through AI-DLC v1 from idea to working software.</p>
    <ul><li><b>Left, this guide.</b> It explains each step and tells you when it's your move.</li><li><b>Middle, the project.</b> Browse files as they are created, or switch to <b>App preview</b> to use the product.</li><li><b>Right, the AI assistant.</b> You send it messages and approve its work.</li></ul>
-   <p>A red outline shows where to look next.</p><div class="box"><b>Your team</b><div class="team">${Object.keys(ROLES).map(k=>`<span class="tm" style="--rc:var(--${k})"><b>${NAMES[k]}</b> ${ROLES[k]}</span>`).join('')}</div><p>You drive the AI assistant on the team's behalf. Each step shows whose decision it is, and teammates chip in along the way.</p></div>`},
+   <p>A red outline and a <b>Your move</b> label show where to look next. Press <b>Help</b> at the top, or <kbd>?</kbd>, to see the controls and shortcuts again.</p><div class="box"><b>Your team</b><div class="team">${Object.keys(ROLES).map(k=>`<span class="tm" style="--rc:var(--${k})"><b>${NAMES[k]}</b> ${ROLES[k]}</span>`).join('')}</div><p>You drive the AI assistant on the team's behalf. Each step shows whose decision it is, and teammates chip in along the way.</p></div>`},
  {id:'rules', stage:'setup', title:'AI-DLC v1 is a set of rule files', act:{type:'open', paths:[P.rules]}, body:()=>`<p>AI-DLC v1 is not an app you install. It is a set of plain-text rule files, saved in the project, that the AI assistant reads and follows.</p>
    <p>Open ${fl(P.rules)} in the file list to see the rules. You'll recognise every stage in it by the end of this lab.</p>${idea('The rules make the AI work in stages, ask before it assumes, and wait for a person to approve.')}`},
  {id:'meet', stage:'setup', title:'Meet the product you\'ll change', act:{type:'preview', app:'alex', built:false}, body:()=>{ const ran=S.runs['a:alex']; return `<p>The <b>Identity Risk API</b> gives lenders a risk score for each loan applicant. The app preview shows the console a lender's fraud analyst uses.</p>
@@ -1229,12 +1370,14 @@ function openFile(p){ if (!S.files[p]) return; const a=p.split('/'); for (let i=
 const autoOK = () => { if (STEPS[S.step].act.type!=='open') return false; let j=S.step+1; while (j<STEPS.length&&!live(j)) j++; return j<STEPS.length && ['chips','choose','prompt','answer'].includes(STEPS[j].act.type); };
 function closeTab(p){ const i=S.tabs.indexOf(p); if (i<0) return; S.tabs.splice(i,1); if (S.path===p) S.path=S.tabs[Math.max(0,i-1)]||S.tabs[0]||null; renderAll(); }
 function answer(q, v){ if (q==='f1'?S.fLock:q==='s1'?S.sLock:q==='b1'?S.bLock:S.qLock) return; if (!S.files[q==='s1'?P.sgp:q==='b1'?P.nfrp:P.qs]) return; S.a[q]=v; renderAll(); }
+// Scroll the preview so the start of the result is visible, without jumping if it already is.
+function showResult(){ const pv=document.querySelector('.pv'), t=pv&&pv.querySelector('.abanner, .agrid'); if (!t) return; const pr=pv.getBoundingClientRect(), tr=t.getBoundingClientRect(); if (tr.top<pr.top||tr.top>pr.bottom-pr.height*0.45) pv.scrollTo({top:pv.scrollTop+tr.top-pr.top-12, behavior:reduce?'auto':'smooth'}); }
 function runAssess(){ if (S.running) return; const g=gen; S.running=true; S.res=null; renderWs();
   setTimeout(()=>{ if (g!==gen) return; S.running=false; const b=S.built&&S.pv==='after'; S.res={id:S.sel,built:b,...assess(APPS[S.sel],b)}; S.runs[(b?'b':'a')+':'+S.sel]={score:S.res.score};
-    if (!b) badge('first'); if (b && Object.keys(APPS).every(k=>S.runs['b:'+k])) badge('tester'); renderAll(); }, reduce?40:750);
+    if (!b) badge('first'); if (b && Object.keys(APPS).every(k=>S.runs['b:'+k])) badge('tester'); renderAll(); showResult(); }, reduce?40:750);
 }
-function start(){ S.started=true; BASE.forEach(p=>S.files[p]={state:'base'}); S.tabs=['README.md']; S.path='README.md'; S.msgs.push({who:'ai',html:'Hello. I\'m the AI assistant for this project. The AI-DLC v1 rule files are installed. When you\'re ready, start a request with "Using AI-DLC".'}); document.getElementById('veil').innerHTML=''; go(0); }
-function restart(){ gen++; try { localStorage.removeItem(SAVE_KEY); } catch(e){} S=fresh(S); document.getElementById('toast').hidden=true; renderAll(); }
+function start(){ S.started=true; BASE.forEach(p=>S.files[p]={state:'base'}); S.tabs=['README.md']; S.path='README.md'; S.msgs.push({who:'ai',html:'Hello. I\'m the AI assistant for this project. The AI-DLC v1 rule files are installed. When you\'re ready, start a request with "Using AI-DLC".'}); lastStart=''; document.getElementById('veil').innerHTML=''; go(0); }
+function restart(){ gen++; stPage=0; helpOpen=false; lastStart=''; try { localStorage.removeItem(SAVE_KEY); } catch(e){} S=fresh(S); document.getElementById('toast').hidden=true; renderAll(); }
 
 /* ================= rendering ================= */
 function hl(line, lang){
@@ -1276,34 +1419,40 @@ function explorerHTML(){ const need=needPaths(); const tree={};
   return `<div class="root"><span>identity-risk-api</span><button id="colall" class="colall">${any?'Expand all':'Collapse all'}</button></div>${walk(tree,0,'')}`;
 }
 const colOf = sc => sc>=70?'var(--accent)':sc>=40?'var(--warn)':'var(--good)';
+const aCol = sc => sc>=70?'var(--a-bad)':sc>=40?'var(--a-warn)':'var(--a-good)';
+const APPX = {riley:{id:'APP-30871',av:'#0E8C97',got:'09:12'}, alex:{id:'APP-30894',av:'#4652C8',got:'09:31'}, maria:{id:'APP-30902',av:'#9A3E8E',got:'09:38'}, jo:{id:'APP-30915',av:'#B86A0C',got:'09:44'}};
+const initials = n => n.split(' ').map(w=>w[0]).join('');
+// The new panel added by the change. Before the change it is a locked placeholder.
 function checkCard(a){ const W={'24 hours':1,'7 days':7,'30 days':30}[win()], t=thrN();
-  const shell=(cls,status,inner)=>`<div class="chk ${cls}"><div class="chkh"><span class="newp">New</span><b>Repeat-application check</b><span class="stat">${status}</span></div>${inner}</div>`;
-  if (!a.dob){ const m={A:['amb','Unable to check','The date of birth is missing, so the check could not run. Your build tells the lender so, with reason code ID-VEL-00.'],B:['off','Skipped','The date of birth is missing. Your build treats this as a pass and says nothing.'],C:['hit','Treated as high risk','The date of birth is missing. Your build treats this as high risk.']}[S.a.b1]; return shell(m[0],m[1],`<p class="why">${m[2]}</p>`); }
-  const days=(matchND()?a.tnd:a.tnda).filter(d=>d<W), c=days.length, hit=planBug()?c>t:c>=t, max=Math.max(t+2,c+1);
-  const x=d=>(304-(d/W)*288).toFixed(1);
-  const tl=`<svg viewBox="0 0 320 72" class="tl" role="img" aria-label="${c} matching application${c===1?'':'s'} in the last ${win()}"><line x1="16" y1="30" x2="304" y2="30" style="stroke:var(--line)" stroke-width="2"/>${[0,.25,.5,.75,1].map(f=>`<line x1="${16+f*288}" y1="24" x2="${16+f*288}" y2="36" style="stroke:var(--line)" stroke-width="2"/>`).join('')}${days.map(d=>`<circle cx="${x(d)}" cy="30" r="${d===0?8:6.5}" style="fill:${hit?'var(--accent)':'var(--good)'};stroke:var(--panel)" stroke-width="2.5" ${d===0?'':'fill-opacity=".7"'}/>`).join('')}<text x="16" y="60" font-size="11.5" style="fill:var(--muted)">${win()} ago</text><text x="304" y="60" font-size="11.5" text-anchor="end" style="fill:var(--muted)">This application</text></svg>`;
-  return shell(hit?'hit':'ok', hit?'Triggered':'Clear', `<div class="chkg"><div><div class="cnt"><b>${c}</b><span>application${c===1?'':'s'} for this identity<br>in the last ${win()}</span></div><div class="meter"><div class="mfill" style="width:${c/max*100}%"></div><div class="mthr" style="left:${t/max*100}%"><span>Threshold ${t}</span></div></div></div><div>${tl}</div></div><p class="why">Matched on ${matchTxt()}.${batch()?' Your build runs this check overnight, so the warning would arrive the next day.':''}${hit&&!raise()?' You chose to add a reason code without changing the score.':''}</p>`);
+  const shell=(pc,status,hit,inner)=>`<section class="acard ains on wide ${hit?'hit':''}" style="--pc:${pc}"><h4>Identity history <span class="newtag">NEW</span><span class="stt">${status}</span></h4>${inner}</section>`;
+  if (!a.dob){ const m={A:['var(--a-warn)','Unable to check','The date of birth is missing, so the check could not run. Your build tells the lender so, with reason code ID-VEL-00.'],B:['var(--a-mut)','Skipped','The date of birth is missing. Your build treats this as a pass and says nothing.'],C:['var(--a-bad)','Treated as high risk','The date of birth is missing. Your build treats this as high risk.']}[S.a.b1]; return shell(m[0],m[1],S.a.b1==='C',`<p class="anote">${m[2]}</p>`); }
+  const days=(matchND()?a.tnd:a.tnda).filter(d=>d<W), c=days.length, hit=planBug()?c>t:c>=t, max=Math.max(t+2,c+1), pc=hit?'var(--a-bad)':'var(--a-good)';
+  const x=d=>(308-(d/W)*284).toFixed(1);
+  const chart=`<svg viewBox="0 0 330 92" class="vchart" role="img" aria-label="${c} matching application${c===1?'':'s'} in the last ${win()}"><defs><linearGradient id="vbg" x1="0" x2="1"><stop offset="0" style="stop-color:var(--a-brand2);stop-opacity:.04"/><stop offset="1" style="stop-color:${pc};stop-opacity:.16"/></linearGradient></defs><rect x="24" y="14" width="284" height="40" rx="8" fill="url(#vbg)"/>${[0,.25,.5,.75,1].map(f=>`<line x1="${24+f*284}" y1="14" x2="${24+f*284}" y2="54" style="stroke:var(--a-line)" stroke-width="1" stroke-dasharray="2 3"/>`).join('')}<line x1="24" y1="34" x2="308" y2="34" style="stroke:var(--a-line)" stroke-width="2"/>${days.map(d=>`<circle cx="${x(d)}" cy="34" r="${d===0?9:6.5}" style="fill:${pc};stroke:var(--a-card)" stroke-width="2.5" ${d===0?'':'fill-opacity=".75"'}/>`).join('')}<text x="24" y="76" font-size="11.5" style="fill:var(--a-mut)">${win()} ago</text><text x="308" y="76" font-size="11.5" text-anchor="end" style="fill:var(--a-mut)">This application</text></svg>`;
+  return shell(pc, hit?'Triggered':'Clear', hit, `<div class="vgrid"><div><div class="vcnt"><b>${c}</b><span>application${c===1?'':'s'} for this identity<br>in the last ${win()}</span></div><div class="vmeter"><div class="f" style="width:${c/max*100}%"></div><div class="t" style="left:${t/max*100}%"><span>Threshold ${t}</span></div></div></div><div>${chart}</div></div><p class="anote">Matched on ${matchTxt()}.${batch()?' Your build runs this check overnight, so the warning would arrive the next day.':''}${hit&&!raise()?' You chose to add a reason code without changing the score.':''}</p>`);
 }
-function previewHTML(){ const a=APPS[S.sel], b=S.built&&S.pv==='after'; const r=S.res&&S.res.id===S.sel&&S.res.built===b?S.res:null;
+const lockedCard = () => `<section class="acard ains off wide"><h4>Identity history</h4><div class="lock"><svg viewBox="0 0 140 40" aria-hidden="true"><line x1="6" y1="20" x2="134" y2="20" style="stroke:var(--a-mut)" stroke-width="2" stroke-dasharray="4 4"/>${[18,46,74,102,126].map(x=>`<circle cx="${x}" cy="20" r="5" style="fill:none;stroke:var(--a-mut)" stroke-width="2"/>`).join('')}</svg><span><b>Not available in this version.</b><br>Each application is assessed on its own, so the console cannot show whether this identity has been used before.</span></div></section>`;
+function gaugeSVG(score){ const L=Math.PI*80, th=Math.PI*(1-score/100), cx=(100+80*Math.cos(th)).toFixed(1), cy=(100-80*Math.sin(th)).toFixed(1);
+  return `<svg viewBox="0 0 200 116" class="agauge" role="img" aria-label="Risk score ${score} out of 100"><defs><linearGradient id="agr" x1="0" x2="1"><stop offset="0" style="stop-color:var(--a-good)"/><stop offset=".55" style="stop-color:var(--a-warn)"/><stop offset="1" style="stop-color:var(--a-bad)"/></linearGradient></defs><path d="M20 100 A80 80 0 0 1 180 100" fill="none" style="stroke:var(--a-bg)" stroke-width="16" stroke-linecap="round"/><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="url(#agr)" stroke-width="16" stroke-linecap="round" stroke-dasharray="${(score/100*L).toFixed(1)} 400"/><circle cx="${cx}" cy="${cy}" r="9" style="fill:var(--a-card);stroke:${aCol(score)}" stroke-width="4"/><text x="100" y="96" text-anchor="middle" font-size="40" font-weight="700" style="fill:var(--a-ink);font-family:var(--mono)">${score}</text></svg>`; }
+function previewHTML(){ const a=APPS[S.sel], ax=APPX[S.sel], b=S.built&&S.pv==='after'; const r=S.res&&S.res.id===S.sel&&S.res.built===b?S.res:null;
   const st=STEPS[S.step], needApp=S.view===S.step&&!S.busy&&st.act.type==='preview'&&!ready(st)?st.act.app:null;
-  const col = r ? colOf(r.score) : 'var(--line)';
-  const gauge = r ? `<div class="gauge"><svg viewBox="0 0 180 100" style="width:11.25rem" role="img" aria-label="Risk score ${r.score} out of 100"><path d="M20 90 A70 70 0 0 1 160 90" fill="none" stroke="var(--line)" stroke-width="14" stroke-linecap="round"/><path d="M20 90 A70 70 0 0 1 160 90" fill="none" stroke="${col}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${(r.score/100*219.9).toFixed(1)} 400"/></svg><div class="num">${r.score}</div><div class="band" style="color:${col}">${r.band}</div></div>` : '';
-  const codes = r ? `<div class="codes"><span class="k">Reason codes</span>${r.codes.map(c=>`<div class="rc ${c[2]}"><code>${c[0]}</code><span>${esc(c[1])}</span></div>`).join('')}<span class="why">Response time: ${r.ms} ms</span></div>` : '';
-  const json = r ? `<details><summary>What the API sends back to the lender's system</summary><pre class="json">${esc(JSON.stringify({risk_score:r.score,reason_codes:r.codes.map(c=>c[0]),details:Object.fromEntries(r.codes.filter(c=>c[2]!=='ok').map(c=>[c[0],c[1]]))},null,2))}</pre></details>` : '';
+  const icon={ok:'✓',warn:'!',info:'i'};
   let out;
-  if (S.running) out=`<p class="why">Assessing…</p>`;
-  else if (!r) out=`<p class="why">Press Run risk assessment to see the result.</p>`;
-  else if (!b) out=`<div class="outcome">${gauge}${codes}</div>${json}`;
+  if (S.running) out=`<div class="askel" aria-label="Assessing"><div></div><div></div></div>`;
+  else if (!r) out=`<div class="aempty"><svg viewBox="0 0 200 110" aria-hidden="true"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" style="stroke:var(--a-mut)" stroke-width="14" stroke-linecap="round" stroke-dasharray="3 9"/></svg><b>No assessment yet</b><span>Press <b>Run risk assessment</b> to score this application.</span></div>`;
   else { const base=assess(a,false).score, d=r.score-base, flagged=r.codes.some(c=>c[0]==='ID-VEL-01');
-    out=`${S.a.q8==='B'&&flagged?'<div class="alertb">Warning: this identity has been used on several recent applications</div>':''}
-     <div class="v2g"><div class="card2 gc">${gauge}<span class="delta ${d>0?'up':''}">${d>0?`▲ Up ${d} points. It was ${base} before your change.`:'Same score as before your change'}</span></div><div class="card2">${codes}</div></div>
-     ${checkCard(a)}${json}`; }
+    const score=`<section class="acard ascore"><h4>Risk score</h4>${gaugeSVG(r.score)}<span class="pill" style="--pc:${aCol(r.score)}">${r.band}</span>${b?`<span class="adelta ${d>0?'up':''}">${d>0?`▲ Up ${d} points. It was ${base} before your change.`:'Same score as before your change'}</span>`:''}<span class="ams">Assessed in ${r.ms} ms</span></section>`;
+    const codes=`<section class="acard"><h4>Reason codes</h4><div class="alist">${r.codes.map(c=>`<div class="arc ${c[2]}"><i aria-hidden="true">${icon[c[2]]}</i><code>${c[0]}</code><span>${esc(c[1])}</span></div>`).join('')}</div></section>`;
+    const json=`<details class="ajson"><summary>What the API sends back to the lender's system</summary><pre>${esc(JSON.stringify({risk_score:r.score,reason_codes:r.codes.map(c=>c[0]),details:Object.fromEntries(r.codes.filter(c=>c[2]!=='ok').map(c=>[c[0],c[1]]))},null,2))}</pre></details>`;
+    out=`${b&&S.a.q8==='B'&&flagged?'<div class="abanner" role="alert"><i aria-hidden="true">!</i>Warning: this identity has been used on several recent applications</div>':''}<div class="agrid">${score}${codes}${b?checkCard(a):lockedCard()}</div>${json}`; }
+  const logo=`<svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="alg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:#2CC3CF"/><stop offset="1" style="stop-color:#4C93EE"/></linearGradient></defs><path d="M16 2l11 4v8c0 7.2-4.7 13.3-11 16-6.3-2.7-11-8.8-11-16V6z" fill="url(#alg)"/><path d="M11 16.5l3.5 3.5L21.5 12" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   return `<div class="pv"><div class="browser ${b?'isnew':''}"><div class="bbar"><span class="d3"><i></i><i></i><i></i></span><span class="url">console.identityrisk.example/assess</span>${S.built?`<span class="seg sm"><button data-pv="before" aria-pressed="${!b}">Before</button><button data-pv="after" aria-pressed="${b}">Your build</button></span>`:''}</div>
-   <div class="apph"><b>Identity Risk Console</b><span class="ver ${b?'new':''}">${b?'Your build · v2.4 with the repeat-application check':'Today\'s version · before your change'}</span></div>
-   <div class="appg"><div class="people"><span class="k">Test applicants</span>${Object.entries(APPS).map(([k,p])=>{ const done=S.runs[(b?'b':'a')+':'+k]; return `<button class="person ${S.sel===k?'sel':''} ${needApp===k&&S.sel!==k?'need':''}" data-sel="${k}"><span class="pr"><b>${p.name}</b>${done?`<span class="sc" style="background:${colOf(done.score)}">${done.score}</span>`:''}</span><small>${p.note}</small></button>`; }).join('')}</div>
-   <div class="res"><dl class="facts"><dt>Name</dt><dd>${a.name}</dd><dt>Date of birth</dt><dd>${a.dob||'<i>missing</i>'}</dd><dt>Address</dt><dd>${a.addr}</dd></dl>
-   <div><button class="btn primary" data-act="run" ${S.running?'disabled':''}>Run risk assessment</button></div>${out}</div></div></div>
-   <p class="why" style="max-width:61.25rem;margin:0.75rem auto 0">This is a mock console for training. The applicants and scores are made up.</p></div>`;
+   <div class="app"><header class="anav"><span class="alogo">${logo}<b>Identity Risk</b><small>Console</small></span><nav aria-hidden="true"><span class="on">Assessments</span><span>Cases</span><span>Reports</span><span>Settings</span></nav><span class="aver ${b?'new':''}">${b?'v2.4 · Your build':'v2.3 · Today\'s version'}</span><span class="aava" title="Signed in as Farah, fraud analyst">FA</span></header>
+   <div class="abody"><aside class="queue"><div class="qh"><b>Test applicants</b><span>${Object.keys(APPS).length} in queue</span></div>${Object.entries(APPS).map(([k,p])=>{ const done=S.runs[(b?'b':'a')+':'+k]; return `<button class="person ${S.sel===k?'sel':''} ${needApp===k&&S.sel!==k?'need':''}" data-sel="${k}" aria-pressed="${S.sel===k}"><span class="ava" style="--av:${APPX[k].av}">${initials(p.name)}</span><span><b>${p.name}</b><small>${p.note}</small></span>${done?`<span class="sc" style="--sv:${aCol(done.score)}">${done.score}</span>`:''}</button>`; }).join('')}</aside>
+   <div class="adet"><div class="dhead"><span class="ava lg" style="--av:${ax.av}">${initials(a.name)}</span><div class="who"><h3>${a.name}</h3><small>${ax.id} · Received today at ${ax.got} · Online application</small></div><button class="arun" data-act="run" ${S.running?'disabled':''}>Run risk assessment</button></div>
+   <div class="dtiles"><div class="tile ${a.dob?'':'miss'}"><span>Date of birth</span><b>${a.dob||'Missing'}</b></div><div class="tile"><span>Address</span><b>${a.addr}</b></div><div class="tile"><span>Identity document</span><b>${a.codes.some(c=>c[0]==='DOC-PART')?'Partly readable':'Verified'}</b></div></div>
+   ${out}</div></div>
+   <p class="afoot">This is a mock console for training. The company, applicants and scores are made up.</p></div></div></div>`;
 }
 function summaryHTML(){ const made=Object.keys(S.files).filter(p=>S.files[p].state==='new'), mod=Object.keys(S.files).filter(p=>S.files[p].state==='mod');
   return `<div class="sumv"><div><span class="k">Lab complete</span><h2 style="font-size:1.75rem;margin-top:0.25rem">From a lender's complaint to tested software</h2></div>
@@ -1342,11 +1491,11 @@ function summaryHTML(){ const made=Object.keys(S.files).filter(p=>S.files[p].sta
 }
 let lastPath=null;
 const wsGo = () => { const st=STEPS[S.step]; return S.started&&S.center!=='done'&&S.view===S.step&&!S.busy&&ready(st)&&(['open','answer','preview'].includes(st.act.type)||st.id==='bt-explore') ? '<div class="wsgo"><span>Done here. Continue when you\'re ready.</span><button class="btn primary" data-act="next">Continue</button></div>' : ''; };
-function renderWs(){ const el=document.getElementById('pane-ws'); const old=document.getElementById('code'), keep=old&&lastPath===S.path?old.scrollTop:0, oe=el.querySelector('.exp'), ke=oe?oe.scrollTop:0;
+function renderWs(){ const el=document.getElementById('pane-ws'); const old=document.getElementById('code'), keep=old&&lastPath===S.path?old.scrollTop:0, oe=el.querySelector('.exp'), ke=oe?oe.scrollTop:0, op=el.querySelector('.pv'), kp=op?op.scrollTop:0;
   const c=S.center;
   el.innerHTML=`<div class="phd"><div class="seg"><button data-center="files" aria-pressed="${c==='files'}">Files</button><button data-center="app" aria-pressed="${c==='app'}">App preview</button>${S.done?`<button data-center="done" aria-pressed="${c==='done'}">Summary</button>`:''}</div><h2 style="margin-left:0.375rem;color:var(--muted);font-weight:500">${c==='files'?'The project, as the AI and the team see it':c==='app'?'The product, as a lender sees it':'What you achieved'}</h2>${['files','app'].includes(target())?'<span class="here">Your move</span>':''}</div>
    ${c==='files'?`<div class="wsb"><div class="exp">${explorerHTML()}</div><div class="ed">${editorHTML()}</div></div>`:c==='app'?previewHTML():summaryHTML()}${wsGo()}`;
-  const nc=document.getElementById('code'); if (nc) nc.scrollTop=keep; const ne=el.querySelector('.exp'); if (ne) ne.scrollTop=ke; lastPath=S.path;
+  const nc=document.getElementById('code'); if (nc) nc.scrollTop=keep; const ne=el.querySelector('.exp'); if (ne) ne.scrollTop=ke; const np=el.querySelector('.pv'); if (np) np.scrollTop=kp; lastPath=S.path;
 }
 function renderChat(){ const el=document.getElementById('pane-ai'); const st=STEPS[S.step];
   const msgs=S.msgs.map(m=>m.who==='term'?`<div class="m term">${m.lines.slice(0,m.n).map(l=>/FAILED|failed/.test(l)?`<span class="f">${esc(l)}</span>`:/passed|succeeded|done$|is live/.test(l)?`<span class="p">${esc(l)}</span>`:esc(l)).join('\n')}</div>`
@@ -1404,17 +1553,38 @@ function renderAll(){ renderTop(); renderGuide(); renderWs(); renderChat();
   const fk=[S.step,S.view,t,S.started&&ready(STEPS[S.step])].join('|');
   if (S.started && fk!==focusKey){ focusKey=fk; const q={guide:'#pane-guide [data-act="next"]:not([disabled])', files:'.frow.need, #code .optline:not([disabled])', app:'.person.need, [data-act="run"]', composer:'#composer .btn'}[t], fx=q&&document.querySelector(q); if (fx && document.getElementById('pop').hidden) fx.focus(); }
   document.getElementById('mnav').innerHTML=[['guide','Guide'],['ws','Project'],['ai','AI assistant']].map(([k,l])=>`<button data-pane="${k}" aria-pressed="${S.pane===k}" class="${pane===k&&S.pane!==k?'dotme':''}">${l}</button>`).join('');
-  if (!S.started) renderStart();
+  renderStart();
   save();
 }
-function renderStart(){ document.getElementById('veil').innerHTML=`<div class="veil"><div class="startc">
-  <span class="k">Spec Driven Development · AWS AI-DLC v1</span><h1>AI-DLC v1 Learning Lab</h1>
-  <p style="font-size:1.0625rem;max-width:60ch">Learn the framework by using it. You'll take one real-sized change to an identity risk product from a lender's complaint to working, tested software, guided step by step.</p>
-  <ul style="margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:0.25rem"><li>Work with an AI assistant the way a real team does: send requests, answer its questions, approve its work.</li><li>Browse every document and code file as it is created.</li><li>Use the product before and after, and see how your decisions changed it.</li></ul>
-  <div><span class="k">Your team</span><div class="team" style="margin-top:0.375rem">${Object.keys(ROLES).map(k=>`<span class="tm" style="--rc:var(--${k})"><b>${NAMES[k]}</b> ${ROLES[k]}</span>`).join('')}</div><p style="color:var(--muted);margin-top:0.375rem">You drive the AI assistant on the team's behalf. The guide shows who is involved at each stage and whose decision each step is.</p></div>
-  <div><span class="k">How are you using the lab?</span><div class="pick two" style="margin-top:0.375rem"><button class="pk" data-inst="0" aria-pressed="${!S.inst}"><b>On my own</b><small>Self-guided, at your own pace</small></button><button class="pk" data-inst="1" aria-pressed="${S.inst}"><b>Leading a group</b><small>Larger text and a discussion prompt at every stage</small></button></div></div>
-  <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap"><button class="btn primary" id="go" style="font-size:1.0625rem;padding:0.875rem 1.375rem">Start the lab</button><span style="color:var(--muted)">About 30 minutes. No technical knowledge needed. The scenario is made up for training.</span></div>
- </div></div>`; }
+/* The start guide. Before the lab starts it is the welcome screen; afterwards Help or ? reopens it. */
+let stPage=0, helpOpen=false, lastStart='';
+const kbdHTML = () => `<dl class="keys"><dt><kbd>→</kbd></dt><dd>Continue, or send the suggested message</dd><dt><kbd>←</kbd></dt><dd>Go back a step to re-read it. Nothing is undone.</dd><dt><kbd>Tab</kbd> <kbd>Enter</kbd></dt><dd>Move between buttons, and press one. Focus jumps to your next action.</dd><dt><kbd>Esc</kbd></dt><dd>Close a popup, a tooltip or this guide</dd><dt><kbd>?</kbd></dt><dd>Open this guide again</dd><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>On a panel edge: make the panel narrower or wider</dd></dl>`;
+function startPages(){ const help=S.started; return [
+ {t:'Welcome', h:`<span class="k">Spec Driven Development · AWS AI-DLC v1</span><h1 id="st-h">AI-DLC v1 Learning Lab</h1>
+  <p style="font-size:1.0625rem;max-width:62ch">Learn the framework by using it. You'll take one change to an identity risk product from a lender's complaint to working, tested software, guided step by step.</p>
+  <ul style="margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:0.25rem"><li>Work with an AI assistant the way a real team does: send requests, answer its questions, approve its work.</li><li>Some of the AI's drafts contain mistakes. Catch them before you approve.</li><li>Use the product before and after, and see how your decisions changed it.</li></ul>
+  <div><span class="k">Your team</span><div class="team" style="margin-top:0.375rem">${Object.keys(ROLES).map(k=>`<span class="tm" style="--rc:var(--${k})"><b>${NAMES[k]}</b> ${ROLES[k]}</span>`).join('')}</div><p style="color:var(--muted);margin-top:0.375rem">You drive the AI assistant on the team's behalf. The guide shows whose decision each step is.</p></div>
+  <div><span class="k">How are you using the lab?</span><div class="pick two" style="margin-top:0.375rem"><button class="pk" data-inst="0" aria-pressed="${!S.inst}"><b>On my own</b><small>Self-guided, at your own pace</small></button><button class="pk" data-inst="1" aria-pressed="${S.inst}"><b>Leading a group</b><small>Larger text and a discussion prompt at every stage</small></button></div></div>`},
+ {t:'How it works', h:`<h1 id="st-h" style="font-size:1.75rem">How the lab works</h1>
+  <div class="st2"><div class="mapx" aria-hidden="true"><div class="mt"><span>Stages</span><span>Badges · Help</span></div><div class="mc"><div class="on">1 Guide<i></i><i class="s"></i><i></i><span class="yb">Your move</span></div><div>2 Project<i></i><i class="s"></i><i></i><i class="s"></i></div><div>3 AI assistant<i class="s"></i><i></i><i class="s"></i></div></div></div>
+   <ul class="nlist"><li><span class="n">1</span><span><b>Guide</b><p>What to do at each step, and why it matters. The bottom of the panel always says what your next move is.</p></span></li><li><span class="n">2</span><span><b>Project</b><p>The files the AI writes, and <b>App preview</b> to use the product.</p></span></li><li><span class="n">3</span><span><b>AI assistant</b><p>Send messages, answer the AI and approve its work. Your teammates chat here too.</p></span></li></ul></div>
+  <div class="tips"><div class="hot"><b>Follow the red outline</b><p>The panel you need next has a red outline and a <b>Your move</b> label. If you are unsure what to do, look for it.</p></div><div><b>Check before you approve</b><p>Some of the AI's drafts have a mistake in them on purpose. Open the files and compare. You can approve, or request a change.</p></div><div><b>Look things up</b><p>Words with a dotted underline have a definition: hover or tap. <b>Glossary</b> lists them all.</p></div><div><b>Find your way</b><p>Click the stage name at the top to see every stage. Drag the edges between panels to resize them.</p></div></div>`},
+ {t:'Get started', h:`<h1 id="st-h" style="font-size:1.75rem">${help?'Shortcuts and first moves':'Your first five moves'}</h1>
+  <div class="st2"><div><span class="k">The first few steps</span><ol class="moves" style="margin-top:0.5rem"><li><span><b>Read the welcome step, then press Continue</b><small>Continue is at the bottom of the Guide panel. <kbd>→</kbd> does the same.</small></span></li><li><span><b>Open core-workflow.md in the file list</b><small>It is highlighted in the Project panel. These are the rules the AI follows.</small></span></li><li><span><b>Try the product as it is today</b><small>In App preview, select Alex Morgan and press Run risk assessment. Notice the low score.</small></span></li><li><span><b>Pick the best intent</b><small>Choose one of three statements in the Guide. You get feedback straight away.</small></span></li><li><span><b>Send your first message to the AI</b><small>Press Send in the AI assistant panel. From then on, the guide walks you through each stage.</small></span></li></ol></div>
+   <div><span class="k">Keyboard shortcuts</span><div style="margin-top:0.5rem">${kbdHTML()}</div></div></div>
+  <p class="stnote">Stuck at any point? Look for the red outline, or press <kbd>?</kbd> to open this guide again. Your progress is saved in this browser.</p>`}
+]; }
+function renderStart(){ const v=document.getElementById('veil'); if (S.started&&!helpOpen){ if (v.innerHTML){ v.innerHTML=''; lastStart=''; } return; }
+  const P2=startPages(), pg=P2[stPage], last=stPage===P2.length-1, help=S.started;
+  const html=`<div class="veil"><div class="startc" role="dialog" aria-modal="true" aria-labelledby="st-h">
+   <div class="sthead"><span class="k">${help?'Help':'Before you start'} · ${stPage+1} of ${P2.length}: ${pg.t}</span><div class="stdots">${P2.map((p,i)=>`<button data-stp="${i}" aria-label="Page ${i+1}: ${p.t}" ${i===stPage?'aria-current="step"':''}></button>`).join('')}</div>${help?'<button class="stx" data-act="closehelp" aria-label="Close help">×</button>':''}</div>
+   ${pg.h}
+   <div class="stfoot">${stPage>0?'<button class="btn" data-stp="'+(stPage-1)+'">‹ Back</button>':''}<span class="sp"></span>${!help&&!last?'<button class="lnk" id="go-skip">Skip the intro and start</button>':''}${last?(help?'<button class="btn primary" data-act="closehelp" style="font-size:1.0625rem;padding:0.75rem 1.25rem">Back to the lab</button>':'<span class="muted">About 30 minutes. No technical knowledge needed.</span><button class="btn primary" id="go" style="font-size:1.0625rem;padding:0.75rem 1.375rem">Start the lab</button>'):`<button class="btn primary" data-stp="${stPage+1}" style="padding:0.75rem 1.25rem">Next: ${P2[stPage+1].t} ›</button>`}</div>
+  </div></div>`;
+  if (html===lastStart) return; const pageChanged=!lastStart||!lastStart.includes(`${stPage+1} of ${P2.length}`); lastStart=html; v.innerHTML=html;
+  if (pageChanged){ const f=v.querySelector('.stfoot .btn.primary'); if (f) f.focus(); const c=v.querySelector('.startc'); if (c) c.scrollTop=0; } }
+function openHelp(){ if (!S.started) return; helpOpen=true; stPage=1; document.getElementById('pop').hidden=true; hideTip(); lastStart=''; renderStart(); }
+function closeHelp(){ helpOpen=false; renderStart(); renderAll(); }
 
 /* ================= events ================= */
 document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s); let x;
@@ -1423,7 +1593,10 @@ document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s
   hideTip();
   if ((x=c('[data-jump]'))){ pop.hidden=true; jumpTo(+x.dataset.jump); return; }
   if (!c('#pop')) pop.hidden=true;
-  if (c('#go')){ start(); return; }
+  if ((x=c('[data-stp]'))){ stPage=+x.dataset.stp; renderStart(); return; }
+  if (c('#go')||c('#go-skip')){ start(); return; }
+  if (c('#btn-help')){ openHelp(); return; }
+  if (c('[data-act="closehelp"]')){ closeHelp(); return; }
   if ((x=c('[data-inst]'))){ S.inst=x.dataset.inst==='1'; renderAll(); return; }
   if (c('#btn-inst')){ S.inst=!S.inst; renderAll(); return; }
   if (c('#btn-restart')||c('#again')){ restart(); return; }
@@ -1460,7 +1633,11 @@ document.addEventListener('mouseout', e=>{ if (e.target.closest&&e.target.closes
 document.addEventListener('focusin', e=>{ if (e.target.classList&&e.target.classList.contains('gterm')) showTip(e.target); });
 document.addEventListener('focusout', e=>{ if (e.target.classList&&e.target.classList.contains('gterm')) hideTip(); });
 document.addEventListener('toggle', e=>{ if (e.target.classList&&e.target.classList.contains('outsd')) S.outsOpen=e.target.open; }, true);
-document.addEventListener('keydown', e=>{ if (e.target.closest&&e.target.closest('.split')) return; if (e.key==='Escape'){ document.getElementById('pop').hidden=true; hideTip(); return; } if (!S.started||e.target.closest('select')) return; if (e.key==='ArrowRight'){ if (S.view<S.step){ S.view=seek(S.view,1); renderAll(); } else if (!S.busy){ const st=STEPS[S.step]; if (st.act.type==='prompt') send(); else if (ready(st)) next(); } } else if (e.key==='ArrowLeft'&&S.view>0){ S.view=seek(S.view,-1); renderAll(); } });
+document.addEventListener('keydown', e=>{ if (e.target.closest&&e.target.closest('.split')) return;
+  if (!S.started||helpOpen){ const n=startPages().length; if (e.key==='Escape'&&helpOpen){ closeHelp(); return; } if (e.key==='?'&&helpOpen){ closeHelp(); return; }
+    if (e.key==='ArrowRight'&&stPage<n-1){ stPage++; renderStart(); } else if (e.key==='ArrowLeft'&&stPage>0){ stPage--; renderStart(); } return; }
+  if (e.key==='?'&&!e.target.closest('input,textarea')){ e.preventDefault(); openHelp(); return; }
+  if (e.key==='Escape'){ document.getElementById('pop').hidden=true; hideTip(); return; } if (!S.started||e.target.closest('select')) return; if (e.key==='ArrowRight'){ if (S.view<S.step){ S.view=seek(S.view,1); renderAll(); } else if (!S.busy){ const st=STEPS[S.step]; if (st.act.type==='prompt') send(); else if (ready(st)) next(); } } else if (e.key==='ArrowLeft'&&S.view>0){ S.view=seek(S.view,-1); renderAll(); } });
 
 const isDark = () => { const t=document.documentElement.dataset.theme; return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
 const themeLabel = () => { const d=isDark(); document.getElementById('theme-txt').textContent = d ? 'Light mode' : 'Dark mode'; document.getElementById('btn-theme').dataset.mode = d ? 'dark' : 'light'; };
