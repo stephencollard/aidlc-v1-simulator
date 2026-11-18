@@ -30,7 +30,7 @@ The scenario, people and figures in the lab are made up for training.
 
 - [ ] Open the lab in the browser you will share, and play it through once on your own. It takes about 30 minutes.
 - [ ] Press **Restart** afterwards, so the session starts clean. Progress is saved in the browser, so a half-finished run will reopen where you left it.
-- [ ] Set the size with the **−** and **+** buttons in the top bar so people can read it on a shared screen. 120% to 130% usually works. Click the percentage to reset.
+- [ ] Set the size with the **−** and **+** buttons in the top bar so people can read it on a shared screen. 150% to 160% usually works. Click the percentage to reset.
 - [ ] Widen the middle panel by dragging the handles between panels if you want the files and app larger. Double-click a handle to reset.
 - [ ] Decide how the group will vote: chat, reactions, or a poll tool. You will need it for about ten decisions.
 - [ ] Have the AI-DLC repository open in a tab for questions: <https://github.com/awslabs/aidlc-workflows> (the `v1` branch holds v1).
