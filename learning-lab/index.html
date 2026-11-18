@@ -514,6 +514,11 @@ kbd{font:600 0.75rem/1 var(--mono);border:1px solid var(--line);border-bottom-wi
   .adet{padding:0.875rem}.dhead h3{font-size:1.125rem}
   .agrid,.askel,.vgrid{grid-template-columns:1fr}.agauge{width:11rem}}
 @container (max-width:30rem){.dtiles{grid-template-columns:1fr}.alogo small{display:none}.app .person small{display:none}.aver{display:none}}
+/* chat timestamps: small and quiet */
+.mts{display:block;margin-top:-0.125rem;font:0.6875rem/1.2 var(--mono);color:var(--muted);opacity:.8;white-space:nowrap}
+.mts b{font-weight:600;color:var(--accent);opacity:1}
+.m.me .mts{color:var(--panel);opacity:.6;text-align:right}.m.me .mts b{color:inherit}
+.m.term .mts{color:#9AA0A6;margin-top:0.25rem}.m.term .mts b{color:#F0898E}
 </style>
 </head>
 <body data-pane="guide">
@@ -1502,10 +1507,15 @@ function renderWs(){ const el=document.getElementById('pane-ws'); const old=docu
    ${c==='files'?`<div class="wsb"><div class="exp">${explorerHTML()}</div><div class="ed">${editorHTML()}</div></div>`:c==='app'?previewHTML():summaryHTML()}`;
   const nc=document.getElementById('code'); if (nc) nc.scrollTop=keep; const ne=el.querySelector('.exp'); if (ne) ne.scrollTop=ke; const np=el.querySelector('.pv'); if (np) np.scrollTop=kp; lastPath=S.path;
 }
+// 14:52:07 today; earlier days also show the date, for progress resumed later.
+const msgTime = ts => { const d=new Date(ts), t=d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'}); return d.toDateString()===new Date().toDateString() ? t : d.toLocaleDateString([], {day:'numeric', month:'short'})+', '+t; };
 function renderChat(){ const el=document.getElementById('pane-ai'); const st=STEPS[S.step];
-  const msgs=(S.typing?'<div class="m ai typing"><span><i></i><i></i><i></i></span></div>':'')+S.msgs.slice().reverse().map(m=>m.who==='term'?`<div class="m term">${m.lines.slice(0,m.n).map(l=>/FAILED|failed/.test(l)?`<span class="f">${esc(l)}</span>`:/passed|succeeded|done$|is live/.test(l)?`<span class="p">${esc(l)}</span>`:esc(l)).join('\n')}</div>`
-    :m.who==='mate'?`<div class="m ai mate" style="--rc:var(--${m.role})"><span><span class="own">${NAMES[m.role]} · ${ROLES[m.role]}</span></span><span>${m.html}</span></div>`
-    :`<div class="m ${m.who} ${m.ask?'ask':''}" ${m.owner?`style="--rc:var(--${m.owner})"`:''}>${m.ask&&m.owner?`<span><span class="own">${ROLES[m.owner]} decides</span></span>`:''}<span>${m.html}</span></div>`).join('');
+  // Each message is stamped with the real time it first appears in the chat.
+  S.msgs.forEach(m=>{ if (!m.ts) m.ts=Date.now(); });
+  const last=S.msgs.length-1, meta=(m,i)=>`<span class="mts">${i===last?'<b>Latest message</b> · ':''}<time datetime="${new Date(m.ts).toISOString()}">${msgTime(m.ts)}</time></span>`;
+  const msgs=(S.typing?'<div class="m ai typing"><span><i></i><i></i><i></i></span></div>':'')+S.msgs.map((m,i)=>[m,i]).reverse().map(([m,i])=>m.who==='term'?`<div class="m term ${i===last?'latest':''}">${m.lines.slice(0,m.n).map(l=>/FAILED|failed/.test(l)?`<span class="f">${esc(l)}</span>`:/passed|succeeded|done$|is live/.test(l)?`<span class="p">${esc(l)}</span>`:esc(l)).join('\n')}${meta(m,i)}</div>`
+    :m.who==='mate'?`<div class="m ai mate ${i===last?'latest':''}" style="--rc:var(--${m.role})"><span><span class="own">${NAMES[m.role]} · ${ROLES[m.role]}</span></span><span>${m.html}</span>${meta(m,i)}</div>`
+    :`<div class="m ${m.who} ${m.ask?'ask':''} ${i===last?'latest':''}" ${m.owner?`style="--rc:var(--${m.owner})"`:''}>${m.ask&&m.owner?`<span><span class="own">${ROLES[m.owner]} decides</span></span>`:''}<span>${m.html}</span>${meta(m,i)}</div>`).join('');
   let comp='';
   if (!S.started||S.view!==S.step||S.busy) comp='';
   else if (st.act.type==='prompt') comp=`<span class="k">Suggested message</span><div class="sugg">${esc(st.act.text)}</div><button class="btn primary" data-act="send">Send to the AI</button>`;
