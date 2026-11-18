@@ -20,7 +20,10 @@
 :root[data-theme="dark"]{
   --bg:#0F1013; --panel:#191B1F; --panel2:#1F2227; --ink:#ECEEF1; --muted:#9BA1A9; --line:#2D3138;
   --accent:#F0595F; --soft:#3A1F22; --po:#F07075; --eng:#7EA8F0; --pm:#4FC1AE; --ux:#B892E8; --arch:#F0A35E; --good:#6CC17A; --warn:#E0B04F; --bar:#08090A; color-scheme:dark;}
-html{font-size:calc(clamp(16px,min(1.1111vw,1.8605vh),40px) * var(--uz,1))}
+/* Base size. 12.8px at 1440 x 860, growing with whichever of width or height is tighter, up to 32px.
+   The size buttons multiply it. Phones keep 16px: they show one panel at a time. */
+html{font-size:calc(clamp(12.8px,min(0.8889vw,1.4884vh),32px) * var(--uz,1))}
+@media (max-width:980px){html{font-size:calc(16px * var(--uz,1))}}
 .zoom{display:inline-flex;align-items:center;border:1px solid rgba(241,242,243,.25);border-radius:0.5rem;overflow:hidden}
 .zoom button{all:unset;cursor:pointer;font:600 0.8125rem/1 var(--sans);padding:0.5rem 0.625rem;color:#F1F2F3;white-space:nowrap}
 .zoom button:hover:not(:disabled){background:rgba(241,242,243,.1)}
@@ -1659,7 +1662,7 @@ document.querySelectorAll('.split').forEach(sp=>{ const side=sp.dataset.side, di
 function fitTop(){ const top=document.querySelector('.top'), st=document.getElementById('stepper'); top.classList.remove('tight'); if (st.scrollWidth>st.clientWidth+1) top.classList.add('tight'); }
 addEventListener('resize', fitTop);
 /* Size buttons. They multiply the automatic size, which still follows the screen. Remembered in this browser. */
-const ZOOMS=[0.7,0.8,0.9,1,1.1,1.2,1.3,1.45,1.6], ZKEY='aidlc-lab-zoom';
+const ZOOMS=[0.8,0.9,1,1.1,1.2,1.3,1.45,1.6,1.8,2], ZKEY='aidlc-lab-zoom-2';
 let zoomI=ZOOMS.indexOf(1);
 function setZoom(i, keep){ zoomI=Math.max(0, Math.min(ZOOMS.length-1, i)); const z=ZOOMS[zoomI];
   if (z===1) document.documentElement.style.removeProperty('--uz'); else document.documentElement.style.setProperty('--uz', z);
