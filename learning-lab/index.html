@@ -71,7 +71,6 @@ h1,h2,h3{text-wrap:balance;line-height:1.2}
 
 /* main grid */
 .main{flex:1;min-height:0;display:grid;grid-template-columns:minmax(14.375rem,var(--wl,25.625rem)) 0.625rem minmax(18.75rem,1fr) 0.625rem minmax(14.375rem,var(--wr,22.5rem));gap:0;padding:0.625rem}
-body.inst{--wl:29.375rem}
 .split{cursor:col-resize;position:relative;touch-action:none;border-radius:0.375rem}
 .split::after{content:"";position:absolute;left:50%;top:50%;width:0.25rem;height:2.5rem;border-radius:0.25rem;transform:translate(-50%,-50%);background:color-mix(in srgb,var(--muted) 45%,transparent);transition:height .15s,background .15s}
 .split:hover::after,.split.drag::after,.split:focus-visible::after{background:var(--accent);height:4.5rem}
@@ -85,7 +84,6 @@ body.resizing{user-select:none;cursor:col-resize}
 
 /* guide */
 .g-body{padding:1rem 1.125rem 1.25rem;display:flex;flex-direction:column;gap:0.875rem}
-body.inst .g-body{font-size:1.0625rem}
 .chipst{display:inline-flex;gap:0.375rem;align-items:center;font:600 0.6875rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 .g-body h2{font-size:1.5rem;font-weight:700}
 .g-body h3{font-size:1.0625rem;font-weight:600}
@@ -218,12 +216,6 @@ details summary{cursor:pointer;font-size:0.8438rem;color:var(--muted)}
 .veil{position:fixed;inset:0;z-index:80;background:color-mix(in srgb,var(--bar) 72%,transparent);backdrop-filter:blur(0.3125rem);display:grid;place-items:center;padding:1rem;overflow:auto}
 .startc{background:var(--panel);border-radius:1.125rem;max-width:48.75rem;width:100%;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;box-shadow:0 1.875rem 5rem rgba(0,0,0,.4);max-height:100%;overflow:auto}
 .startc h1{font-size:clamp(1.625rem,4vw,2.25rem)}
-.pick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0.625rem}
-.pick.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.pk{all:unset;cursor:pointer;border:0.125rem solid var(--line);border-radius:0.75rem;padding:0.75rem;display:flex;flex-direction:column;gap:0.1875rem}
-.pk small{color:var(--muted)}
-.pk[aria-pressed="true"]{border-color:var(--c,var(--ink));background:var(--panel2)}
-.pk[aria-pressed="true"] b{color:var(--c,var(--ink))}
 
 .mnav{display:none}
 @media (max-width:1180px){.now-name,.ph .pn{display:none}.wsb{grid-template-columns:11.875rem minmax(0,1fr)}}
@@ -239,7 +231,6 @@ details summary{cursor:pointer;font-size:0.8438rem;color:var(--muted)}
   .wsb{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
   .exp{max-height:9.375rem;border-right:none;border-bottom:1px solid var(--line)}
   .appg{grid-template-columns:1fr}.people{border-right:none;border-bottom:1px solid var(--line)}
-  .pick{grid-template-columns:1fr}.pick.two{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
@@ -376,7 +367,7 @@ details summary{cursor:pointer;font-size:0.8438rem;color:var(--muted)}
 .g-foot .btn.primary{padding:0.5rem 0.875rem}
 .navrow .btn.sm{border-color:transparent;background:none;padding:0.125rem 0.25rem;font-size:0.8438rem;color:var(--muted)}
 .navrow .btn.sm:hover:not(:disabled){color:var(--ink)}
-body.inst .g-body h2{font-size:1.4375rem}body.inst .g-body h3{font-size:1.1875rem}body.inst .roles .role{font-size:0.9688rem}body.inst .gsum{font-size:0.9375rem}
+
 /* ---- v6: start guide ---- */
 .startc{max-width:56rem;gap:0.875rem;padding:1.5rem 1.75rem}
 .sthead{display:flex;align-items:center;gap:0.75rem}
@@ -399,7 +390,7 @@ body.inst .g-body h2{font-size:1.4375rem}body.inst .g-body h3{font-size:1.1875re
 .mapx .mc>div.on{box-shadow:0 0 0 2px var(--accent)}
 .mapx .mc i{display:block;height:0.375rem;border-radius:9rem;background:var(--line)}
 .mapx .mc i.s{width:60%}
-.mapx .mc .yb{margin-top:auto;font:700 0.5625rem/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:#fff;border-radius:0.25rem;padding:0.25rem;align-self:flex-start}
+.mapx .mc .yb{margin:0.125rem 0;font:700 0.5625rem/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;background:var(--accent);color:#fff;border-radius:0.25rem;padding:0.25rem;align-self:flex-start}
 .nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.5rem}
 .nlist li{display:grid;grid-template-columns:1.5rem 1fr;gap:0.5rem;align-items:start}
 .nlist .n{width:1.5rem;height:1.5rem;border-radius:50%;background:var(--ink);color:var(--panel);display:grid;place-items:center;font:700 0.75rem/1 var(--mono)}
@@ -554,7 +545,7 @@ const ADD = '\u0001';
 const ROLES = {po:'Product Owner', ux:'UX Designer', arch:'Architect', eng:'Software Engineer', pm:'Project Manager'};
 const NAMES = {po:'Priya', ux:'Mei', arch:'Tomas', eng:'Sam', pm:'Jordan'};
 let S, gen = 0;
-function fresh(keep){ return {started:false, col:{}, inst:keep?keep.inst:false, step:0, view:0, busy:false, a:{}, ch:{}, used:{}, files:{}, tabs:[], path:null, center:'files', msgs:[], typing:false, badges:{}, opened:{}, stepOpened:{}, build:0, build2:0, late:{}, outsOpen:false, built:false, sLock:false, bLock:false, pv:'after', sel:'riley', res:null, runs:{}, running:false, audit:[], clock:540, follow:null, qLock:false, fLock:false, changes:{}, done:false, pane:'guide', lastTarget:''}; }
+function fresh(keep){ return {started:false, col:{}, step:0, view:0, busy:false, a:{}, ch:{}, used:{}, files:{}, tabs:[], path:null, center:'files', msgs:[], typing:false, badges:{}, opened:{}, stepOpened:{}, build:0, build2:0, late:{}, outsOpen:false, built:false, sLock:false, bLock:false, pv:'after', sel:'riley', res:null, runs:{}, running:false, audit:[], clock:540, follow:null, qLock:false, fLock:false, changes:{}, done:false, pane:'guide', lastTarget:''}; }
 
 /* ================= decisions ================= */
 const QS = [
@@ -1048,46 +1039,33 @@ const BUILD2 = () => [`Make ID-VEL-01 stand out in the console: ${S.a.q8==='B'?'
 /* ================= stages ================= */
 const STAGES = [
  {id:'setup', n:0, phase:'Start', name:'Getting set up', sum:'Find your way around, see what AI-DLC v1 is made of, and meet the product you\'ll change.', outs:[],
-  roles:{po:'Nothing here needs code skills. If you can read a document and make a decision, you can do every step.', eng:'This looks like the AI coding tool you already use. AI-DLC v1 adds rule files that make it work in stages.', pm:'Watch for where work waits on a person. Those moments are where your role matters most.'},
-  talk:'Before we start: how does a change like this reach the team today, and how long before anyone writes code?'},
+  roles:{po:'Nothing here needs code skills. If you can read a document and make a decision, you can do every step.', eng:'This looks like the AI coding tool you already use. AI-DLC v1 adds rule files that make it work in stages.', pm:'Watch for where work waits on a person. Those moments are where your role matters most.'}},
  {id:'intent', n:0, pre:'The request that starts the workflow', phase:'Start', name:'Intent', sum:'Someone states the outcome they want. This is all AI-DLC v1 needs to begin. It is the request that starts the workflow, not a stage of its own.', outs:[],
-  roles:{po:'This replaces the epic. It is shorter, earlier, and about outcomes. Its clarity shapes everything after.', eng:'You see the work from its first line, before decisions are made for you.', pm:'Work starts the moment there is an intent. Add it to the plan and open a risk and dependency log.'},
-  talk:'Which of our recent tickets would have made a poor intent? What was missing?'},
+  roles:{po:'This replaces the epic. It is shorter, earlier, and about outcomes. Its clarity shapes everything after.', eng:'You see the work from its first line, before decisions are made for you.', pm:'Work starts the moment there is an intent. Add it to the plan and open a risk and dependency log.'}},
  {id:'workspace', n:1, phase:'Inception', name:'Workspace Detection', sum:'The AI checks whether this is new or existing code, and sets up its folder.', outs:[P.state,P.audit],
-  roles:{po:'From now on every document about this work lives in one folder next to the code. Ask for read access.', eng:'Check the AI found the right codebase. Everything it does next depends on it.', pm:'Two files matter to you: the state file shows progress, and the audit log records every decision.'},
-  talk:'Where do our decisions live today? How easy is it to find out who agreed what?'},
+  roles:{po:'From now on every document about this work lives in one folder next to the code. Ask for read access.', eng:'Check the AI found the right codebase. Everything it does next depends on it.', pm:'Two files matter to you: the state file shows progress, and the audit log records every decision.'}},
  {id:'reverse', n:2, phase:'Inception', name:'Reverse Engineering', cond:true, sum:'The AI reads the existing product and writes a plain-English summary of how it works.', outs:[P.biz,P.arch,P.api],
-  roles:{po:'You can see what the product does today without reading code or asking an engineer.', eng:'You approve this stage. Check the summary is right, because mistakes here carry into everything that follows.', pm:'Constraints surface on day one. Log the data retention rule as a risk now, not when it blocks the release.'},
-  talk:'How do new team members learn how our systems work today? What would a summary like this have saved?'},
+  roles:{po:'You can see what the product does today without reading code or asking an engineer.', eng:'You approve this stage. Check the summary is right, because mistakes here carry into everything that follows.', pm:'Constraints surface on day one. Log the data retention rule as a risk now, not when it blocks the release.'}},
  {id:'requirements', n:3, phase:'Inception', name:'Requirements Analysis', sum:'The AI asks everything it needs to know, checks the answers, then writes the requirements.', outs:[P.qs,P.req],
-  roles:{po:'Most questions are yours, and so is the approval. Each answer is a product decision you would otherwise make later, under pressure.', eng:'The technical questions are yours. You stop finding gaps halfway through coding.', pm:'Unanswered questions are now the main blocker. Helping people answer quickly is your most valuable job.'},
-  talk:'Think of a recent project. Which question was discovered late that could have been asked on day one?'},
+  roles:{po:'Most questions are yours, and so is the approval. Each answer is a product decision you would otherwise make later, under pressure.', eng:'The technical questions are yours. You stop finding gaps halfway through coding.', pm:'Unanswered questions are now the main blocker. Helping people answer quickly is your most valuable job.'}},
  {id:'stories', n:4, phase:'Inception', name:'User Stories', cond:true, sum:'The AI turns requirements into user stories. Their acceptance criteria become tests.', outs:[P.usa,P.sgp,P.pers,P.st],
-  roles:{po:'You approve this stage. You move from writing stories to editing the AI\'s draft. Your judgement matters more than your typing.', eng:'Check every acceptance criterion can be tested. The AI writes tests straight from them.', pm:'Stories that took several refinement meetings are agreed in one sitting.'},
-  talk:'Who writes acceptance criteria today, and how often are they vague?'},
+  roles:{po:'You approve this stage. You move from writing stories to editing the AI\'s draft. Your judgement matters more than your typing.', eng:'Check every acceptance criterion can be tested. The AI writes tests straight from them.', pm:'Stories that took several refinement meetings are agreed in one sitting.'}},
  {id:'plan', n:5, phase:'Inception', name:'Workflow Planning', sum:'The AI decides which remaining stages this change needs, and explains what it skips.', outs:[P.plan],
-  roles:{po:'The amount of process now matches the size of the change. You can ask for a skipped stage to be added back.', eng:'Challenge what the AI wants to skip. A risky change may need a design stage.', pm:'You approve this stage. It replaces the sprint plan: a list of stages, with reasons.'},
-  talk:'Where does our current process feel too heavy for small changes, or too light for risky ones?'},
- {id:'appdesign', n:6, phase:'Inception', name:'Application Design', cond:true, skip:()=>!S.changes.plan, why:'The AI judged this change to be one new check inside an existing product. You can ask for this stage back when you review the plan.', sum:'The AI designs the new components and shows where they fit in the product.', outs:[P.comp],
-  talk:'When has skipping a design step cost us later? When has doing one been wasted effort?'},
+  roles:{po:'The amount of process now matches the size of the change. You can ask for a skipped stage to be added back.', eng:'Challenge what the AI wants to skip. A risky change may need a design stage.', pm:'You approve this stage. It replaces the sprint plan: a list of stages, with reasons.'}},
+ {id:'appdesign', n:6, phase:'Inception', name:'Application Design', cond:true, skip:()=>!S.changes.plan, why:'The AI judged this change to be one new check inside an existing product. You can ask for this stage back when you review the plan.', sum:'The AI designs the new components and shows where they fit in the product.', outs:[P.comp]},
  {id:'units', n:7, phase:'Inception', name:'Units Generation', cond:true, sum:'The AI splits the work into units of work. Each one then goes through Construction in turn.', outs:[P.uowp,P.units,P.dep,P.map],
-  roles:{po:'Each unit is a slice you can see working on its own, in hours or days.', eng:'Check the units are cleanly separated, so one can finish without the other.', pm:'You approve this stage. Check the build order and flag any dependency that could block a unit.'},
-  talk:'If work arrives in hours, not sprints, what has to change in how we plan?'},
+  roles:{po:'Each unit is a slice you can see working on its own, in hours or days.', eng:'Check the units are cleanly separated, so one can finish without the other.', pm:'You approve this stage. Check the build order and flag any dependency that could block a unit.'}},
  {id:'fd', n:8, phase:'Construction', name:'Functional Design', cond:true, skip:()=>true, why:'The execution plan skipped it: the counting logic is simple.', outs:[]},
  {id:'nfr', n:9, phase:'Construction', name:'NFR Requirements', cond:true, sum:'The AI asks what it still needs to know, then sets out how well the unit must work: speed, privacy, data retention, error handling.', outs:[P.nfrp,P.nfr],
-  roles:{po:'Storing a scrambled fingerprint is a privacy decision you can explain to customers and regulators.', eng:'You approve this stage. These requirements shape the code and the tests.', pm:'This file is ready-made evidence for a data protection or security review.'},
-  talk:'Which of our quality rules are written down, and which live in people\'s heads?'},
+  roles:{po:'Storing a scrambled fingerprint is a privacy decision you can explain to customers and regulators.', eng:'You approve this stage. These requirements shape the code and the tests.', pm:'This file is ready-made evidence for a data protection or security review.'}},
  {id:'nfrd', n:10, phase:'Construction', name:'NFR Design', cond:true, skip:()=>true, why:'The execution plan skipped it: existing patterns cover it.', outs:[]},
  {id:'infra', n:11, phase:'Construction', name:'Infrastructure Design', cond:true, skip:()=>true, why:'The execution plan skipped it: no new infrastructure.', outs:[]},
  {id:'code', n:12, phase:'Construction', name:'Code Generation', sum:'For each unit in turn, the AI writes a build plan, then the code and tests.', outs:[P.cgp,P.code,P.tests,P.cgp2,P.tests2],
-  roles:{po:'Your decisions were settled before the plan was written. Read the plan to check it matches what you agreed.', eng:'You approve the plan and the code. You type less and review more. The risk is approving without reading.', pm:'The plan\'s checkboxes are your progress report. Each unit has its own plan and its own approvals.'},
-  talk:'What would stop us rubber-stamping AI-written code when we are busy?'},
+  roles:{po:'Your decisions were settled before the plan was written. Read the plan to check it matches what you agreed.', eng:'You approve the plan and the code. You type less and review more. The risk is approving without reading.', pm:'The plan\'s checkboxes are your progress report. Each unit has its own plan and its own approvals.'}},
  {id:'test', n:13, phase:'Construction', name:'Build and Test', sum:'The AI builds everything, runs every test, and links each result to a story.', outs:[P.bts],
-  roles:{po:'You accept the result. Each test maps to an acceptance criterion you approved.', eng:'Check the tests prove the criteria, not just that the code runs.', pm:'The evidence for change approval already exists in the project folder.'},
-  talk:'How do we prove today that what we shipped is what was asked for?'},
+  roles:{po:'You accept the result. Each test maps to an acceptance criterion you approved.', eng:'Check the tests prove the criteria, not just that the code runs.', pm:'The evidence for change approval already exists in the project folder.'}},
  {id:'ops', n:14, ph:true, phase:'Operations', name:'Operations', sum:'Deploying and running. A placeholder in v1: teams use their existing release process.', outs:[],
-  roles:{po:'Tell lenders the new reason code is coming, then track whether reported fraud falls.', eng:'Release and monitor through the existing pipeline, as today.', pm:'Run the release as usual. In v2, release planning becomes part of the workflow.'},
-  talk:'What would we want AI-DLC v1 to do for us in Operations when v2 arrives?'}
+  roles:{po:'Tell lenders the new reason code is coming, then track whether reported fraud falls.', eng:'Release and monitor through the existing pipeline, as today.', pm:'Run the release as usual. In v2, release planning becomes part of the workflow.'}}
 ];
 const PERSP = {
  setup:{po:'Nothing here needs code skills. If you can read a document and make a decision, you can do every step.', eng:'This looks like the AI coding tool you already use. AI-DLC v1 adds rule files that make it work in stages.', pm:'Watch for where work waits on a person. Those moments are where your role matters most.'},
@@ -1530,7 +1508,7 @@ function moveHTML(){ const st=STEPS[S.step], a=st.act;
   if (a.type==='prompt') return `<div class="move"><span class="lab">Your move</span><span>Send the suggested message in the AI assistant panel.</span></div>`;
   if (a.type==='chips') return `<div class="move"><span class="lab">Your move</span><span>Reply to the AI in the AI assistant panel.</span></div>`;
   if (ready(st)) return `<div class="move"><span class="lab">Your move</span><span>${a.type==='next'?'Read this step, then continue.':'Done. Continue when you\'re ready.'}</span></div><button class="btn primary" data-act="next">Continue</button>`;
-  const txt = a.type==='open'?`Open ${a.paths.map(fname).join(' and ')} in the file list.`:a.type==='answer'?a.hint||(a.qs.length>1?`Answer the questions in the file (${a.qs.filter(q=>S.a[q]).length} of ${a.qs.length} done).`:'Answer the follow-up at the bottom of the file.'):a.type==='preview'?`In the app preview, select ${APPS[a.app].name} and run a risk assessment.`:'Choose an option above.';
+  const txt = a.type==='open'?`Open ${a.paths.map(fname).join(' and ')} in the file list.`:a.type==='answer'?a.hint||(a.qs.length>1?`Answer the questions in the file (${a.qs.filter(q=>S.a[q]).length} of ${a.qs.length} done).`:'Answer the follow-up at the bottom of the file.'):a.type==='preview'?`In the app preview, select ${APPS[a.app].name} and run a risk assessment.`:'Choose an option below.';
   return `<div class="move" role="status"><span class="lab">Your move</span><span>${txt}</span></div><button class="btn primary" disabled>Continue</button>`;
 }
 function renderGuide(){ const el=document.getElementById('pane-guide'); const st=STEPS[S.view], sg=STAGES[SI[st.stage]], ss=stageSteps(st.stage);
@@ -1545,15 +1523,14 @@ function renderGuide(){ const el=document.getElementById('pane-guide'); const st
    <div class="scroll"><div class="g-body">
     <div><div class="grow1"><span class="chipst">${sg.ph?'Operations · a placeholder in v1':sg.n?`Stage ${sg.n} of 13 · ${sg.phase}`:sg.pre||'Before you start'}${sg.cond?' · when needed':''}</span><span class="sdots" aria-label="Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length} in this stage">${ss.map(o=>`<i class="${o.i<S.step?'d':''} ${o.i===S.view?'c':''}"></i>`).join('')}<span class="k" style="margin-left:0.25rem">Part ${ss.findIndex(o=>o.i===S.view)+1} of ${ss.length}</span></span></div><h2>${sg.name}</h2><p class="gsum">${sg.sum}</p></div>
     <h3>${st.title}</h3>${st.body()}${extra}<div class="roles">${roles}</div>${outs}
-    ${S.inst?`<div class="box"><span class="k">Ask the group</span><p>${sg.talk}</p></div>`:''}
    </div></div>
-   <div class="gnav"><div class="navrow"><button class="btn sm" data-act="back" ${S.view===0?'disabled':''}>‹ Earlier step</button><span class="k">${S.inst?'Right arrow key continues':''}</span><button class="btn sm" data-act="fwd" ${S.view>=S.step?'disabled':''}>Later step ›</button></div></div>`;
+   <div class="gnav"><div class="navrow"><button class="btn sm" data-act="back" ${S.view===0?'disabled':''}>‹ Earlier step</button><button class="btn sm" data-act="fwd" ${S.view>=S.step?'disabled':''}>Later step ›</button></div></div>`;
   hideTip(); glossify(el.querySelector('.g-body'));
 }
 function renderTop(){ const cs=curStage(), vs=SI[STEPS[S.view].stage]; const groups=['Start','Inception','Construction','Operations'];
   document.getElementById('stepper').innerHTML=groups.map(g=>`<div class="ph"><span class="pn">${g}</span><div class="ds">${STAGES.map((s,i)=>{ if (s.phase!==g) return ''; const sk=!!(s.skip&&s.skip()&&S.files[P.plan]), dn=S.done||i<cs, nm=s.name+(sk?' (skipped for this change)':''); return `<button class="dot ${sk?'skip':dn?'done':i===cs?'now':''} ${i===vs&&vs!==cs?'view':''}" data-stage="${i}" title="${s.n&&!s.ph?s.n+'. ':''}${nm}" aria-label="${nm}">${sk?'–':dn?'✓':s.ph?'•':s.n||'•'}</button>`; }).join('')}</div></div>`).join('')+`<button class="now-name" id="btn-stages" aria-haspopup="true" title="See all the stages">${S.done?'Complete':`<span class="sn">${STAGES[cs].ph?'':STAGES[cs].n?`Stage ${STAGES[cs].n} of 13 · `:''}</span>${STAGES[cs].name}`} ▾</button>`;
   document.getElementById('btn-badges').textContent=`🏅 ${BADGES.filter(b=>S.badges[b[0]]).length}/${BADGES.length}`;
-  document.body.classList.toggle('inst',S.inst); fitTop();
+  fitTop();
 }
 function stagesHTML(){ const cs=curStage(), planned=!!S.files[P.plan]; let out='<b>The stages of AI-DLC v1</b>';
   ['Start','Inception','Construction','Operations'].forEach(g=>{ out+=`<div class="sgrp">${g==='Start'?'Before the stages':g}</div>`+STAGES.map((s,i)=>{ if (s.phase!==g) return ''; const sk=!!(s.skip&&s.skip()&&planned), dn=S.done||i<cs, nowS=!S.done&&i===cs;
@@ -1579,14 +1556,13 @@ function startPages(){ const help=S.started; return [
  {t:'Welcome', h:`<span class="k">Spec Driven Development · AWS AI-DLC v1</span><h1 id="st-h">AI-DLC v1 Learning Lab</h1>
   <p style="font-size:1.0625rem;max-width:62ch">Learn the framework by using it. You'll take one change to an identity risk product from a lender's complaint to working, tested software, guided step by step.</p>
   <ul style="margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:0.25rem"><li>Work with an AI assistant the way a real team does: send requests, answer its questions, approve its work.</li><li>Some of the AI's drafts contain mistakes. Catch them before you approve.</li><li>Use the product before and after, and see how your decisions changed it.</li></ul>
-  <div><span class="k">Your team</span><div class="team" style="margin-top:0.375rem">${Object.keys(ROLES).map(k=>`<span class="tm" style="--rc:var(--${k})"><b>${NAMES[k]}</b> ${ROLES[k]}</span>`).join('')}</div><p style="color:var(--muted);margin-top:0.375rem">You drive the AI assistant on the team's behalf. The guide shows whose decision each step is.</p></div>
-  <div><span class="k">How are you using the lab?</span><div class="pick two" style="margin-top:0.375rem"><button class="pk" data-inst="0" aria-pressed="${!S.inst}"><b>On my own</b><small>Self-guided, at your own pace</small></button><button class="pk" data-inst="1" aria-pressed="${S.inst}"><b>Leading a group</b><small>Larger text and a discussion prompt at every stage</small></button></div></div>`},
+  <div><span class="k">Your team</span><div class="team" style="margin-top:0.375rem">${Object.keys(ROLES).map(k=>`<span class="tm" style="--rc:var(--${k})"><b>${NAMES[k]}</b> ${ROLES[k]}</span>`).join('')}</div><p style="color:var(--muted);margin-top:0.375rem">You drive the AI assistant on the team's behalf. The guide shows whose decision each step is.</p></div>`},
  {t:'How it works', h:`<h1 id="st-h" style="font-size:1.75rem">How the lab works</h1>
-  <div class="st2"><div class="mapx" aria-hidden="true"><div class="mt"><span>Stages</span><span>Badges · Help</span></div><div class="mc"><div class="on">1 Guide<i></i><i class="s"></i><i></i><span class="yb">Your move</span></div><div>2 Project<i></i><i class="s"></i><i></i><i class="s"></i></div><div>3 AI assistant<i class="s"></i><i></i><i class="s"></i></div></div></div>
-   <ul class="nlist"><li><span class="n">1</span><span><b>Guide</b><p>What to do at each step, and why it matters. The bottom of the panel always says what your next move is.</p></span></li><li><span class="n">2</span><span><b>Project</b><p>The files the AI writes, and <b>App preview</b> to use the product.</p></span></li><li><span class="n">3</span><span><b>AI assistant</b><p>Send messages, answer the AI and approve its work. Your teammates chat here too.</p></span></li></ul></div>
+  <div class="st2"><div class="mapx" aria-hidden="true"><div class="mt"><span>Stages</span><span>Badges · Help</span></div><div class="mc"><div class="on">1 Guide<span class="yb">Your move</span><i></i><i class="s"></i><i></i></div><div>2 Project<i></i><i class="s"></i><i></i><i class="s"></i></div><div>3 AI assistant<i class="s"></i><i></i><i class="s"></i></div></div></div>
+   <ul class="nlist"><li><span class="n">1</span><span><b>Guide</b><p>What to do at each step, and why it matters. The top of the panel always says what your next move is.</p></span></li><li><span class="n">2</span><span><b>Project</b><p>The files the AI writes, and <b>App preview</b> to use the product.</p></span></li><li><span class="n">3</span><span><b>AI assistant</b><p>Send messages, answer the AI and approve its work. Your teammates chat here too.</p></span></li></ul></div>
   <div class="tips"><div class="hot"><b>Follow the red outline</b><p>The panel you need next has a red outline and a <b>Your move</b> label. If you are unsure what to do, look for it.</p></div><div><b>Check before you approve</b><p>Some of the AI's drafts have a mistake in them on purpose. Open the files and compare. You can approve, or request a change.</p></div><div><b>Look things up</b><p>Words with a dotted underline have a definition: hover or tap. <b>Glossary</b> lists them all.</p></div><div><b>Find your way</b><p>Click the stage name at the top to see every stage. Drag the edges between panels to resize them.</p></div></div>`},
  {t:'Get started', h:`<h1 id="st-h" style="font-size:1.75rem">${help?'Shortcuts and first moves':'Your first five moves'}</h1>
-  <div class="st2"><div><span class="k">The first few steps</span><ol class="moves" style="margin-top:0.5rem"><li><span><b>Read the welcome step, then press Continue</b><small>Continue is at the bottom of the Guide panel. <kbd>→</kbd> does the same.</small></span></li><li><span><b>Open core-workflow.md in the file list</b><small>It is highlighted in the Project panel. These are the rules the AI follows.</small></span></li><li><span><b>Try the product as it is today</b><small>In App preview, select Alex Morgan and press Run risk assessment. Notice the low score.</small></span></li><li><span><b>Pick the best intent</b><small>Choose one of three statements in the Guide. You get feedback straight away.</small></span></li><li><span><b>Send your first message to the AI</b><small>Press Send in the AI assistant panel. From then on, the guide walks you through each stage.</small></span></li></ol></div>
+  <div class="st2"><div><span class="k">The first few steps</span><ol class="moves" style="margin-top:0.5rem"><li><span><b>Read the welcome step, then press Continue</b><small>Continue is at the top of the Guide panel. <kbd>→</kbd> does the same.</small></span></li><li><span><b>Open core-workflow.md in the file list</b><small>It is highlighted in the Project panel. These are the rules the AI follows.</small></span></li><li><span><b>Try the product as it is today</b><small>In App preview, select Alex Morgan and press Run risk assessment. Notice the low score.</small></span></li><li><span><b>Pick the best intent</b><small>Choose one of three statements in the Guide. You get feedback straight away.</small></span></li><li><span><b>Send your first message to the AI</b><small>Press Send in the AI assistant panel. From then on, the guide walks you through each stage.</small></span></li></ol></div>
    <div><span class="k">Keyboard shortcuts</span><div style="margin-top:0.5rem">${kbdHTML()}</div></div></div>
   <p class="stnote">Stuck at any point? Look for the red outline, or press <kbd>?</kbd> to open this guide again. Your progress is saved in this browser.</p>`}
 ]; }
@@ -1613,7 +1589,6 @@ document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s
   if (c('#go')||c('#go-skip')){ start(); return; }
   if (c('#btn-help')){ openHelp(); return; }
   if (c('[data-act="closehelp"]')){ closeHelp(); return; }
-  if ((x=c('[data-inst]'))){ S.inst=x.dataset.inst==='1'; renderAll(); return; }
   if (c('#zoom-in')){ setZoom(zoomI+1); return; }
   if (c('#zoom-out')){ setZoom(zoomI-1); return; }
   if (c('#zoom-reset')){ setZoom(ZOOMS.indexOf(1)); return; }
@@ -1636,7 +1611,7 @@ document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s
     if (first<0){ pop.dataset.kind='jump'; pop.innerHTML=S.files[P.plan]?`<b>${STAGES[i].name}: skipped for this change</b><p>${STAGES[i].why}</p><p style="color:var(--muted)">It is still one of the 13 stages of AI-DLC v1. A stage marked "when needed" only runs when the work calls for it.</p>`:`<b>${STAGES[i].name}</b><p>This stage only runs when the work needs it. The AI proposes whether to run it at Workflow Planning, and the team decides.</p>`; pop.hidden=false; }
     else if (first<=S.step){ S.view=Math.min(first,S.step); if (i===curStage()) S.view=S.step; renderAll(); }
     else if (S.busy){ pop.dataset.kind='jump'; pop.innerHTML='<p>Wait for the AI to finish, then try again.</p>'; pop.hidden=false; }
-    else { pop.dataset.kind='jump'; pop.innerHTML=`<b>Jump ahead to ${STAGES[i].name}?</b><p style="color:var(--muted)">The steps in between will be completed for you with typical answers. Useful when leading a group.</p><div style="display:flex;gap:0.5rem"><button class="btn primary" data-jump="${first}">Jump ahead</button><button class="btn" data-act="closepop">Cancel</button></div>`; pop.hidden=false; }
+    else { pop.dataset.kind='jump'; pop.innerHTML=`<b>Jump ahead to ${STAGES[i].name}?</b><p style="color:var(--muted)">The steps in between will be completed for you with typical answers.</p><div style="display:flex;gap:0.5rem"><button class="btn primary" data-jump="${first}">Jump ahead</button><button class="btn" data-act="closepop">Cancel</button></div>`; pop.hidden=false; }
     return; }
   if ((x=c('[data-act]'))){ const a=x.dataset.act;
     if (a==='next'){ if (!S.busy&&S.view===S.step&&ready(STEPS[S.step])) next(); }

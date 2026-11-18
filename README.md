@@ -6,7 +6,7 @@ Players pick a role and follow one change to an illustrative identity risk produ
 
 ## Learning Lab
 
-`learning-lab/index.html` is a second, self-guided version: the AI-DLC v1 Learning Lab. It teaches the framework step by step in a full-screen workspace with a lesson guide, a file explorer and code editor, an AI assistant chat with a small team, and a working preview of the mock product before and after the change. It can be used alone or by an instructor leading a group, and it saves progress in the browser. Some of the AI's drafts contain planted mistakes to catch before approving, teammates sometimes disagree, and the lab ends with a month of made-up production results that follow from the learner's decisions.
+`learning-lab/index.html` is a second, self-guided version: the AI-DLC v1 Learning Lab. It teaches the framework step by step in a full-screen workspace with a lesson guide, a file explorer and code editor, an AI assistant chat with a small team, and a working preview of the mock product before and after the change. It saves progress in the browser. Some of the AI's drafts contain planted mistakes to catch before approving, teammates sometimes disagree, and the lab ends with a month of made-up production results that follow from the learner's decisions.
 
 ## Running it
 
