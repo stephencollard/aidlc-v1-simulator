@@ -8,12 +8,16 @@ Players pick a role and follow one change to an illustrative identity risk produ
 
 `learning-lab/index.html` is a second, self-guided version: the AI-DLC v1 Learning Lab. It teaches the framework step by step in a full-screen workspace with a lesson guide, a file explorer and code editor, an AI assistant chat with a small team, and a working preview of the mock product before and after the change. It saves progress in the browser. To run it in a live training call, see the [facilitation guide](learning-lab/FACILITATION-GUIDE.md). Some of the AI's drafts contain planted mistakes to catch before approving, teammates sometimes disagree, and the lab ends with a month of made-up production results that follow from the learner's decisions.
 
+## AI-DLC v2 Learning Lab
+
+`learning-lab-v2/index.html` teaches AI-DLC v2 with the same interface, mock product and outcome. It follows the same change through the v2 feature workflow profile: all five phases and 33 stages, from Ideation to Operation. The chat panel becomes an Agents panel: each stage's lead agent, the Product Lead and Architecture reviewer agents with their findings, the conductor's approval gates, and a status line. Learners choose a workflow profile, answer questions in v2 question files, decide which reviewer findings to fix or accept as risk, approve the verification command and each code plan, and finish with the Feedback & Optimization stage. Some steps cover two stages to keep the lab to about 35 minutes.
+
 ## Running it
 
-Each one is a single self-contained HTML file. Open `index.html` (the simulator) or `learning-lab/index.html` (the Learning Lab) in a browser, or serve them with GitHub Pages.
+Each one is a single self-contained HTML file. Open `index.html` (the simulator), `learning-lab/index.html` (the v1 Learning Lab) or `learning-lab-v2/index.html` (the v2 Learning Lab) in a browser, or serve them with GitHub Pages.
 
 ## Notes
 
 - The scenario, people, times and figures are illustrative and made up for training.
-- Folder and file names are simplified versions of the real AI-DLC v1 layout.
-- Based on [awslabs/aidlc-workflows](https://github.com/awslabs/aidlc-workflows).
+- Folder and file names are simplified versions of the real AI-DLC v1 layout. The v2 lab uses the v2 record layout (`aidlc/spaces/<space>/intents/<intent>/`) with fewer files per stage.
+- Based on [awslabs/aidlc-workflows](https://github.com/awslabs/aidlc-workflows): the `v1` branch for v1, and `main` (v2) for the v2 lab.
