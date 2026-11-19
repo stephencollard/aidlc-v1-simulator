@@ -2173,16 +2173,15 @@ const edState = p => S.files[p]&&S.files[p].state;
 const edMark = p => edState(p)==='new'?'<span class="mk n" title="Created by an agent">N</span>':edState(p)==='mod'?'<span class="mk m" title="Changed by an agent">M</span>':'';
 const edLang = p => { const f=FILES[p]; return !f?'':f.lang==='py'?'Python':f.lang==='json'?'JSON':'Markdown'; };
 function edVisible(){ const e=ED(), q=e.q.trim().toLowerCase();
-  return edFiles().filter(p=>(e.show==='all'||(e.show==='changed'?edState(p)!=='base':(S.files[p].step===S.step)))&&(!q||p.toLowerCase().includes(q))); }
+  return edFiles().filter(p=>(e.show==='all'||(e.show==='changed'?edState(p)!=='base':(S.files[p].step!==undefined&&STEPS[S.files[p].step]&&STEPS[S.files[p].step].stage===STEPS[S.step].stage)))&&(!q||p.toLowerCase().includes(q))); }
 function edTree(){ const e=ED(), list=edVisible(), tree={};
   list.forEach(p=>{ let n=tree; const parts=p.split('/'); parts.forEach((x,i)=>{ if (i===parts.length-1) n[x]=p; else n=n[x]=n[x]||{}; }); });
   // Fold single-child folder chains into one row, as code editors do.
   const squash=n=>{ for (const k of Object.keys(n)){ let v=n[k]; if (typeof v==='string') continue; let key=k; while (typeof v!=='string'){ const ks=Object.keys(v); if (ks.length!==1||typeof v[ks[0]]==='string') break; key+='/'+ks[0]; v=v[ks[0]]; } squash(v); if (key!==k){ const out={}; for (const kk of Object.keys(n)) out[kk===k?key:kk]=kk===k?v:n[kk]; Object.keys(n).forEach(kk=>delete n[kk]); Object.assign(n,out); } } };
   squash(tree);
-  const filtering=!!e.q.trim()||e.show!=='all';
   const walk=(n,d,pre)=>Object.entries(n).map(([k,v])=>{ if (typeof v==='string') return `<button class="erow ${e.path===v?'cur':''}" style="padding-left:${0.5+d*0.75}rem" data-eopen="${v}" title="${v}"><span class="nm">${k}</span>${edMark(v)}</button>`;
-    const fp=pre+k+'/', col=!filtering&&!!e.col[fp]; return `<button class="edir" data-edir="${fp}" aria-expanded="${!col}" style="padding-left:${0.375+d*0.75}rem"><span class="car">${col?'▸':'▾'}</span>${k}/</button>${col?'':walk(v,d+1,fp)}`; }).join('');
-  return list.length?walk(tree,0,''):'<p class="muted" style="padding:0.75rem;font-size:0.8125rem">No files match.</p>'; }
+    const fp=pre+k+'/', col=!!e.col[fp]; return `<button class="edir" data-edir="${fp}" aria-expanded="${!col}" style="padding-left:${0.375+d*0.75}rem"><span class="car">${col?'▸':'▾'}</span>${k}/</button>${col?'':walk(v,d+1,fp)}`; }).join('');
+  return list.length?walk(tree,0,''):`<p class="muted" style="padding:0.75rem;font-size:0.8125rem">${e.show==='step'&&!e.q.trim()?'No files written in this stage yet.':'No files match.'}</p>`; }
 function edLines(p){ const f=FILES[p];
   if (f.lang==='q') return f.lines().map(l=>{ const raw=l.h!==undefined?l.h.replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'):l.t; return {add:l.add, raw, h:hl(raw,'md')}; });
   const lang=f.lang==='py'?'py':f.lang==='json'?'':'md';
@@ -2200,7 +2199,7 @@ function edHTML(){ const e=ED(), all=edFiles(), nN=all.filter(p=>edState(p)==='n
    <div class="edh"><h2 id="ed-h">Project files</h2><span class="muted">${all.length} files · <span class="mk n">N</span> ${nN} created · <span class="mk m">M</span> ${nM} changed by agents</span><span class="sp"></span>
     ${e.path?`<button class="btn sm" data-act="edcard" title="Show this file in the stage card">Show in stage card</button>`:''}<button class="btn" data-act="edclose">Close ✕</button></div>
    <div class="edwrap"><aside class="eside"><input class="esearch" id="ed-q" type="search" placeholder="Filter files…" value="${esc(e.q)}" aria-label="Filter files by name">
-     <div class="eseg" role="group" aria-label="Show">${[['all','All'],['changed','By agents'],['step','This step']].map(([k,l])=>`<button data-eshow="${k}" aria-pressed="${e.show===k}">${l}</button>`).join('')}</div>
+     <div class="eseg" role="group" aria-label="Show">${[['all','All'],['changed','By agents'],['step','This stage']].map(([k,l])=>`<button data-eshow="${k}" aria-pressed="${e.show===k}">${l}</button>`).join('')}</div>
      <div class="etree" id="ed-tree">${edTree()}</div>
      <div class="eside-f"><button class="lnk" data-act="edcolall">${Object.values(e.col).some(Boolean)?'Expand all':'Collapse all'}</button></div></aside>
     <section class="emain"><div class="etabs" role="tablist">${e.tabs.map(t=>`<div class="etab ${t===e.path?'cur':''}"><button class="tn" role="tab" aria-selected="${t===e.path}" data-eopen="${t}">${fname(t)}</button><button class="tx" data-eclose="${t}" aria-label="Close ${fname(t)}">×</button></div>`).join('')}
@@ -2283,7 +2282,7 @@ document.addEventListener('keydown', e=>{ if (e.target.closest&&e.target.closest
   if (e.key==='?'&&!e.target.closest('input,textarea')){ e.preventDefault(); openHelp(); return; }
   if (e.key==='Escape'){ document.getElementById('pop').hidden=true; hideTip(); closeLC(); closeED(); return; } if (!S.started||e.target.closest('select')) return; if (e.key==='ArrowRight'){ if (S.view<S.step){ S.view=seek(S.view,1); renderAll(); } else if (!S.busy){ const st=STEPS[S.step]; if (st.act.type==='prompt') send(); else if (ready(st)) next(); } } else if (e.key==='ArrowLeft'&&S.view>0){ S.view=seek(S.view,-1); renderAll(); } });
 
-document.addEventListener('input', e=>{ if (e.target.id==='ed-q'){ ED().q=e.target.value; document.getElementById('ed-tree').innerHTML=edTree(); } else if (e.target.id==='ed-find'){ ED().find=e.target.value; document.getElementById('ed-body').innerHTML=edBody(); const h=document.querySelector('#ecode .hit'); if (h) h.scrollIntoView({block:'center'}); } });
+document.addEventListener('input', e=>{ if (e.target.id==='ed-q'){ ED().q=e.target.value; ED().col={}; document.getElementById('ed-tree').innerHTML=edTree(); const ca=document.querySelector('[data-act=edcolall]'); if (ca) ca.textContent='Collapse all'; } else if (e.target.id==='ed-find'){ ED().find=e.target.value; document.getElementById('ed-body').innerHTML=edBody(); const h=document.querySelector('#ecode .hit'); if (h) h.scrollIntoView({block:'center'}); } });
 const isDark = () => { const t=document.documentElement.dataset.theme; return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
 const themeLabel = () => { const d=isDark(); document.getElementById('theme-txt').textContent = d ? 'Light mode' : 'Dark mode'; document.getElementById('btn-theme').dataset.mode = d ? 'dark' : 'light'; };
 try { const t=localStorage.getItem('aidlc-lab-theme'); if (t==='dark'||t==='light') document.documentElement.dataset.theme=t; } catch(e){}
