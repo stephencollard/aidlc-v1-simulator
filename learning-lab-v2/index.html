@@ -661,6 +661,44 @@ mark.flag{background:#FFF1B8;color:inherit;border-radius:0.25rem;padding:0 0.187
 .mini .ln .tx{flex:1;white-space:pre-wrap;word-break:break-word;padding-right:0.625rem;min-height:1.6em}
 .mini .ln.add{background:color-mix(in srgb,var(--good) 13%,transparent)}.mini .ln.add .no{color:var(--good)}
 .mini .ln.flg{background:color-mix(in srgb,#F2C230 22%,transparent);box-shadow:inset 3px 0 0 #F2C230}
+/* ---- code editor modal ---- */
+#edm{position:fixed;inset:0;z-index:72;background:color-mix(in srgb,var(--bar) 55%,transparent);backdrop-filter:blur(3px);display:grid;place-items:center;padding:1rem}
+.edm-card{background:var(--panel);border-radius:1rem;box-shadow:0 1.5rem 4.5rem rgba(0,0,0,.3);width:min(92rem,100%);height:min(56rem,100%);display:flex;flex-direction:column;overflow:hidden}
+.edh{display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;border-bottom:1px solid var(--line);flex-wrap:wrap}.edh h2{font-size:1.125rem}.edh .muted{font-size:0.8125rem}.edh .sp{flex:1}
+.edwrap{flex:1;min-height:0;display:grid;grid-template-columns:minmax(13rem,18rem) minmax(0,1fr)}
+.eside{border-right:1px solid var(--line);background:var(--panel2);display:flex;flex-direction:column;min-height:0}
+.esearch,.efindbox{font:inherit;font-size:0.8125rem;border:1px solid var(--line);border-radius:0.5rem;padding:0.375rem 0.5rem;background:var(--panel);color:var(--ink)}
+.esearch{margin:0.625rem 0.625rem 0.375rem}.efindbox{margin:0.25rem 0.5rem;width:12rem}
+.eseg{display:flex;margin:0 0.625rem 0.375rem;border:1px solid var(--line);border-radius:0.5rem;overflow:hidden}
+.eseg button{all:unset;cursor:pointer;flex:1;text-align:center;font-size:0.71875rem;padding:0.3125rem 0.25rem;background:var(--panel)}
+.eseg button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.etree{flex:1;min-height:0;overflow:auto;padding:0.25rem 0.375rem 0.75rem;font:0.78125rem/1.35 var(--mono)}
+.erow,.edir{all:unset;cursor:pointer;display:flex;align-items:flex-start;gap:0.375rem;padding:0.25rem 0.5rem;border-radius:0.375rem;width:100%;box-sizing:border-box;overflow-wrap:anywhere}
+.edir{color:var(--muted)}.edir .car{width:0.625rem;flex:0 0 auto}
+.erow:hover,.edir:hover{background:color-mix(in srgb,var(--ink) 7%,transparent)}.erow.cur{background:color-mix(in srgb,var(--ink) 11%,transparent);font-weight:600}
+.erow .nm{flex:1;min-width:0}
+.edm-card .mk{display:inline-block;flex:0 0 auto;width:auto;height:auto;font:600 0.625rem/1 var(--mono);padding:0.1875rem 0.3125rem;border-radius:0.25rem;color:#fff;margin:0;vertical-align:1px}.edm-card .mk.n{background:var(--good)}.edm-card .mk.m{background:var(--warn)}
+.eside-f{border-top:1px solid var(--line);padding:0.375rem 0.75rem}
+.emain{display:flex;flex-direction:column;min-width:0;min-height:0}
+.etabs{display:flex;align-items:center;border-bottom:1px solid var(--line);background:var(--panel2);overflow-x:auto;flex:0 0 auto}.etabs .sp{flex:1}
+.etab{display:flex;align-items:center;border-right:1px solid var(--line);color:var(--muted);flex:0 0 auto}
+.etab .tn{all:unset;cursor:pointer;font:0.75rem/1 var(--mono);padding:0.5625rem 0.25rem 0.5625rem 0.75rem;white-space:nowrap}
+.etab .tx{all:unset;cursor:pointer;width:1.25rem;height:1.25rem;display:grid;place-items:center;border-radius:0.3125rem;margin-right:0.375rem}.etab .tx:hover{background:color-mix(in srgb,var(--ink) 12%,transparent)}
+.etab.cur{background:var(--panel);color:var(--ink);box-shadow:inset 0 2px 0 var(--accent)}
+.ebody{flex:1;min-height:0;display:flex;flex-direction:column}
+.ebar{display:flex;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;padding:0.375rem 0.875rem;font:0.71875rem var(--mono);border-bottom:1px solid var(--line)}
+.crumb{color:var(--ink);overflow-wrap:anywhere}.crumb i{font-style:normal;color:var(--muted);margin:0 0.1875rem}.addn{color:var(--good)}
+.eabout{padding:0.375rem 0.875rem;font-size:0.8125rem;color:var(--muted);border-bottom:1px solid var(--line)}
+.efind{font:600 0.6875rem var(--mono);color:var(--accent);border:1px solid var(--accent);border-radius:0.25rem;padding:0 0.25rem}.efind.ok{color:var(--good);border-color:var(--good)}
+.ecode{flex:1;min-height:0;overflow:auto;padding:0.5rem 0 1.5rem;font:0.8125rem/1.65 var(--mono)}
+.ecode .ln{display:flex}.ecode .no{flex:0 0 2.75rem;text-align:right;padding-right:0.75rem;color:color-mix(in srgb,var(--muted) 60%,transparent);user-select:none}
+.ecode .tx{flex:1;white-space:pre-wrap;word-break:break-word;padding-right:0.875rem;min-height:1.65em}
+.ecode .ln.add{background:color-mix(in srgb,var(--good) 13%,transparent)}.ecode .ln.add .no{color:var(--good)}
+.ecode .ln.flg{background:color-mix(in srgb,#F2C230 22%,transparent);box-shadow:inset 3px 0 0 #F2C230}
+.ecode .ln.hit .no{color:var(--accent);font-weight:700}
+mark.fm{background:color-mix(in srgb,var(--accent) 28%,transparent);color:inherit;border-radius:0.1875rem}
+.edfoot{padding:0.5rem 1rem;border-top:1px solid var(--line);font-size:0.75rem}
+@media (max-width:980px){.edwrap{grid-template-columns:1fr;grid-template-rows:minmax(0,40%) minmax(0,1fr)}.eside{border-right:none;border-bottom:1px solid var(--line)}.efindbox{width:8rem}#edm{padding:0.25rem}.edm-card{height:100%}}
 </style>
 </head>
 <body data-pane="guide">
@@ -669,6 +707,7 @@ mark.flag{background:#FFF1B8;color:inherit;border-radius:0.25rem;padding:0 0.187
   <button class="lcbtn" id="btn-lc" aria-haspopup="dialog" title="See every stage and your progress"></button><nav class="stepper" id="stepper" aria-hidden="true"></nav><span style="flex:1"></span>
   <div class="tools">
     <button class="tb hide-s" id="btn-badges" title="Badges you have earned">Badges</button>
+    <button class="tb" id="btn-files" aria-haspopup="dialog" title="Explore every file the agents have written. Shortcut: F">📁 Files</button>
     <button class="tb" id="btn-help" title="How to use the lab. Shortcut: ?">Help</button>
     <button class="tb" id="btn-theme"><span class="saber" aria-hidden="true"><i class="blade"></i><i class="hilt"></i></span><span id="theme-txt">Dark mode</span></button>
     <span class="zoom hide-s" role="group" aria-label="Text and app size"><button id="zoom-out" aria-label="Make everything smaller" title="Smaller">−</button><button class="zl" id="zoom-reset" title="Back to the automatic size">100%</button><button id="zoom-in" aria-label="Make everything larger" title="Larger">+</button></span>
@@ -688,6 +727,7 @@ mark.flag{background:#FFF1B8;color:inherit;border-radius:0.25rem;padding:0 0.187
 <nav class="mnav" id="mnav"></nav>
 <div id="veil"></div>
 <div id="lcm" hidden></div>
+<div id="edm" hidden></div>
 
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1978,7 +2018,7 @@ function renderAll(){ renderTop(); renderGuide(); renderWs(); renderChat();
 }
 /* The start guide. Before the lab starts it is the welcome screen; afterwards Help or ? reopens it. */
 let stPage=0, helpOpen=false, lastStart='';
-const kbdHTML = () => `<dl class="keys"><dt><kbd>→</kbd></dt><dd>Continue, or send the suggested message</dd><dt><kbd>←</kbd></dt><dd>Go back a step to re-read it. Nothing is undone.</dd><dt><kbd>Enter</kbd> <kbd>Space</kbd></dt><dd>Press the highlighted button. It is your next action.</dd><dt><kbd>?</kbd></dt><dd>Open this guide again</dd></dl>`;
+const kbdHTML = () => `<dl class="keys"><dt><kbd>→</kbd></dt><dd>Continue, or send the suggested message</dd><dt><kbd>←</kbd></dt><dd>Go back a step to re-read it. Nothing is undone.</dd><dt><kbd>Enter</kbd> <kbd>Space</kbd></dt><dd>Press the highlighted button. It is your next action.</dd><dt><kbd>?</kbd></dt><dd>Open this guide again</dd><dt><kbd>F</kbd></dt><dd>Open the project files and code editor</dd></dl>`;
 function startPages(){ const help=S.started; const leads=['product','design','delivery','architect','developer','quality','pipeline','operations','lead','archrev']; return [
  {t:'Welcome', h:`<span class="k">Spec-driven development · AWS AI-DLC v2</span><h1 id="st-h">AI-DLC v2 Learning Lab</h1>
   <p style="font-size:1.0625rem;max-width:62ch">Learn AI-DLC v2 by using it. You'll take one change to an identity risk product through all five phases, from a lender's complaint to a live feature and a feedback loop.</p>
@@ -1987,7 +2027,7 @@ function startPages(){ const help=S.started; const leads=['product','design','de
  {t:'How it works', h:`<h1 id="st-h" style="font-size:1.75rem">How the lab works</h1>
   <div class="st2"><div class="mapx" aria-hidden="true"><div class="mt"><span>Stages</span><span>Badges · Help</span></div><div class="mc"><div class="on">1 Guide<span class="yb">Your move</span><i></i><i class="s"></i><i></i></div><div>2 Agents<i></i><i class="s"></i><i></i><i class="s"></i></div><div>3 Stage card<i class="s"></i><i></i><i class="s"></i></div></div></div>
    <ul class="nlist"><li><span class="n">1</span><span><b>Guide</b><p>What to do at each step, and why it matters. The top of the panel always says what your next move is.</p></span></li><li><span class="n">2</span><span><b>Agents</b><p>A live network of agent bots: the busy ones light up, and lines show handoffs, reviews and when it's your turn. Below it, the conversation where you answer and approve.</p></span></li><li><span class="n">3</span><span><b>Stage card</b><p>What the current stage produced, the document worth reading, and the reviewer's findings beside it. <b>App preview</b> is a tab here.</p></span></li></ul></div>
-  <div class="tips"><div class="hot"><b>Follow the red outline</b><p>The panel you need next has a red outline and a <b>Your move</b> label.</p></div><div><b>Read the findings</b><p>Reviewer agents raise findings, but you decide. Approving with findings open accepts them as risk.</p></div><div><b>Look things up</b><p>Words with a dotted underline have a definition: hover or tap. <b>Glossary</b> lists them all.</p></div><div><b>Find your way</b><p>Press <b>Lifecycle</b> at the top to see all 33 stages and your progress. Drag the edges between panels to resize them.</p></div></div>`},
+  <div class="tips"><div class="hot"><b>Follow the red outline</b><p>The panel you need next has a red outline and a <b>Your move</b> label.</p></div><div><b>Read the findings</b><p>Reviewer agents raise findings, but you decide. Approving with findings open accepts them as risk.</p></div><div><b>Look things up</b><p>Words with a dotted underline have a definition: hover or tap. <b>Glossary</b> lists them all.</p></div><div><b>Find your way</b><p>Press <b>Lifecycle</b> to see all 33 stages, or <b>Files</b> to explore every file in a code editor. Drag the edges between panels to resize them.</p></div></div>`},
  {t:'Get started', h:`<h1 id="st-h" style="font-size:1.75rem">${help?'Shortcuts and first moves':'Your first five moves'}</h1>
   <div class="st2"><div><span class="k">The first few steps</span><ol class="moves" style="margin-top:0.5rem"><li><span><b>Read the welcome step, then press Continue</b><small>Continue is at the top of the Guide panel. <kbd>→</kbd> does the same.</small></span></li><li><span><b>Open SKILL.md</b><small>It is highlighted in the stage card on the right. It shows what the /aidlc command does.</small></span></li><li><span><b>Meet the agents</b><small>Open the Product agent's file to see what an agent leads and supports.</small></span></li><li><span><b>Try the product as it is today</b><small>In App preview, select Alex Morgan and press Run risk assessment. Notice the low score.</small></span></li><li><span><b>Send /aidlc, then choose a workflow profile</b><small>From then on, the guide walks you through each stage.</small></span></li></ol></div>
    <div><span class="k">Keyboard shortcuts</span><div style="margin-top:0.5rem">${kbdHTML()}</div></div></div>
@@ -2125,6 +2165,64 @@ function netHooks(op){
 }
 const resolveFind = (st, id) => (S.finds||[]).forEach(f=>{ if (f.st===st&&f.id===id) f.done=true; });
 
+/* ================= the file explorer and code editor (modal) ================= */
+// Open at any point from the Files button in the top bar. Read-only: the agents write the files.
+const ED = () => S.ed || (S.ed = {tabs:[], path:null, col:{}, q:'', show:'all', find:''});
+const edFiles = () => ORDER.filter(p=>S.files[p]);
+const edState = p => S.files[p]&&S.files[p].state;
+const edMark = p => edState(p)==='new'?'<span class="mk n" title="Created by an agent">N</span>':edState(p)==='mod'?'<span class="mk m" title="Changed by an agent">M</span>':'';
+const edLang = p => { const f=FILES[p]; return !f?'':f.lang==='py'?'Python':f.lang==='json'?'JSON':'Markdown'; };
+function edVisible(){ const e=ED(), q=e.q.trim().toLowerCase();
+  return edFiles().filter(p=>(e.show==='all'||(e.show==='changed'?edState(p)!=='base':(S.files[p].step===S.step)))&&(!q||p.toLowerCase().includes(q))); }
+function edTree(){ const e=ED(), list=edVisible(), tree={};
+  list.forEach(p=>{ let n=tree; const parts=p.split('/'); parts.forEach((x,i)=>{ if (i===parts.length-1) n[x]=p; else n=n[x]=n[x]||{}; }); });
+  // Fold single-child folder chains into one row, as code editors do.
+  const squash=n=>{ for (const k of Object.keys(n)){ let v=n[k]; if (typeof v==='string') continue; let key=k; while (typeof v!=='string'){ const ks=Object.keys(v); if (ks.length!==1||typeof v[ks[0]]==='string') break; key+='/'+ks[0]; v=v[ks[0]]; } squash(v); if (key!==k){ const out={}; for (const kk of Object.keys(n)) out[kk===k?key:kk]=kk===k?v:n[kk]; Object.keys(n).forEach(kk=>delete n[kk]); Object.assign(n,out); } } };
+  squash(tree);
+  const filtering=!!e.q.trim()||e.show!=='all';
+  const walk=(n,d,pre)=>Object.entries(n).map(([k,v])=>{ if (typeof v==='string') return `<button class="erow ${e.path===v?'cur':''}" style="padding-left:${0.5+d*0.75}rem" data-eopen="${v}" title="${v}"><span class="nm">${k}</span>${edMark(v)}</button>`;
+    const fp=pre+k+'/', col=!filtering&&!!e.col[fp]; return `<button class="edir" data-edir="${fp}" aria-expanded="${!col}" style="padding-left:${0.375+d*0.75}rem"><span class="car">${col?'▸':'▾'}</span>${k}/</button>${col?'':walk(v,d+1,fp)}`; }).join('');
+  return list.length?walk(tree,0,''):'<p class="muted" style="padding:0.75rem;font-size:0.8125rem">No files match.</p>'; }
+function edLines(p){ const f=FILES[p];
+  if (f.lang==='q') return f.lines().map(l=>{ const raw=l.h!==undefined?l.h.replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&'):l.t; return {add:l.add, raw, h:hl(raw,'md')}; });
+  const lang=f.lang==='py'?'py':f.lang==='json'?'':'md';
+  return f.gen().split('\n').map(t=>{ const add=t[0]===ADD, raw=add?t.slice(1):t; return {add, raw, h:hl(raw,lang)}; }); }
+function edBody(){ const e=ED(), p=e.path; if (!p||!S.files[p]) return `<div class="empty"><p>Choose a file on the left to open it.</p></div>`;
+  const L=edLines(p), fq=e.find.trim().toLowerCase(), flags=(S.finds||[]).filter(f=>f.file===p&&!f.done&&f.hl).map(f=>f.hl);
+  const hits=fq?L.filter(l=>l.raw.toLowerCase().includes(fq)).length:0, adds=L.filter(l=>l.add).length;
+  const mark=(h,raw)=>{ if (!fq||!raw.toLowerCase().includes(fq)) return h; const re=new RegExp('('+esc(e.find.trim()).replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')(?![^<]*>)','gi'); return h.replace(re,'<mark class="fm">$1</mark>'); };
+  const fs=(S.finds||[]).filter(f=>f.file===p);
+  return `<div class="ebar"><span class="crumb">${p.split('/').map(esc).join('<i>/</i>')}</span><span class="muted">${edLang(p)} · ${L.length} lines${adds?` · <span class="addn">${adds} added or changed</span>`:''}${fq?` · ${hits} match${hits===1?'':'es'}`:''}</span></div>
+   <div class="eabout">${esc(fileAbout(p))}${edState(p)==='new'?' · created by an agent':edState(p)==='mod'?' · changed by an agent':''}${fs.length?` · ${fs.map(f=>`<span class="efind ${f.done?'ok':''}">${f.id} ${f.done?'resolved':f.sev}</span>`).join(' ')}`:''}</div>
+   <div class="ecode" id="ecode">${L.map((l,i)=>{ const fl=flags.some(h=>l.raw.includes(h)), hit=fq&&l.raw.toLowerCase().includes(fq); return `<div class="ln ${l.add?'add':''} ${fl?'flg':''} ${hit?'hit':''}"><span class="no">${i+1}</span><span class="tx">${mark(l.h||'',l.raw)||' '}</span></div>`; }).join('')}</div>`; }
+function edHTML(){ const e=ED(), all=edFiles(), nN=all.filter(p=>edState(p)==='new').length, nM=all.filter(p=>edState(p)==='mod').length;
+  return `<div class="edm-card" role="dialog" aria-modal="true" aria-labelledby="ed-h">
+   <div class="edh"><h2 id="ed-h">Project files</h2><span class="muted">${all.length} files · <span class="mk n">N</span> ${nN} created · <span class="mk m">M</span> ${nM} changed by agents</span><span class="sp"></span>
+    ${e.path?`<button class="btn sm" data-act="edcard" title="Show this file in the stage card">Show in stage card</button>`:''}<button class="btn" data-act="edclose">Close ✕</button></div>
+   <div class="edwrap"><aside class="eside"><input class="esearch" id="ed-q" type="search" placeholder="Filter files…" value="${esc(e.q)}" aria-label="Filter files by name">
+     <div class="eseg" role="group" aria-label="Show">${[['all','All'],['changed','By agents'],['step','This step']].map(([k,l])=>`<button data-eshow="${k}" aria-pressed="${e.show===k}">${l}</button>`).join('')}</div>
+     <div class="etree" id="ed-tree">${edTree()}</div>
+     <div class="eside-f"><button class="lnk" data-act="edcolall">${Object.values(e.col).some(Boolean)?'Expand all':'Collapse all'}</button></div></aside>
+    <section class="emain"><div class="etabs" role="tablist">${e.tabs.map(t=>`<div class="etab ${t===e.path?'cur':''}"><button class="tn" role="tab" aria-selected="${t===e.path}" data-eopen="${t}">${fname(t)}</button><button class="tx" data-eclose="${t}" aria-label="Close ${fname(t)}">×</button></div>`).join('')}
+      <span class="sp"></span>${e.path?`<input class="efindbox" id="ed-find" type="search" placeholder="Find in file…" value="${esc(e.find)}" aria-label="Find in this file">`:''}</div>
+     <div class="ebody" id="ed-body">${edBody()}</div></section></div>
+   <div class="edfoot muted">Read-only: the agents write these files. <kbd>Esc</kbd> closes. Lines in green were added or changed; yellow marks a line a reviewer flagged.</div></div>`; }
+function renderED(keepFocus){ const m=document.getElementById('edm'); if (m.hidden) return; const a=document.activeElement, id=a&&a.id, pos=a&&a.selectionStart, sc=document.getElementById('ecode'), ks=sc?sc.scrollTop:0, tr=document.getElementById('ed-tree'), kt=tr?tr.scrollTop:0;
+  m.innerHTML=edHTML(); const t2=document.getElementById('ed-tree'); if (t2) t2.scrollTop=kt; if (keepFocus){ const sc2=document.getElementById('ecode'); if (sc2) sc2.scrollTop=ks; }
+  if (id&&(id==='ed-q'||id==='ed-find')){ const el=document.getElementById(id); if (el){ el.focus(); try { el.setSelectionRange(pos,pos); } catch(e){} } } }
+function edOpen(p){ const e=ED(); if (!S.files[p]) return; if (!e.tabs.includes(p)){ e.tabs.push(p); if (e.tabs.length>6) e.tabs.shift(); } e.path=p; const a=p.split('/'); for (let i=1;i<a.length;i++) Object.keys(e.col).forEach(k=>{ if (p.startsWith(k)) e.col[k]=false; }); renderED(); const c=document.querySelector('#ecode .flg, #ecode .hit'); if (c) c.scrollIntoView({block:'center'}); }
+function openED(p){ const m=document.getElementById('edm'); closeLC(); document.getElementById('pop').hidden=true; hideTip(); m.hidden=false; const e=ED(); if (p) edOpen(p); else { if (!e.path){ const st=S.path&&S.files[S.path]?S.path:edFiles().filter(x=>edState(x)!=='base').pop()||'README.md'; edOpen(st); } else renderED(); } const q=document.getElementById('ed-q'); if (q) q.focus(); }
+function closeED(){ const m=document.getElementById('edm'); if (!m.hidden){ m.hidden=true; m.innerHTML=''; const b=document.getElementById('btn-files'); if (b) b.focus(); } }
+function edClick(c){ let x; const e=ED();
+  if ((x=c('[data-eopen]'))){ edOpen(x.dataset.eopen); return true; }
+  if ((x=c('[data-eclose]'))){ const i=e.tabs.indexOf(x.dataset.eclose); e.tabs.splice(i,1); if (e.path===x.dataset.eclose) e.path=e.tabs[Math.max(0,i-1)]||e.tabs[0]||null; renderED(); return true; }
+  if ((x=c('[data-edir]'))){ e.col[x.dataset.edir]=!e.col[x.dataset.edir]; renderED(); return true; }
+  if ((x=c('[data-eshow]'))){ e.show=x.dataset.eshow; renderED(); return true; }
+  if (c('[data-act="edcolall"]')){ const any=Object.values(e.col).some(Boolean); e.col={}; if (!any){ document.querySelectorAll('#ed-tree [data-edir]').forEach(b=>{ e.col[b.dataset.edir]=true; }); } renderED(); return true; }
+  if (c('[data-act="edcard"]')){ const p=e.path; closeED(); if (p) openFile(p); return true; }
+  if (c('[data-act="edclose"]')){ closeED(); return true; }
+  return false; }
+
 /* ================= events ================= */
 document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s); let x;
   const pop=document.getElementById('pop'), was=pop.hidden?'':pop.dataset.kind;
@@ -2140,6 +2238,8 @@ document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s
   if (c('#zoom-out')){ setZoom(zoomI-1); return; }
   if (c('#zoom-reset')){ setZoom(ZOOMS.indexOf(1)); return; }
   if (c('#btn-restart')||c('#again')){ restart(); return; }
+  if (!document.getElementById('edm').hidden){ if (t.id==='edm'){ closeED(); return; } if (edClick(c)) return; if (c('#edm')) return; }
+  if (c('#btn-files')){ openED(); return; }
   if (c('#btn-lc')){ openLC(); return; }
   if (c('[data-act="lcclose"]')||t.id==='lcm'){ closeLC(); return; }
   if (c('#btn-badges')){ if (was!=='badges'){ pop.dataset.kind='badges'; pop.innerHTML=badgesHTML(); pop.hidden=false; } return; }
@@ -2178,9 +2278,12 @@ document.addEventListener('toggle', e=>{ if (e.target.classList&&e.target.classL
 document.addEventListener('keydown', e=>{ if (e.target.closest&&e.target.closest('.split')) return;
   if (!S.started||helpOpen){ const n=startPages().length; if (e.key==='Escape'&&helpOpen){ closeHelp(); return; } if (e.key==='?'&&helpOpen){ closeHelp(); return; }
     if (e.key==='ArrowRight'&&stPage<n-1){ stPage++; renderStart(); } else if (e.key==='ArrowLeft'&&stPage>0){ stPage--; renderStart(); } return; }
+  if (!document.getElementById('edm').hidden){ if (e.key==='Escape') closeED(); return; }
+  if ((e.key==='f'||e.key==='F')&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target.closest('input,textarea')){ e.preventDefault(); openED(); return; }
   if (e.key==='?'&&!e.target.closest('input,textarea')){ e.preventDefault(); openHelp(); return; }
-  if (e.key==='Escape'){ document.getElementById('pop').hidden=true; hideTip(); closeLC(); return; } if (!S.started||e.target.closest('select')) return; if (e.key==='ArrowRight'){ if (S.view<S.step){ S.view=seek(S.view,1); renderAll(); } else if (!S.busy){ const st=STEPS[S.step]; if (st.act.type==='prompt') send(); else if (ready(st)) next(); } } else if (e.key==='ArrowLeft'&&S.view>0){ S.view=seek(S.view,-1); renderAll(); } });
+  if (e.key==='Escape'){ document.getElementById('pop').hidden=true; hideTip(); closeLC(); closeED(); return; } if (!S.started||e.target.closest('select')) return; if (e.key==='ArrowRight'){ if (S.view<S.step){ S.view=seek(S.view,1); renderAll(); } else if (!S.busy){ const st=STEPS[S.step]; if (st.act.type==='prompt') send(); else if (ready(st)) next(); } } else if (e.key==='ArrowLeft'&&S.view>0){ S.view=seek(S.view,-1); renderAll(); } });
 
+document.addEventListener('input', e=>{ if (e.target.id==='ed-q'){ ED().q=e.target.value; document.getElementById('ed-tree').innerHTML=edTree(); } else if (e.target.id==='ed-find'){ ED().find=e.target.value; document.getElementById('ed-body').innerHTML=edBody(); const h=document.querySelector('#ecode .hit'); if (h) h.scrollIntoView({block:'center'}); } });
 const isDark = () => { const t=document.documentElement.dataset.theme; return t ? t==='dark' : matchMedia('(prefers-color-scheme: dark)').matches; };
 const themeLabel = () => { const d=isDark(); document.getElementById('theme-txt').textContent = d ? 'Light mode' : 'Dark mode'; document.getElementById('btn-theme').dataset.mode = d ? 'dark' : 'light'; };
 try { const t=localStorage.getItem('aidlc-lab-theme'); if (t==='dark'||t==='light') document.documentElement.dataset.theme=t; } catch(e){}
