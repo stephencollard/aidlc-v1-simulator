@@ -702,6 +702,64 @@ mark.fm{background:color-mix(in srgb,var(--accent) 28%,transparent);color:inheri
 .v1diff{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:0 0.625rem 0.625rem 0;background:var(--panel2);padding:0.625rem 0.875rem;font-size:0.875rem}
 .v1diff ul{margin:0.375rem 0 0;padding-left:1.125rem;display:flex;flex-direction:column;gap:0.375rem;color:var(--muted)}
 .v1diff li span{color:var(--ink);font-weight:600}
+/* ---- agent views ---- */
+.net.cards,.net.arena{height:auto}
+.net.arena .aview{height:17rem}
+.vsw{display:inline-flex;border:1px solid var(--line);border-radius:0.5rem;overflow:hidden;background:var(--panel);flex:0 0 auto}
+.vsw button{all:unset;cursor:pointer;font:600 0.65625rem/1 var(--mono);letter-spacing:.04em;padding:0.3125rem 0.5625rem;color:var(--muted)}
+.vsw button[aria-pressed="true"]{background:var(--ink);color:var(--panel)}
+.vsw button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.nethd{flex-wrap:wrap;padding-bottom:0.25rem}.nethd .legend{margin-left:auto}
+/* cards */
+.cview{position:relative;padding:0.5rem 0.75rem 0.625rem;display:flex;flex-direction:column;gap:0.625rem}
+.lane{display:flex;align-items:center;gap:0.25rem;overflow-x:auto;padding:0.75rem 0.25rem 0.5rem;min-height:12.5rem}
+.pcrd{flex:1 1 0;min-width:7.25rem;max-width:10rem;border-radius:0.75rem;background:var(--panel);border:2.5px solid color-mix(in srgb,var(--gc) 70%,var(--line));padding:0.625rem 0.5rem 0.5625rem;display:flex;flex-direction:column;align-items:center;gap:0.1875rem;position:relative;box-shadow:0 0.375rem 0 color-mix(in srgb,var(--ink) 14%,transparent);color:var(--gc);transition:transform .25s}
+.pcrd.busy,.pcrd.you,.pcrd.warn{transform:translateY(-0.25rem);box-shadow:0 0.625rem 0 color-mix(in srgb,var(--ink) 14%,transparent),0 0 1.125rem color-mix(in srgb,var(--gc) 45%,transparent)}
+.pcrd.busy .cpor .bot{animation:glow 1.6s ease-in-out infinite;filter:drop-shadow(0 0 4px var(--gc))}
+.pcrd.you{border-color:var(--e-you);animation:youp 1.6s ease-in-out infinite}
+@keyframes youp{50%{box-shadow:0 0.625rem 0 color-mix(in srgb,var(--ink) 14%,transparent),0 0 1.5rem color-mix(in srgb,var(--e-you) 70%,transparent)}}
+.ctag{position:absolute;top:-0.6875rem;right:-0.375rem;font:700 0.5625rem/1 var(--mono);letter-spacing:.04em;padding:0.25rem 0.375rem;border-radius:0.375rem;background:var(--gc);color:var(--panel);white-space:nowrap}
+.pcrd.you .ctag{background:var(--e-you)}.pcrd.warn .ctag{background:var(--accent);color:#fff}.pcrd.ok .ctag{background:var(--good);color:#fff}
+.cpor{width:100%;height:3.75rem;border-radius:0.5rem;background:color-mix(in srgb,var(--gc) 12%,var(--panel));display:grid;place-items:center}
+.cnm{font-size:0.8125rem;color:var(--ink);text-align:center;line-height:1.2}
+.crl{font:600 0.5625rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cdo{font-size:0.6875rem;line-height:1.35;color:var(--ink);text-align:center;min-height:2.75em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cchip{font:700 0.5625rem var(--mono);color:var(--accent);border:1.5px solid var(--accent);border-radius:0.3125rem;padding:0.125rem 0.3125rem;white-space:nowrap}
+.cen{width:100%;height:0.3125rem;border-radius:9px;background:color-mix(in srgb,var(--ink) 10%,transparent);margin-top:auto}.cen i{display:block;height:100%;border-radius:9px;background:var(--gc)}
+.pcrd.you .cen i{background:var(--e-you)}
+.pcrd.busy .cen i{background:repeating-linear-gradient(90deg,var(--gc) 0 0.5rem,color-mix(in srgb,var(--gc) 55%,transparent) 0.5rem 1rem);background-size:2rem 100%;animation:barmv .8s linear infinite}
+@keyframes barmv{to{background-position:2rem 0}}
+.carr{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;font-size:1.125rem;line-height:1;color:var(--e-hand)}.carr small{font:0.5625rem var(--mono);color:var(--muted)}
+.carr.rev{color:var(--e-rev)}.carr.you{color:var(--e-you)}
+.bench{display:flex;flex-wrap:wrap;gap:0.3125rem;align-items:center;border-top:1px dashed var(--line);padding-top:0.5rem}
+.bench .k{margin-right:0.25rem}
+.bmini{display:inline-flex;align-items:center;gap:0.25rem;border-radius:99px;padding:0.0625rem 0.5rem 0.0625rem 0.1875rem;background:color-mix(in srgb,var(--gc) 9%,var(--panel));color:var(--gc);opacity:.8}
+.bmini em{font-style:normal;font-size:0.6875rem;color:var(--muted)}
+/* arena */
+:root{--ar-bg:radial-gradient(circle at 40% 52%,#EFE9FF 0%,#F7F4FF 45%,#FBFAFF 80%);--ar-orb:#B9A7F0;--ar-core:#8B6CF0}
+:root[data-theme="dark"]{--ar-bg:radial-gradient(circle at 40% 52%,#2A1260 0%,#120830 45%,#07041A 80%);--ar-orb:#5B3DC8;--ar-core:#8FE9FF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ar-bg:radial-gradient(circle at 40% 52%,#2A1260 0%,#120830 45%,#07041A 80%);--ar-orb:#5B3DC8;--ar-core:#8FE9FF}}
+.net.arena{background:var(--ar-bg)}.net.arena::before{display:none}
+.aview{position:relative;container-type:inline-size}
+.aview>svg{position:absolute;inset:0;width:100%;height:100%}
+.aview .orb{fill:none;stroke:var(--ar-orb);stroke-width:1;stroke-dasharray:3 5;vector-effect:non-scaling-stroke}.aview .orb.in{stroke-dasharray:none;opacity:.45}
+.aview .e{stroke-width:2.4;vector-effect:non-scaling-stroke}.aview .e.hand{stroke:var(--e-hand)}.aview .e.rev{stroke:var(--e-rev);stroke-dasharray:6 4}.aview .e.you{stroke:var(--e-you);stroke-width:3}
+.core-glow{position:absolute;left:40%;top:52%;width:5.5rem;height:5.5rem;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,var(--ar-core) 0%,transparent 70%);opacity:.45;animation:corep 2.4s ease-in-out infinite}
+@keyframes corep{50%{opacity:.75;transform:translate(-50%,-50%) scale(1.15)}}
+.anode{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:0.125rem;color:var(--gc);z-index:1;width:5.5rem;text-align:center;transition:left .6s ease,top .6s ease}
+.anode .aring{border-radius:50%;padding:0.25rem;background:var(--panel);border:1.5px solid color-mix(in srgb,var(--gc) 60%,transparent);display:grid;place-items:center;opacity:.45}
+.anode b{font:600 0.5625rem/1.1 var(--mono);color:var(--muted);background:color-mix(in srgb,var(--panel) 80%,transparent);border-radius:0.25rem;padding:0 0.1875rem}
+.anode.live .aring{opacity:1;border-width:2px;box-shadow:0 0 0 0.25rem color-mix(in srgb,var(--gc) 22%,transparent),0 0 0.875rem var(--gc);animation:apulse 1.6s ease-in-out infinite}
+.anode.live b{color:var(--ink);font-weight:700}
+@keyframes apulse{50%{box-shadow:0 0 0 0.5rem color-mix(in srgb,var(--gc) 12%,transparent),0 0 1.25rem var(--gc)}}
+.anode.core .aring{opacity:1;border-width:2.5px;padding:0.375rem}
+.anode.you .aring{border-color:var(--e-you);color:var(--e-you)}.anode.you.live b{color:var(--e-you)}
+.ast{font:700 0.5rem/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--gc);white-space:nowrap}
+.combo{position:absolute;right:0.75rem;top:0.25rem;font:700 0.625rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--e-rev)}
+.acall{position:absolute;right:0.625rem;bottom:0.625rem;max-width:44%;font:0.6875rem/1.45 var(--mono);color:var(--ink);background:color-mix(in srgb,var(--panel) 88%,transparent);border:1.5px solid var(--gc);border-radius:0.5rem;padding:0.375rem 0.5rem;z-index:2}
+.acall b{display:block;color:var(--gc);font-weight:700}
+@container (max-width:30rem){.anode:not(.live):not(.core) b{display:none}.acall{max-width:60%}}
+@media (prefers-reduced-motion:reduce){.anode{transition:none}}
 </style>
 </head>
 <body data-pane="guide">
@@ -1573,7 +1631,7 @@ const verifyRun = name => [{term:['$ pytest tests/ -q','tests/test_checks.py ...
 
 const STEPS = [
  {id:'tour', stage:'setup', title:'Find your way around', act:{type:'next'}, body:()=>`<p>This lab works like a real AI coding tool running AI-DLC v2. You'll take one change from a lender's complaint to a live, monitored feature.</p>
-   <ul><li><b>Left, this guide.</b> It explains each step and tells you when it's your move.</li><li><b>Middle, the stage card.</b> What the current stage produced, and the document worth reading. Switch to <b>App preview</b> to use the product.</li><li><b>Right, the agents.</b> In v2 the work is done by named AI agents. The network shows who is working; the conversation below it is where you answer and approve.</li></ul>
+   <ul><li><b>Left, this guide.</b> It explains each step and tells you when it's your move.</li><li><b>Middle, the stage card.</b> What the current stage produced, and the document worth reading. Switch to <b>App preview</b> to use the product.</li><li><b>Right, the agents.</b> In v2 the work is done by named AI agents. Cards at the top show who is working, in the order the work moves (switch to Arena for the whole team); the conversation below is where you answer and approve.</li></ul>
    <p>A red outline and a <b>Your move</b> label show where to look next. Press <b>Help</b> at the top, or <kbd>?</kbd>, to see the controls again.</p>${idea('The agents draft, review and build. You are the human in the loop: nothing moves on without your yes.')}`},
  {id:'rules', stage:'setup', title:'AI-DLC v2 is an engine and a team of agents', act:{type:'open', paths:[P.skill]}, body:()=>`<p>AI-DLC v2 is installed into a project with the <code>aidlc</code> command. It adds a <b>/aidlc</b> command to your AI coding tool, 14 agent definitions, and an engine that decides what runs next.</p><p>Open ${fl(P.skill)} to see the loop the conductor follows, the five phases and the workflow profiles.</p>${idea('A deterministic engine routes the work; agents do it; people approve it.')}`},
  {id:'agents', stage:'setup', title:'Meet the agents', act:{type:'open', paths:[P.pagent]}, body:()=>`<p>The <code>.claude/agents/</code> folder holds the 14 agents: 11 domain experts, 2 reviewers and a composer. Each domain agent leads some stages and supports others.</p><p>Open ${fl(P.pagent)} to see the agent that leads most of Ideation and Inception.</p><div class="box"><b>Small mob, broad agents</b><p>v2 uses a few broad agents rather than many narrow ones, so fewer handoffs lose context. The two reviewers never write work; they only check it.</p></div>`},
@@ -2029,7 +2087,7 @@ function startPages(){ const help=S.started; const leads=['product','design','de
   <div><span class="k">The agents you'll work with</span><div class="team" style="margin-top:0.375rem">${leads.map(k=>`<span class="tm" style="--rc:var(--ag-${k})"><b>${AG[k].ab}</b> ${AG[k].n}</span>`).join('')}</div><p style="color:var(--muted);margin-top:0.375rem">You are the human in the loop. The agents draft, review and build; nothing moves on without your approval.</p></div><div class="v1diff"><b>Done the v1 Learning Lab? You'll notice a few key differences.</b><ul><li><span>From people to agents.</span> In v1, one AI assistant did the work, and a team of people answered its questions and approved each stage. In v2, the work is split between named AI agents, each leading its own stages, and two reviewer agents check their work. You are the one person in the loop: you answer the agents, weigh the reviewers' findings, and approve every stage.</li><li><span>A stage card instead of a file editor.</span> In v1 the file editor sat in the middle, because you watched one assistant write a handful of files. v2 writes many more files across five phases, so the middle now shows a stage card with only what matters for the step, and the right shows the agents at work and their conversation. The full code editor is still one click away under <b>Files</b>.</li><li><span>All the stages, on demand.</span> v1's 13 stages fitted along the top bar. v2 has 33, so the <b>Lifecycle</b> button shows them all, with your progress, whenever you want to see where you are.</li></ul></div>`},
  {t:'How it works', h:`<h1 id="st-h" style="font-size:1.75rem">How the lab works</h1>
   <div class="st2"><div class="mapx" aria-hidden="true"><div class="mt"><span>Stages</span><span>Badges · Help</span></div><div class="mc"><div class="on">1 Guide<span class="yb">Your move</span><i></i><i class="s"></i><i></i></div><div>2 Stage card<i></i><i class="s"></i><i></i><i class="s"></i></div><div>3 Agents<i class="s"></i><i></i><i class="s"></i></div></div></div>
-   <ul class="nlist"><li><span class="n">1</span><span><b>Guide</b><p>What to do at each step, and why it matters. The top of the panel always says what your next move is.</p></span></li><li><span class="n">2</span><span><b>Stage card</b><p>What the current stage produced, the document worth reading, and the reviewer's findings beside it. <b>App preview</b> is a tab here.</p></span></li><li><span class="n">3</span><span><b>Agents</b><p>A live network of agent bots: the busy ones light up, and lines show handoffs, reviews and when it's your turn. Below it, the conversation where you answer and approve.</p></span></li></ul></div>
+   <ul class="nlist"><li><span class="n">1</span><span><b>Guide</b><p>What to do at each step, and why it matters. The top of the panel always says what your next move is.</p></span></li><li><span class="n">2</span><span><b>Stage card</b><p>What the current stage produced, the document worth reading, and the reviewer's findings beside it. <b>App preview</b> is a tab here.</p></span></li><li><span class="n">3</span><span><b>Agents</b><p>The agents working on this stage, dealt as cards in the order the work moves. Switch to <b>Arena</b> to see every agent in orbit around the conductor. Below, the conversation where you answer and approve.</p></span></li></ul></div>
   <div class="tips"><div class="hot"><b>Follow the red outline</b><p>The panel you need next has a red outline and a <b>Your move</b> label.</p></div><div><b>Read the findings</b><p>Reviewer agents raise findings, but you decide. Approving with findings open accepts them as risk.</p></div><div><b>Look things up</b><p>Words with a dotted underline have a definition: hover or tap. <b>Glossary</b> lists them all.</p></div><div><b>Find your way</b><p>Press <b>Lifecycle</b> to see all 33 stages, or <b>Files</b> to explore every file in a code editor. Drag the edges between panels to resize them.</p></div></div>`},
  {t:'Get started', h:`<h1 id="st-h" style="font-size:1.75rem">${help?'Shortcuts and first moves':'Your first five moves'}</h1>
   <div class="st2"><div><span class="k">The first few steps</span><ol class="moves" style="margin-top:0.5rem"><li><span><b>Read the welcome step, then press Continue</b><small>Continue is at the top of the Guide panel. <kbd>→</kbd> does the same.</small></span></li><li><span><b>Open SKILL.md</b><small>It is highlighted in the stage card in the middle. It shows what the /aidlc command does.</small></span></li><li><span><b>Meet the agents</b><small>Open the Product agent's file to see what an agent leads and supports.</small></span></li><li><span><b>Try the product as it is today</b><small>In App preview, select Alex Morgan and press Run risk assessment. Notice the low score.</small></span></li><li><span><b>Send /aidlc, then choose a workflow profile</b><small>From then on, the guide walks you through each stage.</small></span></li></ol></div>
@@ -2060,11 +2118,11 @@ const NET_POS = {conductor:[50,50], you:[91,50],
  lead:[9,50], archrev:[26,50], compliance:[74,50],
  developer:[9,83], quality:[24,83], pipeline:[39,83], operations:[61,83], devsecops:[76,83]};
 const SHORT = {conductor:'Conductor', you:'You', product:'Product', design:'Design', delivery:'Delivery', architect:'Architect', platform:'AWS Platform', lead:'Product Lead', archrev:'Arch. reviewer', compliance:'Compliance', developer:'Developer', quality:'Quality', pipeline:'Pipeline', operations:'Operations', devsecops:'DevSecOps'};
-const netReset = () => { S.net={act:{}, ed:[]}; };
-const netAct = (k, st) => { if (!S.net) netReset(); S.net.act[k]=st; };
+const netReset = () => { S.net={act:{}, ed:[], order:[]}; };
+const netAct = (k, st) => { if (!S.net) netReset(); S.net.act[k]=st; S.net.order=S.net.order||[]; if (!S.net.order.includes(k)) S.net.order.push(k); };
 const netEdge = (a, b, kind) => { if (!S.net) netReset(); if (!S.net.ed.some(e=>e[0]===a&&e[1]===b)) S.net.ed.push([a,b,kind]); };
 const netYouDone = () => { if (!S.net) return; delete S.net.act.you; S.net.ed=S.net.ed.filter(e=>e[1]!=='you'); };
-function netHTML(){ const n=S.net||{act:{},ed:[]}, act=n.act, busy=k=>act[k]!==undefined;
+function networkHTML(){ const n=S.net||{act:{},ed:[]}, act=n.act, busy=k=>act[k]!==undefined;
   const idle=Object.keys(NET_POS).filter(k=>k!=='conductor'&&k!=='you').map(k=>{ const [x1,y1]=NET_POS.conductor, [x2,y2]=NET_POS[k]; return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="eidle"/>`; }).join('');
   const live=n.ed.map(([a,b,kind])=>{ const [x1,y1]=NET_POS[a], [x2,y2]=NET_POS[b]; return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="e ${kind}"/>`; }).join('');
   const pkts=n.ed.map(([a,b,kind],i)=>{ const [x1,y1]=NET_POS[a], [x2,y2]=NET_POS[b]; return `<i class="pkt ${kind}" style="--x1:${x1}%;--y1:${y1}%;--x2:${x2}%;--y2:${y2}%;left:${(x1+x2)/2}%;top:${(y1+y2)/2}%;animation-delay:${(i%3)*-0.5}s"></i>`; }).join('');
@@ -2160,11 +2218,11 @@ function closeLC(){ const m=document.getElementById('lcm'); if (!m.hidden){ m.hi
 // Network updates for each message: who is working, who handed what to whom, and when it is your turn.
 function netHooks(op){
   if (op.ag){ netAct(op.ag, op.st||'working'); netEdge('conductor', op.ag, 'hand'); }
-  else if (op.rev){ const v=op.verdict==='READY'?'ready':op.verdict==='NOT-READY'?'not ready':'concerns'; netAct(op.rev, v); netEdge(op.rev,'conductor','rev');
+  else if (op.rev){ const v=op.verdict==='READY'?'ready':op.verdict==='NOT-READY'?'not ready':'concerns'; netAct(op.rev, v); Object.keys(S.net.act).forEach(k=>{ if (!isRev(k)&&k!=='conductor'&&k!=='you'&&['working','thinking','lead'].includes(S.net.act[k])) S.net.act[k]='done'; }); netEdge(op.rev,'conductor','rev');
     const ld=STAGES[curStage()].lead; S.msgs.push({who:'hand', a:ld, b:op.rev, text:'handed the work for review'});
     const st=STEPS[S.step].stage; if (op.verdict==='READY') (S.finds||[]).forEach(f=>{ if (f.st===st&&f.rv===op.rev) f.done=true; });
     (op.findings||[]).forEach(([id,sev,where,text,file,hl])=>{ S.finds=S.finds||[]; if (!S.finds.some(f=>f.st===st&&f.id===id&&f.rv===op.rev)) S.finds.push({st, rv:op.rev, id, sev, where, text, file:file||null, hl:hl||'', done:false}); }); }
-  else { netAct('conductor', op.ask?'waiting':'routing'); if (op.ask){ netAct('you','your decision'); netEdge('conductor','you','you'); } }
+  else { netAct('conductor', op.ask?'waiting':'routing'); if (op.ask) Object.keys(S.net.act).forEach(k=>{ if (k!=='conductor'&&k!=='you'&&['working','thinking'].includes(S.net.act[k])) S.net.act[k]=isRev(k)?'ready':'done'; }); if (op.ask){ netAct('you','your decision'); netEdge('conductor','you','you'); } }
 }
 const resolveFind = (st, id) => (S.finds||[]).forEach(f=>{ if (f.st===st&&f.id===id) f.done=true; });
 
@@ -2225,6 +2283,53 @@ function edClick(c){ let x; const e=ED();
   if (c('[data-act="edclose"]')){ closeED(); return true; }
   return false; }
 
+/* ================= agent views: Cards (default) and Arena ================= */
+// Cards deals the agents working on this stage as character cards, in the order the work moves.
+// Arena puts every agent in orbit around the conductor; busy ones are pulled into the inner ring.
+// The choice is a viewer preference, kept in this browser.
+let netView = (()=>{ try { return localStorage.getItem('aidlc-v2-netview')==='arena'?'arena':'cards'; } catch(e){ return 'cards'; } })();
+function setNetView(v){ netView=v==='arena'?'arena':'cards'; try { localStorage.setItem('aidlc-v2-netview', netView); } catch(e){} renderChat(); }
+const ST_TAG = {done:'DONE', lead:'LEAD', thinking:'THINKING', working:'WORKING', reviewing:'REVIEWING', ready:'READY', concerns:'CONCERNS', 'not ready':'NOT READY', routing:'ROUTING', waiting:'WAITING', 'your decision':'YOUR TURN', complete:'COMPLETE'};
+const ST_BAR = {done:100, lead:15, thinking:45, working:60, reviewing:55, ready:100, concerns:100, 'not ready':100, routing:30, waiting:40, 'your decision':100, complete:100};
+const ST_KIND = st => ['ready','complete','done'].includes(st)?'ok':['concerns','not ready'].includes(st)?'warn':st==='your decision'?'you':['thinking','working','reviewing','routing'].includes(st)?'busy':'idle';
+const plain = h => String(h||'').replace(/<br\s*\/?>/gi,' ').replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();
+const cut = (t,n) => t.length>n ? t.slice(0,n-1).replace(/\s+\S*$/,'')+'…' : t;
+function lastSaid(k){ for (let i=S.msgs.length-1;i>=0;i--){ const m=S.msgs[i]; if ((k==='conductor'&&m.who==='ai')||((m.who==='agent'||m.who==='rev')&&m.ag===k)) return plain(m.html); } return ''; }
+// The order agents joined the work in this stage: agents first, then the conductor, then you.
+function netOrder(){ const n=S.net||{act:{},order:[]}, seen=(n.order||[]).filter(k=>n.act[k]!==undefined);
+  Object.keys(n.act).forEach(k=>{ if (!seen.includes(k)) seen.push(k); });
+  return [...seen.filter(k=>k!=='conductor'&&k!=='you'), ...(n.act.conductor!==undefined?['conductor']:[]), ...(n.act.you!==undefined?['you']:[])]; }
+function cardsHTML(){ const n=S.net||{act:{}}, act=n.act, lane=netOrder(), bench=Object.keys(AG).filter(k=>!lane.includes(k)&&k!=='composer');
+  const role = k => k==='you'?'Human':isRev(k)?'Reviewer':k==='conductor'?'Conductor':'Agent';
+  const doing = k => { const st=act[k]; if (k==='you') return 'Approve or request changes'; if (k==='conductor') return st==='waiting'?'Waiting for your decision':st==='complete'?'Workflow complete':'Routing the next move';
+    const said=lastSaid(k); return cut(said||({lead:'Starting this stage', thinking:'Thinking…', working:'Working…', reviewing:'Reviewing the work'}[st]||''), 70); };
+  const link = (a,b) => { const e=(n.ed||[]).find(x=>x[0]===a&&x[1]===b)||(n.ed||[]).find(x=>x[1]===b); const kind=b==='you'?'you':isRev(b)?'rev':'hand';
+    return `<div class="carr ${kind}" aria-hidden="true">→<small>${kind==='you'?'your turn':kind==='rev'?'review':'hand-off'}</small></div>`; };
+  const finding = k => { if (!isRev(k)) return ''; const f=(S.finds||[]).filter(x=>x.rv===k&&x.st===STEPS[S.step].stage&&!x.done); return f.length?`<span class="cchip">${f.map(x=>`${x.id} ${x.sev}`).join(' · ')}</span>`:''; };
+  const cards = lane.map((k,i)=>{ const st=act[k], kind=ST_KIND(st);
+    return `${i?link(lane[i-1],k):''}<div class="pcrd ${kind}" style="--gc:var(--ag-${k})"><span class="ctag">${ST_TAG[st]||String(st).toUpperCase()}</span><div class="cpor">${botSVG(k, 44, isRev(k)?'scan':'')}</div><b class="cnm">${k==='you'?'You':AG[k].n.replace(' agent','')}</b><span class="crl">${role(k)}</span><span class="cdo">${esc(doing(k))}</span>${finding(k)}<span class="cen"><i style="width:${ST_BAR[st]||30}%"></i></span></div>`; }).join('');
+  return `<div class="cview"><div class="lane">${cards||'<p class="muted" style="margin:auto;font-size:0.8125rem">No agents working yet.</p>'}</div>
+   <div class="bench"><span class="k">Bench</span>${bench.map(k=>`<span class="bmini" style="--gc:var(--ag-${k})" title="${AG[k].n}: ${esc(AG[k].d)}">${botSVG(k,18,isRev(k)?'scan':'')}<em>${SHORT[k]}</em></span>`).join('')}</div></div>`; }
+// Arena: an ellipse of agents around the conductor, in percentages of the panel.
+const ARENA = ['product','design','delivery','architect','platform','compliance','devsecops','operations','pipeline','quality','developer','archrev','lead'];
+function arenaPos(k, live){ if (live){ const L=netOrder().filter(x=>x!=='conductor'&&x!=='you'), i=Math.max(0,L.indexOf(k)), a=Math.PI*(0.5+(i+1)/(L.length+1)); return [40+19*Math.cos(a), 52+30*Math.sin(a)]; } const i=ARENA.indexOf(k), a=-Math.PI/2+i*2*Math.PI/ARENA.length; return [40+34*Math.cos(a), 52+40*Math.sin(a)]; }
+function arenaHTML(){ const n=S.net||{act:{},ed:[]}, act=n.act, busy=k=>act[k]!==undefined;
+  const P = k => k==='conductor'?[40,52]:k==='you'?[89,42]:arenaPos(k, busy(k));
+  const lines=(n.ed||[]).map(([a,b,kind])=>{ const [x1,y1]=P(a), [x2,y2]=P(b); return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="e ${kind}"/>`; }).join('');
+  const pkts=(n.ed||[]).map(([a,b,kind],i)=>{ const [x1,y1]=P(a), [x2,y2]=P(b); return `<i class="pkt ${kind}" style="--x1:${x1}%;--y1:${y1}%;--x2:${x2}%;--y2:${y2}%;left:${(x1+x2)/2}%;top:${(y1+y2)/2}%;animation-delay:${(i%3)*-0.6}s"></i>`; }).join('');
+  const node=k=>{ const [x,y]=P(k), b=busy(k), st=act[k]; return `<div class="anode ${b?'live':''} ${k==='conductor'?'core':''} ${k==='you'?'you':''}" style="left:${x}%;top:${y}%;--gc:var(--ag-${k})" title="${k==='you'?'You, the human in the loop':AG[k].n}">${b&&k!=='conductor'&&k!=='you'?`<span class="ast">${ST_TAG[st]||st}</span>`:''}<span class="aring">${botSVG(k, k==='conductor'?36:b?30:20, isRev(k)?'scan':'')}</span><b>${k==='you'?(b?'YOUR TURN':'You'):SHORT[k]}</b></div>`; };
+  const f=(S.finds||[]).filter(x=>x.st===STEPS[S.step].stage&&!x.done).slice(-1)[0];
+  const combo=netOrder().filter(k=>k!=='conductor'&&k!=='you');
+  return `<div class="aview"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><ellipse cx="40" cy="52" rx="34" ry="40" class="orb"/><ellipse cx="40" cy="52" rx="19" ry="30" class="orb in"/>${lines}</svg><span class="core-glow" aria-hidden="true"></span>${pkts}
+   ${ARENA.map(node).join('')}${node('conductor')}${node('you')}
+   ${combo.length>1?`<span class="combo">Combo ×${combo.length} · ${combo.map(k=>SHORT[k]).join(' → ')}</span>`:''}
+   ${f?`<div class="acall" style="--gc:var(--ag-${f.rv})"><b>${AG[f.rv].n} · ${f.id} ${f.sev}</b>${esc(cut(f.text,90))}</div>`:''}</div>`; }
+function netHTML(){ const n=S.net||{act:{}}, act=n.act;
+  return `<div class="net ${netView}" aria-label="Agents: ${Object.keys(act).map(k=>SHORT[k]+' '+act[k]).join(', ')||'all idle'}"><div class="nethd"><span class="netlbl">${netView==='arena'?'Agent arena':'Agents on this stage'}${S.busy?' · <b>live</b>':''}</span>
+   ${netView==='arena'?'<span class="legend"><span><i class="lg hand"></i>handoff</span><span><i class="lg rev"></i>review</span><span><i class="lg you"></i>needs you</span></span>':''}
+   <span class="vsw" role="group" aria-label="Agents view"><button data-netv="cards" aria-pressed="${netView==='cards'}" title="Character cards, in the order the work moves">Cards</button><button data-netv="arena" aria-pressed="${netView==='arena'}" title="Every agent in orbit around the conductor">Arena</button></span></div>
+   ${netView==='arena'?arenaHTML():cardsHTML()}</div>`; }
+
 /* ================= events ================= */
 document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s); let x;
   const pop=document.getElementById('pop'), was=pop.hidden?'':pop.dataset.kind;
@@ -2241,6 +2346,7 @@ document.addEventListener('click', e=>{ const t=e.target; const c=s=>t.closest(s
   if (c('#zoom-reset')){ setZoom(ZOOMS.indexOf(1)); return; }
   if (c('#btn-restart')||c('#again')){ restart(); return; }
   if (!document.getElementById('edm').hidden){ if (t.id==='edm'){ closeED(); return; } if (edClick(c)) return; if (c('#edm')) return; }
+  if ((x=c('[data-netv]'))){ setNetView(x.dataset.netv); return; }
   if (c('#btn-files')){ openED(); return; }
   if (c('#btn-lc')){ openLC(); return; }
   if (c('[data-act="lcclose"]')||t.id==='lcm'){ closeLC(); return; }
