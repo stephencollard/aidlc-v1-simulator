@@ -760,6 +760,11 @@ mark.fm{background:color-mix(in srgb,var(--accent) 28%,transparent);color:inheri
 .acall b{display:block;color:var(--gc);font-weight:700}
 @container (max-width:30rem){.anode:not(.live):not(.core) b{display:none}.acall{max-width:60%}}
 @media (prefers-reduced-motion:reduce){.anode{transition:none}}
+.mini>summary{cursor:pointer;list-style:none;user-select:none}.mini>summary::-webkit-details-marker{display:none}
+.mini:not([open])>summary{border-bottom:none}
+.mini>summary:hover b{color:var(--accent)}
+.mini .car{display:inline-block;width:0.625rem;transition:transform .15s}.mini[open] .car{transform:rotate(90deg)}
+.mini>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 </style>
 </head>
 <body data-pane="guide">
@@ -2198,8 +2203,10 @@ function miniHTML(p, hls){ const f=FILES[p]; if (!f) return '';
   const lines=f.lang==='q' ? f.lines().map(l=>({add:l.add, h:l.h!==undefined?l.h.replace(/<[^>]+>/g,''):hl(l.t,'md'), raw:l.h!==undefined?l.h.replace(/<[^>]+>/g,''):l.t}))
     : f.gen().split('\n').map(t=>{ const add=t[0]===ADD, x=add?t.slice(1):t; return {add, h:hl(x,lang), raw:x}; });
   const flagged=l=>(hls||[]).some(h=>h&&l.raw.includes(h));
-  return `<div class="mini" aria-label="Code view of ${fname(p)}"><div class="mh"><span class="d3"><i></i><i></i><i></i></span><b>${fname(p)}</b><span class="p" title="${p}">${p}</span><span class="lg2">${LANG}</span></div>
-   <div class="mb">${lines.map((l,i)=>`<div class="ln ${l.add?'add':''} ${flagged(l)?'flg':''}"><span class="no">${i+1}</span><span class="tx">${l.h||''}</span></div>`).join('')}</div></div>`; }
+  // Closed by default; once opened it stays open for later files until it is closed again.
+  return `<details class="mini" ${miniOpen?'open':''}><summary class="mh" title="Show or hide the raw file"><span class="car" aria-hidden="true">▸</span><b>Raw file</b><span class="p" title="${p}">${p}</span><span class="lg2">${LANG} · ${lines.length} lines</span></summary>
+   <div class="mb">${lines.map((l,i)=>`<div class="ln ${l.add?'add':''} ${flagged(l)?'flg':''}"><span class="no">${i+1}</span><span class="tx">${l.h||''}</span></div>`).join('')}</div></details>`; }
+let miniOpen=false;
 
 /* ---------- the lifecycle modal ---------- */
 function lcDone(){ return Math.min(33, S.appr||0); }
@@ -2382,7 +2389,7 @@ document.addEventListener('mouseover', e=>{ const t=e.target.closest&&e.target.c
 document.addEventListener('mouseout', e=>{ if (e.target.closest&&e.target.closest('.gterm')) hideTip(); });
 document.addEventListener('focusin', e=>{ if (e.target.classList&&e.target.classList.contains('gterm')) showTip(e.target); });
 document.addEventListener('focusout', e=>{ if (e.target.classList&&e.target.classList.contains('gterm')) hideTip(); });
-document.addEventListener('toggle', e=>{ if (e.target.classList&&e.target.classList.contains('outsd')) S.outsOpen=e.target.open; }, true);
+document.addEventListener('toggle', e=>{ if (e.target.classList&&e.target.classList.contains('outsd')) S.outsOpen=e.target.open; if (e.target.classList&&e.target.classList.contains('mini')) miniOpen=e.target.open; }, true);
 document.addEventListener('keydown', e=>{ if (e.target.closest&&e.target.closest('.split')) return;
   if (!S.started||helpOpen){ const n=startPages().length; if (e.key==='Escape'&&helpOpen){ closeHelp(); return; } if (e.key==='?'&&helpOpen){ closeHelp(); return; }
     if (e.key==='ArrowRight'&&stPage<n-1){ stPage++; renderStart(); } else if (e.key==='ArrowLeft'&&stPage>0){ stPage--; renderStart(); } return; }
